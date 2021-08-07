@@ -11,8 +11,8 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+// import FormControlLabel from "@material-ui/core/FormControlLabel";
+// import Checkbox from "@material-ui/core/Checkbox";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
@@ -21,18 +21,24 @@ import { useHistory } from "react-router";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/auth/authAction";
-import Cookies from 'js-cookie'
-
+import Cookies from "js-cookie";
 
 const Login = (props) => {
   const initialValues = {
     email: "dio@gmail.com",
     password: "Password`",
-    remember: false,
   };
 
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const isAuthenticated = props.auth.isAuthenticated;
+
+  useEffect(() => {
+    if (isAuthenticated && Cookies.get("access")) {
+      history.push("/home");
+    }
+  }, [isAuthenticated, history]);
 
   const [state, setState] = useState({
     open: false,
@@ -48,12 +54,6 @@ const Login = (props) => {
   const handleClose = () => {
     setState({ ...state, open: false });
   };
-
-  useEffect(() => {
-    if(props.auth.isAuthenticated && Cookies.get('access') ) {
-      history.push('/home')
-    }
-  },[])
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Required").email("please enter valid email"),
@@ -146,12 +146,12 @@ const Login = (props) => {
                   margin: "10px 0",
                 }}
               >
-                <Field
+                {/* <Field
                   as={FormControlLabel}
                   name="remember"
                   control={<Checkbox color="primary" />}
                   label="Remember me"
-                />
+                /> */}
                 <Typography
                   style={{ marginLeft: "auto", marginBottom: 0 }}
                   variant="subtitle1"

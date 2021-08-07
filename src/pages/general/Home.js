@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { Redirect, useHistory, Link } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
