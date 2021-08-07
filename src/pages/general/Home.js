@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Button } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
+import { Button, Typography } from "@material-ui/core";
 import PropTypes from "prop-types";
 import { Redirect, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
@@ -20,13 +20,21 @@ const Home = (props) => {
     }, 4000);
   };
 
+  useEffect(() => {
+    const abortController = new AbortController();
+    return function cleanup() {
+      console.log("I am in cleanup function");
+      abortController.abort();
+    };
+  }, []);
+
   if (!props.auth.isAuthenticated) {
     <Redirect to="/login" />;
   }
 
   return (
     <div>
-      <h2>Hello, {props.auth.data.name}</h2>
+      <Typography variant='h4' gutterBottom>Hello, {props.auth.data.name}</Typography>
       {/* <Link to="/journal">Data Journal</Link> */}
       <Button
         style={{ marginTop: 20 }}
@@ -50,5 +58,33 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
   errors: {},
 });
+
+// const drawerWidth = 240;
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     display: "flex",
+//   },
+//   appBar: {
+//     width: `calc(100% - ${drawerWidth}px)`,
+//     marginLeft: drawerWidth,
+//     // background: '#388e3c'
+//   },
+//   drawer: {
+//     width: drawerWidth,
+//     flexShrink: 0,
+//   },
+//   drawerPaper: {
+//     width: drawerWidth,
+//   },
+//   // necessary for content to be below app bar
+//   toolbar: theme.mixins.toolbar,
+//   content: {
+//     flexGrow: 1,
+//     backgroundColor: theme.palette.background.default,
+//     padding: theme.spacing(3),
+//   },
+// }));
+
 
 export default connect(mapStateToProps, { logOut })(Home);

@@ -35,9 +35,14 @@ const Login = (props) => {
   const isAuthenticated = props.auth.isAuthenticated;
 
   useEffect(() => {
+    const abortController = new AbortController();
     if (isAuthenticated && Cookies.get("access")) {
       history.push("/home");
     }
+    return function cleanup() {
+      console.log("I am in cleanup function");
+      abortController.abort();
+    };
   }, [isAuthenticated, history]);
 
   const [state, setState] = useState({
@@ -92,7 +97,6 @@ const Login = (props) => {
                 <Typography
                   style={{
                     fontWeight: "bold",
-                    color: "#465AA8",
                     margin: 0,
                   }}
                   variant="h3"
@@ -101,9 +105,6 @@ const Login = (props) => {
                   Sign Up
                 </Typography>
                 <Typography
-                  style={{
-                    color: "rgba(70, 90, 168, 0.4)",
-                  }}
                   variant="subtitle1"
                   gutterBottom
                 >

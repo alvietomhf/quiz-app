@@ -12,14 +12,15 @@ import reducers from "./reducers/index";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
+import { green, grey } from "@material-ui/core/colors";
 
 // With Devtools
 const store = createStore(
-    reducers,
-    composeWithDevTools(
-        applyMiddleware(reduxThunk)
-        // other store enhancers if any
-    )
+  reducers,
+  composeWithDevTools(
+    applyMiddleware(reduxThunk)
+    // other store enhancers if any
+  )
 );
 
 // Without Devtools
@@ -28,6 +29,16 @@ const store = createStore(
 const persistor = persistStore(store);
 
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: green[700],
+    },
+  },
+  button: {
+    '&:hover': {
+      background: green[300],
+   },
+  },
   typography: {
     fontFamily: ["Nunito"].join(","),
   },
