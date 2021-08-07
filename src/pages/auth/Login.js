@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Grid,
   Paper,
@@ -8,19 +8,51 @@ import {
   CircularProgress,
   makeStyles,
   Box,
+  Snackbar,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Alert } from "@material-ui/lab";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
+import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
+import { loginUser } from "../../actions/auth/authAction";
+import Cookies from 'js-cookie'
 
-const Login = () => {
+const Login = (props) => {
   const initialValues = {
-    email: "",
-    password: "",
+    email: "dio@gmail.com",
+    password: "Password`",
     remember: false,
   };
+
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  const [state, setState] = useState({
+    open: false,
+    vertical: "top",
+    horizontal: "center",
+  });
+  const { vertical, horizontal, open } = state;
+
+  const handleClick = (newState) => () => {
+    setState({ open: true, ...newState });
+  };
+
+  const handleClose = () => {
+    setState({ ...state, open: false });
+  };
+
+  useEffect(() => {
+    if(props.auth.isAuthenticated && Cookies.get('access') ) {
+      history.push('/home')
+    }
+  })
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Required").email("please enter valid email"),
@@ -33,13 +65,12 @@ const Login = () => {
     const postData = {
       email: values.email,
       password: values.password,
-      password_confirmation: values.password,
-      remember: values.remember,
     };
-    console.log(postData);
+    dispatch(loginUser(postData));
     setTimeout(() => {
       props.resetForm();
       props.setSubmitting(false);
+      history.push("/home");
     }, 2000);
   };
 
@@ -139,6 +170,10 @@ const Login = () => {
                 type="submit"
                 color="primary"
                 variant="contained"
+                onClick={handleClick({
+                  vertical: "bottom",
+                  horizontal: "center",
+                })}
                 disabled={props.isSubmitting}
                 fullWidth
               >
@@ -148,6 +183,20 @@ const Login = () => {
                   "Sign in"
                 )}
               </Button>
+              <Snackbar
+                anchorOrigin={{ vertical, horizontal }}
+                open={open}
+                onClose={handleClose}
+                key={vertical + horizontal}
+                autoHideDuration={5000}
+              >
+                <Alert
+                  onClose={handleClose}
+                  severity={props.isValid ? "success" : "error"}
+                >
+                  {props.isValid ? "Success" : "Error"}
+                </Alert>
+              </Snackbar>
             </Form>
           )}
         </Formik>
@@ -205,4 +254,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default Login;
+Login.propTypes = {
+  auth: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+};
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+  errors: state.errors,
+});
+
+export default connect(mapStateToProps, { loginUser })(Login);

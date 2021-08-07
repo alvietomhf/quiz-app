@@ -5,21 +5,42 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@material-ui/styles";
 import { createTheme } from "@material-ui/core/styles";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import reduxThunk from "redux-thunk";
+import reducers from "./reducers/index";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { persistStore } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+
+// With Devtools
+const store = createStore(
+    reducers,
+    composeWithDevTools(
+        applyMiddleware(reduxThunk)
+        // other store enhancers if any
+    )
+);
+
+// Without Devtools
+// const store = createStore(reducers, applyMiddleware(reduxThunk));
+
+const persistor = persistStore(store);
 
 const theme = createTheme({
   typography: {
-    fontFamily: [
-      "Nunito",
-    ].join(","),
+    fontFamily: ["Nunito"].join(","),
   },
 });
 
 ReactDOM.render(
-  <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </PersistGate>
+  </Provider>,
   document.getElementById("root")
 );
 
