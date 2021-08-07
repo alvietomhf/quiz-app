@@ -43,12 +43,11 @@ export const logOut = (dispatch) => {
       console.log("Logout success");
       console.log(response);
     })
-    .catch((error) => {
+    .catch(error => {
       dispatch({
         type: GET_ERRORS,
         payload: error.message,
       });
-      console.log(error.message);
       console.log(error);
     });
 };

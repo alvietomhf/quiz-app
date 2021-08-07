@@ -14,8 +14,8 @@ const Home = (props) => {
 
   const userLogOut = () => {
     setLogout(true);
+    dispatch(logOut);
     setTimeout(() => {
-      dispatch(logOut);
       history.push("/login");
     }, 4000);
   };

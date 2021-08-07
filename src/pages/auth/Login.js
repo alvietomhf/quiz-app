@@ -23,6 +23,7 @@ import { connect } from "react-redux";
 import { loginUser } from "../../actions/auth/authAction";
 import Cookies from 'js-cookie'
 
+
 const Login = (props) => {
   const initialValues = {
     email: "dio@gmail.com",
@@ -52,7 +53,7 @@ const Login = (props) => {
     if(props.auth.isAuthenticated && Cookies.get('access') ) {
       history.push('/home')
     }
-  })
+  },[])
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().required("Required").email("please enter valid email"),
