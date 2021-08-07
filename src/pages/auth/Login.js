@@ -5,18 +5,17 @@ import {
   TextField,
   Button,
   Typography,
-  Link,
   CircularProgress,
   makeStyles,
   Box,
 } from "@material-ui/core";
-// import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { Link } from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
-const Login = ({ handleChange }) => {
+const Login = () => {
   const initialValues = {
     email: "",
     password: "",
@@ -49,28 +48,6 @@ const Login = ({ handleChange }) => {
   return (
     <Grid className={classes.root}>
       <Paper className={classes.paper}>
-        <Grid align="center">
-          <Typography
-            style={{
-              fontWeight: "bold",
-              color: "#465AA8",
-              margin: 0,
-            }}
-            variant="h3"
-            gutterBottom
-          >
-            Sign Up
-          </Typography>
-          <Typography
-            style={{
-              color: "rgba(70, 90, 168, 0.4)",
-            }}
-            variant="subtitle1"
-            gutterBottom
-          >
-            Silahkan masukkan kredensial untuk akses akun anda
-          </Typography>
-        </Grid>
         <Formik
           className={classes.form}
           initialValues={initialValues}
@@ -79,6 +56,28 @@ const Login = ({ handleChange }) => {
         >
           {(props) => (
             <Form className={classes.formContainer}>
+              <Grid align="center">
+                <Typography
+                  style={{
+                    fontWeight: "bold",
+                    color: "#465AA8",
+                    margin: 0,
+                  }}
+                  variant="h3"
+                  gutterBottom
+                >
+                  Sign Up
+                </Typography>
+                <Typography
+                  style={{
+                    color: "rgba(70, 90, 168, 0.4)",
+                  }}
+                  variant="subtitle1"
+                  gutterBottom
+                >
+                  Silahkan masukkan kredensial untuk akses akun anda
+                </Typography>
+              </Grid>
               <Field
                 as={TextField}
                 variant="outlined"
@@ -100,16 +99,42 @@ const Login = ({ handleChange }) => {
                 type="password"
                 fullWidth
                 className={classes.labelForm}
-                error={props.errors.password && props.touched.password ? true : false}
+                error={
+                  props.errors.password && props.touched.password ? true : false
+                }
                 required
                 helperText={<ErrorMessage name="password" />}
               />
-              <Field
-                as={FormControlLabel}
-                name="remember"
-                control={<Checkbox color="primary" />}
-                label="Remember me"
-              />
+
+              <Box
+                style={{
+                  display: "flex",
+                  justifyContent: "flex-start",
+                  alignItems: "center",
+                  margin: "10px 0",
+                }}
+              >
+                <Field
+                  as={FormControlLabel}
+                  name="remember"
+                  control={<Checkbox color="primary" />}
+                  label="Remember me"
+                />
+                <Typography
+                  style={{ marginLeft: "auto", marginBottom: 0 }}
+                  variant="subtitle1"
+                  gutterBottom
+                >
+                  Lupa Password?
+                  <Link
+                    to="/resetpassword"
+                    style={{ textDecoration: "none", cursor: "pointer" }}
+                  >
+                    {" "}
+                    Reset Password
+                  </Link>
+                </Typography>
+              </Box>
               <Button
                 type="submit"
                 color="primary"
@@ -117,30 +142,34 @@ const Login = ({ handleChange }) => {
                 disabled={props.isSubmitting}
                 fullWidth
               >
-                {props.isSubmitting ? <CircularProgress size={24} /> : "Sign in"}
+                {props.isSubmitting ? (
+                  <CircularProgress size={24} />
+                ) : (
+                  "Sign in"
+                )}
               </Button>
             </Form>
           )}
         </Formik>
-        <Box
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            margin: "10px 0",
-          }}
-        >
-          <Typography variant="subtitle1" gutterBottom>
-            Lupa Password?
-            <Link
-              to="/resetpassword"
-              style={{ textDecoration: "none", cursor: "pointer" }}
-            >
-              {" "}
-              Reset Password
-            </Link>
-          </Typography>
-        </Box>
       </Paper>
+      <Box
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "10px 0",
+        }}
+      >
+        <Typography style={{ marginTop: 15 }} variant="subtitle1" gutterBottom>
+          Belum memiliki akun?
+          <Link
+            to="/register"
+            style={{ textDecoration: "none", cursor: "pointer" }}
+          >
+            {" "}
+            Daftar
+          </Link>
+        </Typography>
+      </Box>
     </Grid>
   );
 };
