@@ -23,7 +23,6 @@ import AssignmentIcon from "@material-ui/icons/Assignment";
 import AssistantPhotoIcon from "@material-ui/icons/AssistantPhoto";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
-import StarBorder from "@material-ui/icons/StarBorder";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
