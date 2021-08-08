@@ -11,7 +11,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
@@ -19,20 +18,21 @@ import MenuIcon from "@material-ui/icons/Menu";
 import IconButton from "@material-ui/core/IconButton";
 import { Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import Collapse from "@material-ui/core/Collapse";
 import DraftsIcon from "@material-ui/icons/Drafts";
 import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
+import { useSelector } from "react-redux";
 
 const withAuthNavbar = (Component) => {
   const Navbar = (props) => {
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
-    const [auth, setAuth] = useState(true);
+    // const [auth, setAuth] = useState(true);
+    const auth = useSelector(state => state.auth.isAuthenticated)
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -111,7 +111,7 @@ const withAuthNavbar = (Component) => {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap>
-                Responsive drawer
+                Ecosystem Quiz App
               </Typography>
             </Toolbar>
             <Toolbar style={{ marginLeft: "auto" }}>
