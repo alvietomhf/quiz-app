@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { useDispatch } from "react-redux";
 import { CircularProgress } from "@material-ui/core";
 import { logOut } from "../../actions/auth/authAction";
+import withAuthNavbar from "../../components/WithAuthNavbar";
 
 const Home = (props) => {
   const history = useHistory();
@@ -87,4 +88,4 @@ const mapStateToProps = (state) => ({
 // }));
 
 
-export default connect(mapStateToProps, { logOut })(Home);
+export default connect(mapStateToProps, { logOut })(withAuthNavbar(Home));

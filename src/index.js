@@ -12,7 +12,7 @@ import reducers from "./reducers/index";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
-import { green, grey } from "@material-ui/core/colors";
+import { green } from "@material-ui/core/colors";
 
 // With Devtools
 const store = createStore(
@@ -35,9 +35,9 @@ const theme = createTheme({
     },
   },
   button: {
-    '&:hover': {
+    "&:hover": {
       background: green[300],
-   },
+    },
   },
   typography: {
     fontFamily: ["Nunito"].join(","),
