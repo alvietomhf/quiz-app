@@ -25,6 +25,7 @@ import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const withAuthNavbar = (Component) => {
   const Navbar = (props) => {
@@ -32,11 +33,12 @@ const withAuthNavbar = (Component) => {
     const classes = useStyles();
     const theme = useTheme();
     // const [auth, setAuth] = useState(true);
-    const auth = useSelector(state => state.auth.isAuthenticated)
+    const auth = useSelector((state) => state.auth.isAuthenticated);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const [dropDown, setdropDown] = useState(true);
+    const [dropDown, setdropDown] = useState(false);
+    const history = useHistory();
 
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);

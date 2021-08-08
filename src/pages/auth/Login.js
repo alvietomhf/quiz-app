@@ -31,19 +31,7 @@ const Login = (props) => {
 
   const history = useHistory();
   const dispatch = useDispatch();
-
-  const isAuthenticated = props.auth.isAuthenticated;
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    if (isAuthenticated && Cookies.get("access")) {
-      history.push("/home");
-    }
-    return function cleanup() {
-      console.log("I am in cleanup function");
-      abortController.abort();
-    };
-  }, [isAuthenticated, history]);
+  const [success, setSuccess] = useState(false)
 
   const [state, setState] = useState({
     open: false,
@@ -74,11 +62,20 @@ const Login = (props) => {
     };
     dispatch(loginUser(postData));
     setTimeout(() => {
-      props.resetForm();
       props.setSubmitting(false);
-      history.push("/home");
-    }, 2000);
+      props.resetForm();
+      history.push('/home')
+    },2000)
   };
+
+  useEffect(() => {
+    if(props.auth.isAuthenticated && Cookies.get("access")) {
+      history.push('/home')
+    }
+    return () => {
+      setSuccess(false)
+    }
+  }, [])
 
   const classes = useStyles();
 
@@ -104,10 +101,7 @@ const Login = (props) => {
                 >
                   Sign Up
                 </Typography>
-                <Typography
-                  variant="subtitle1"
-                  gutterBottom
-                >
+                <Typography variant="subtitle1" gutterBottom>
                   Silahkan masukkan kredensial untuk akses akun anda
                 </Typography>
               </Grid>
