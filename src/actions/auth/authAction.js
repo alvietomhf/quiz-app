@@ -1,15 +1,12 @@
 import instance from "../instance";
-import { SET_USER, GET_ERRORS, SAVE_ACCESS, REMOVE_ACCESS, LOGOUT } from "../../constants/types";
-import Cookies from "js-cookie";
-import store from "../../store";
-
-export function getToken() {
-  const state = store.getState();
-  return state.access.accessToken;
-}
-
-// const state = store.getState();
-// const token = state.access.accessToken;
+import {
+  SET_USER,
+  GET_ERRORS,
+  SAVE_ACCESS,
+  REMOVE_ACCESS,
+  LOGOUT,
+} from "../../constants/types";
+import { token } from "../../config/token";
 
 export const loginUser = (data) => (dispatch) => {
   instance.get("sanctum/csrf-cookie").then(() => {
@@ -25,15 +22,20 @@ export const loginUser = (data) => (dispatch) => {
         });
         dispatch({
           type: SAVE_ACCESS,
-          payload: res.data.token
+          payload: res.data.token,
         });
         console.log(res);
       })
       .catch((error) => {
-        dispatch({
-          type: GET_ERRORS,
-          payload: error.response.message,
-        });
+        if (error.response.status === 401) {
+          dispatch({
+            type: GET_ERRORS,
+            payload: error.response.data.message,
+          });
+        }
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       });
   });
 };
@@ -44,7 +46,7 @@ export const logOut = (dispatch) => {
     url: "/api/logout",
     method: "post",
     headers: {
-      Authorization: "Bearer " + getToken(),
+      Authorization: "Bearer " + token(),
     },
   })
     .then((response) => {
@@ -63,35 +65,11 @@ export const logOut = (dispatch) => {
     .catch((error) => {
       dispatch({
         type: GET_ERRORS,
-        payload: error.message,
+        payload: error,
       });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
       console.log(error);
     });
 };
-
-// instance
-//   .post("api/logout")
-//   .then(
-//     () => {
-//       Cookies.remove('access')
-//       dispatch({
-//         type: LOGOUT,
-//         payload: {},
-//       });
-//       console.log("Logout success");
-//     },
-//     (error) => {
-//       dispatch({
-//         type: GET_ERRORS,
-//         payload: error.message,
-//       });
-//       console.log(error.message);
-//     }
-//   )
-//   .catch((error) => {
-//     dispatch({
-//       type: GET_ERRORS,
-//       payload: error.message,
-//     });
-//     console.log(error.message);
-//   });

@@ -18,7 +18,6 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/auth/authAction";
-// import Cookies from "js-cookie";
 
 const Login = (props) => {
   const initialValues = {
@@ -26,6 +25,7 @@ const Login = (props) => {
     password: "Password`",
   };
   const auth = props.auth;
+  const errors = props.errors;
   const token = props.access;
   const history = useHistory();
 
@@ -36,7 +36,6 @@ const Login = (props) => {
     horizontal: "center",
   });
   const { vertical, horizontal, open } = state;
-  // const [isLoading, setLoading] = useState(true)
 
   const handleClick = (newState) => () => {
     setState({ open: true, ...newState });
@@ -182,9 +181,9 @@ const Login = (props) => {
               >
                 <Alert
                   onClose={handleClose}
-                  severity={props.isValid ? "success" : "error"}
+                  severity={props.isValid && errors.isError ? "error" : "info"}
                 >
-                  {props.isValid ? "Success" : "Error"}
+                  {errors.isError ? errors.message : "Checking..."}
                 </Alert>
               </Snackbar>
             </Form>
