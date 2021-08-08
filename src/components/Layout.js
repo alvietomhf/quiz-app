@@ -49,9 +49,7 @@ const Layout = (Component) => {
     const handleLogOut = () => {
       setAnchorEl(null);
       dispatch(logOut);
-      setTimeout(() => {
-        history.push("/login");
-      }, 4000);
+      history.push("/login");
     };
 
     const handleDropDown = () => {

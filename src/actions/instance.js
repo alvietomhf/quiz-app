@@ -30,6 +30,9 @@ instance.interceptors.response.use(
     if (error.response.status === 401) {
       logOut()
       Cookies.remove("access");
+      setTimeout(() => {
+        window.location.reload()
+      }, 500);
       return Promise.reject();
     }
 

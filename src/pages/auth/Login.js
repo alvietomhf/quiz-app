@@ -26,7 +26,13 @@ const Login = (props) => {
     password: "Password`",
   };
   const auth = props.auth.isAuthenticated;
+  const token = Cookies.get("access");
   const history = useHistory();
+
+  if (auth && token) {
+    history.push("/home");
+  }
+  
   const dispatch = useDispatch();
   const [state, setState] = useState({
     open: false,
@@ -64,14 +70,6 @@ const Login = (props) => {
       )
     );
   };
-  const token = Cookies.get("access");
-
-  useEffect(() => {
-    if (auth && token) {
-      history.push("/home");
-    }
-    return () => {};
-  }, [auth, token, history]);
 
   const classes = useStyles();
 
