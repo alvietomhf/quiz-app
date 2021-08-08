@@ -69,7 +69,7 @@ const Login = (props) => {
 
   useEffect(() => {
     if (auth.isAuthenticated && token.accessToken) {
-      history.push("/home");
+      history.push("/");
     }
   }, [auth, token, history]);
 

@@ -39,6 +39,7 @@ const Layout = (Component) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
+    const access = useSelector((state) => state.access);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -88,14 +89,14 @@ const Layout = (Component) => {
 
     const tugasDropDownList = [
       {
-        text: "Tugas 1",
+        text: "Quiz",
         icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-        onClick: () => history.push("/tugas1"),
+        onClick: () => history.push("/quiz"),
       },
       {
-        text: "Tugas 2",
+        text: "Essay",
         icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-        onClick: () => history.push("/tugas2"),
+        onClick: () => history.push("/essay"),
       },
     ];
     const materiDropDownList = [
@@ -219,7 +220,6 @@ const Layout = (Component) => {
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <div style={{ display: "flex" }}>
-            {" "}
             <Toolbar>
               <IconButton
                 color="inherit"
@@ -235,7 +235,7 @@ const Layout = (Component) => {
               </Typography>
             </Toolbar>
             <Toolbar style={{ marginLeft: "auto" }}>
-              {auth.isAuthenticated && (
+              {auth.isAuthenticated && access.accessToken && (
                 <div>
                   <IconButton
                     aria-label="account of current user"
@@ -346,10 +346,12 @@ const Layout = (Component) => {
   Navbar.propTypes = {
     auth: PropTypes.object.isRequired,
     errors: PropTypes.object.isRequired,
+    access: PropTypes.object.isRequired,
     window: PropTypes.func,
   };
   const mapStateToProps = (state) => ({
     auth: state.auth,
+    access: state.access,
     errors: state.errors,
   });
 

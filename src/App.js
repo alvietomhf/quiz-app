@@ -14,7 +14,7 @@ const App = () => {
       <Switch>
         <Route exact path="/login" component={Login} />
         <Suspense fallback={<LoadingProgress />}>
-          <PrivateRoutes exact path="/home" component={Home} />
+          <PrivateRoutes exact path="/" component={Home} />
         </Suspense>
       </Switch>
     </BrowserRouter>
