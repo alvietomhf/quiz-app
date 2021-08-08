@@ -361,22 +361,3 @@ const Layout = (Component) => {
 };
 
 export default Layout;
-
-// import InboxIcon from "@material-ui/icons/MoveToInbox";
-// import AccountCircle from "@material-ui/icons/AccountCircle";
-// import MenuItem from "@material-ui/core/MenuItem";
-// import Menu from "@material-ui/core/Menu";
-// // import MenuIcon from "@material-ui/icons/Menu";
-// import HomeIcon from "@material-ui/icons/Home";
-// import IconButton from "@material-ui/core/IconButton";
-// import { Hidden } from "@material-ui/core";
-// import PropTypes from "prop-types";
-// import Collapse from "@material-ui/core/Collapse";
-// import DraftsIcon from "@material-ui/icons/Drafts";
-// import SendIcon from "@material-ui/icons/Send";
-// import AssignmentIcon from '@material-ui/icons/Assignment';
-// import AssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
-// import ExpandLess from "@material-ui/icons/ExpandLess";
-// import ExpandMore from "@material-ui/icons/ExpandMore";
-// import StarBorder from "@material-ui/icons/StarBorder";
-// import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
