@@ -28,8 +28,8 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-      Cookies.remove("access");
       logOut()
+      Cookies.remove("access");
       return Promise.reject();
     }
 

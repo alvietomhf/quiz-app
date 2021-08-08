@@ -34,6 +34,7 @@ const Login = (props) => {
     horizontal: "center",
   });
   const { vertical, horizontal, open } = state;
+  // const [isLoading, setLoading] = useState(true)
 
   const handleClick = (newState) => () => {
     setState({ open: true, ...newState });
@@ -50,26 +51,27 @@ const Login = (props) => {
       .min(8, "Password length contain minimal 8 characters"),
   });
 
-  const onSubmit = (values, props) => {
+  const onSubmit = (values) => {
     const postData = {
       email: values.email,
       password: values.password,
     };
-    dispatch(loginUser(postData));
-    setTimeout(() => {
-      props.setSubmitting(false);
-      props.resetForm();
-      history.push("/home");
-    }, 2000);
+    dispatch(
+      loginUser(postData, () =>
+        setTimeout(() => {
+          props.setSubmitting(false);
+        }, 2000)
+      )
+    );
   };
-
-  const token = Cookies.get('access')
+  const token = Cookies.get("access");
 
   useEffect(() => {
-    if(auth && token){
-      history.push('/home')
+    if (auth && token) {
+      history.push("/home");
     }
-  }, [auth, token, history])
+    return () => {};
+  }, [auth, token, history]);
 
   const classes = useStyles();
 
