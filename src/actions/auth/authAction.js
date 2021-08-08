@@ -1,6 +1,15 @@
 import instance from "../instance";
-import { SET_USER, GET_ERRORS, LOGOUT } from "../../constants/types";
+import { SET_USER, GET_ERRORS, SAVE_ACCESS, REMOVE_ACCESS, LOGOUT } from "../../constants/types";
 import Cookies from "js-cookie";
+import store from "../../store";
+
+export function getToken() {
+  const state = store.getState();
+  return state.access.accessToken;
+}
+
+// const state = store.getState();
+// const token = state.access.accessToken;
 
 export const loginUser = (data) => (dispatch) => {
   instance.get("sanctum/csrf-cookie").then(() => {
@@ -8,11 +17,15 @@ export const loginUser = (data) => (dispatch) => {
       .post("api/login", data)
       .then((response) => {
         const res = response.data;
-        const token = res.data.token;
-        Cookies.set("access", token);
+        // const token = res.data.token;
+        // Cookies.set("access", token);
         dispatch({
           type: SET_USER,
-          payload: res.data.user,
+          payload: res.data,
+        });
+        dispatch({
+          type: SAVE_ACCESS,
+          payload: res.data.token
         });
         console.log(res);
       })
@@ -26,12 +39,12 @@ export const loginUser = (data) => (dispatch) => {
 };
 
 export const logOut = (dispatch) => {
-  const token = Cookies.get("access");
+  // const token = Cookies.get("access");
   instance({
     url: "/api/logout",
     method: "post",
     headers: {
-      Authorization: "Bearer " + token,
+      Authorization: "Bearer " + getToken(),
     },
   })
     .then((response) => {
@@ -39,11 +52,15 @@ export const logOut = (dispatch) => {
         type: LOGOUT,
         payload: {},
       });
-      Cookies.remove("access")
+      dispatch({
+        type: REMOVE_ACCESS,
+        payload: {},
+      });
+      // Cookies.remove("access");
       console.log("Logout success");
       console.log(response);
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch({
         type: GET_ERRORS,
         payload: error.message,

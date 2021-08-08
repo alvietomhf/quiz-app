@@ -15,20 +15,26 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
+import HomeIcon from "@material-ui/icons/Home";
 import IconButton from "@material-ui/core/IconButton";
 import { Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Collapse from "@material-ui/core/Collapse";
 import DraftsIcon from "@material-ui/icons/Drafts";
 import SendIcon from "@material-ui/icons/Send";
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import AssistantPhotoIcon from "@material-ui/icons/AssistantPhoto";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
+import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import { connect } from "react-redux";
 import { logOut } from "../actions/auth/authAction";
-
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
+import { withRouter } from "react-router-dom";
+import { Archive, PeopleAlt } from "@material-ui/icons";
 const Layout = (Component) => {
   const Navbar = (props) => {
     const { window } = props;
@@ -40,7 +46,9 @@ const Layout = (Component) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const [dropDown, setdropDown] = useState(false);
+    const [dropDownUser, setdropDownUser] = useState(false);
+    const [dropDownTugas, setdropDownTugas] = useState(false);
+    const [dropDownMateri, setdropDownMateri] = useState(false);
 
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
@@ -52,41 +60,147 @@ const Layout = (Component) => {
       history.push("/login");
     };
 
-    const handleDropDown = () => {
-      setdropDown(!dropDown);
+    const handleDropDownTugas = () => {
+      setdropDownTugas(!dropDownTugas);
     };
+
+    const handleDropDownMateri = () => {
+      setdropDownMateri(!dropDownMateri);
+    };
+
+    const handleDropDownUser = () => {
+      setdropDownUser(!dropDownUser);
+    };
+
+    const itemsList = [
+      {
+        text: "Home",
+        icon: <HomeIcon />,
+        onClick: () => history.push("/"),
+      },
+      {
+        text: "Tujuan",
+        icon: <AssistantPhotoIcon />,
+        onClick: () => history.push("/tujuan"),
+      },
+      {
+        text: "Petunjuk",
+        icon: <HelpOutlineIcon />,
+        onClick: () => history.push("/petunjuk"),
+      },
+    ];
+
+    const tugasDropDownList = [
+      {
+        text: "Tugas 1",
+        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        onClick: () => history.push("/tugas1"),
+      },
+      {
+        text: "Tugas 2",
+        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        onClick: () => history.push("/tugas2"),
+      },
+    ];
+    const materiDropDownList = [
+      {
+        text: "Materi 1",
+        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        onClick: () => history.push("/materi1"),
+      },
+      {
+        text: "Materi 2",
+        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        onClick: () => history.push("/materi2"),
+      },
+    ];
+    const usersDropDownList = [
+      {
+        text: "Siswa",
+        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        onClick: () => history.push("/siswa"),
+      },
+      {
+        text: "Guru",
+        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        onClick: () => history.push("/guru"),
+      },
+    ];
 
     const drawer = (
       <div>
         <div className={classes.toolbar} />
         <Divider />
-        <ListItem button>
+        <List>
+          {itemsList.map((item) => {
+            const { text, icon, onClick } = item;
+            return (
+              <ListItem button key={text} onClick={onClick}>
+                {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                <ListItemText primary={text} />
+              </ListItem>
+            );
+          })}
+        </List>
+        <Divider />
+        <ListItem button onClick={handleDropDownMateri}>
           <ListItemIcon>
-            <SendIcon />
+            <Archive />
           </ListItemIcon>
-          <ListItemText primary="Sent mail" />
+          <ListItemText primary="Materi" />
+          {dropDownMateri ? <ExpandLess /> : <ExpandMore />}
         </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <DraftsIcon />
-          </ListItemIcon>
-          <ListItemText primary="Drafts" />
-        </ListItem>
-        <ListItem button onClick={handleDropDown}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inbox" />
-          {dropDown ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={dropDown} timeout="auto" unmountOnExit>
+        <Collapse in={dropDownMateri} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button className={classes.nested}>
-              <ListItemIcon>
-                <StarBorder />
-              </ListItemIcon>
-              <ListItemText primary="Starred" />
-            </ListItem>
+            {materiDropDownList.map((item) => {
+              const { text, icon, onClick } = item;
+              return (
+                <ListItem button key={text} onClick={onClick}>
+                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                  <ListItemText primary={text} />
+                </ListItem>
+              );
+            })}
+          </List>
+        </Collapse>
+        <ListItem button onClick={handleDropDownTugas}>
+          <ListItemIcon>
+            <AssignmentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Tugas" />
+          {dropDownTugas ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={dropDownTugas} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {tugasDropDownList.map((item) => {
+              const { text, icon, onClick } = item;
+              return (
+                <ListItem button key={text} onClick={onClick}>
+                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                  <ListItemText primary={text} />
+                </ListItem>
+              );
+            })}
+          </List>
+        </Collapse>
+        <ListItem button onClick={handleDropDownUser}>
+          <ListItemIcon>
+            <PeopleAlt />
+          </ListItemIcon>
+          <ListItemText primary="Anggota" />
+          {dropDownUser ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={dropDownUser} timeout="auto" unmountOnExit>
+          <List component="div" disablePadding>
+            {usersDropDownList.map((item) => {
+              const { text, icon, onClick } = item;
+              return (
+                <ListItem button key={text} onClick={onClick}>
+                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                  <ListItemText primary={text} />
+                </ListItem>
+              );
+            })}
           </List>
         </Collapse>
         <Divider />
@@ -243,7 +357,26 @@ const Layout = (Component) => {
     errors: state.errors,
   });
 
-  return connect(mapStateToProps, { logOut })(Navbar);
+  return connect(mapStateToProps, { logOut })(withRouter(Navbar));
 };
 
 export default Layout;
+
+// import InboxIcon from "@material-ui/icons/MoveToInbox";
+// import AccountCircle from "@material-ui/icons/AccountCircle";
+// import MenuItem from "@material-ui/core/MenuItem";
+// import Menu from "@material-ui/core/Menu";
+// // import MenuIcon from "@material-ui/icons/Menu";
+// import HomeIcon from "@material-ui/icons/Home";
+// import IconButton from "@material-ui/core/IconButton";
+// import { Hidden } from "@material-ui/core";
+// import PropTypes from "prop-types";
+// import Collapse from "@material-ui/core/Collapse";
+// import DraftsIcon from "@material-ui/icons/Drafts";
+// import SendIcon from "@material-ui/icons/Send";
+// import AssignmentIcon from '@material-ui/icons/Assignment';
+// import AssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
+// import ExpandLess from "@material-ui/icons/ExpandLess";
+// import ExpandMore from "@material-ui/icons/ExpandMore";
+// import StarBorder from "@material-ui/icons/StarBorder";
+// import HelpOutlineIcon from '@material-ui/icons/HelpOutline';

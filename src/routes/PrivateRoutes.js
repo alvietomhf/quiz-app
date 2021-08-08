@@ -3,13 +3,13 @@ import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
-import Cookies from 'js-cookie'
+// import Cookies from 'js-cookie'
 
-const PrivateRoutes = ({ component: Component, auth, ...rest }) => (
+const PrivateRoutes = ({ component: Component, auth, access, ...rest }) => (
     <Route
         {...rest}
         render={(props) =>
-            auth.isAuthenticated && Cookies.get('access') ? (
+            auth.isAuthenticated && access.accessToken ? (
                 <Component {...props} />
             ) : (
                 <Redirect to="/login" />
@@ -20,10 +20,12 @@ const PrivateRoutes = ({ component: Component, auth, ...rest }) => (
 
 // export default PrivateRoute;
 PrivateRoutes.propTypes = {
-    auth: PropTypes.object.isRequired
+    auth: PropTypes.object.isRequired,
+    access: PropTypes.object.isRequired
   };
   const mapStateToProps = state => ({
-    auth: state.auth
+    auth: state.auth,
+    access: state.access
   });
 
 export default connect(mapStateToProps)(PrivateRoutes);

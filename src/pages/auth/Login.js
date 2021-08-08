@@ -18,21 +18,17 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/auth/authAction";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 const Login = (props) => {
   const initialValues = {
     email: "dio@gmail.com",
     password: "Password`",
   };
-  const auth = props.auth.isAuthenticated;
-  const token = Cookies.get("access");
+  const auth = props.auth;
+  const token = props.access;
   const history = useHistory();
 
-  if (auth && token) {
-    history.push("/home");
-  }
-  
   const dispatch = useDispatch();
   const [state, setState] = useState({
     open: false,
@@ -63,15 +59,19 @@ const Login = (props) => {
       password: values.password,
     };
     dispatch(
-      loginUser(postData, () =>
-        setTimeout(() => {
-          props.setSubmitting(false);
-        }, 2000)
-      )
+      loginUser(postData, () => {
+        props.setSubmitting(false);
+      })
     );
   };
 
   const classes = useStyles();
+
+  useEffect(() => {
+    if (auth.isAuthenticated && token.accessToken) {
+      history.push("/home");
+    }
+  }, [auth, token, history]);
 
   return (
     <Grid className={classes.root}>
@@ -247,9 +247,11 @@ const useStyles = makeStyles({
 Login.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
+  access: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
+  access: state.access,
   errors: state.errors,
 });
 

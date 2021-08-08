@@ -1,8 +1,8 @@
-import { LOGOUT, SET_USER } from "../constants/types";
+import { LOGOUT,SET_USER } from "../constants/types";
 
 const initialState = {
   data: {},
-  isAuthenticated: false
+  isAuthenticated: false,
 };
 
 export default function authReducer(state = initialState, action) {

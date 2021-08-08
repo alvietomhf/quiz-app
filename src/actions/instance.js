@@ -1,21 +1,25 @@
 import axios from "axios";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
+import store from "../store";
 import { logOut } from "./auth/authAction";
 
-let token = Cookies.get("access");
+export function getToken() {
+  const state = store.getState();
+  return state.access.accessToken;
+}
 
 const instance = axios.create({
   baseURL: "http://127.0.0.1:8000",
   withCredentials: true,
   headers: {
-    Authorization: `Bearer ${token}`,
+    Authorization: `Bearer ${getToken()}`,
   },
 });
 
 instance.interceptors.request.use(
   (config) => {
-    if (token) {
-      config.headers.Authorization = token ? `Bearer ${token}` : "";
+    if (getToken()) {
+      config.headers.Authorization = getToken() ? `Bearer ${getToken()}` : "";
     }
     return config;
   },
@@ -28,11 +32,9 @@ instance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response.status === 401) {
-      logOut()
-      Cookies.remove("access");
-      setTimeout(() => {
-        window.location.reload()
-      }, 500);
+      logOut();
+      // Cookies.remove("access");
+      // window.location.reload();
       return Promise.reject();
     }
 

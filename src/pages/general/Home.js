@@ -6,7 +6,7 @@ const Home = (props) => {
   return (
     <div>
       <Typography variant="h4" gutterBottom>
-        Hello, {props.auth.data.name}
+        Hello, {props.auth.data.user.name}
       </Typography>
     </div>
   );
