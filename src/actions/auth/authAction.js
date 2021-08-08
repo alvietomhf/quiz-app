@@ -14,17 +14,15 @@ export const loginUser = (data) => (dispatch) => {
       .post("api/login", data)
       .then((response) => {
         const res = response.data;
-        // const token = res.data.token;
-        // Cookies.set("access", token);
         dispatch({
           type: SET_USER,
-          payload: res.data,
+          payload: res.data.user,
         });
         dispatch({
           type: SAVE_ACCESS,
           payload: res.data.token,
         });
-        console.log(res);
+        console.clear()
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -59,8 +57,7 @@ export const logOut = (dispatch) => {
         payload: {},
       });
       // Cookies.remove("access");
-      console.log("Logout success");
-      console.log(response);
+      console.clear()
     })
     .catch((error) => {
       dispatch({

@@ -6,26 +6,10 @@ import reportWebVitals from "./reportWebVitals";
 import { ThemeProvider } from "@material-ui/styles";
 import { createTheme } from "@material-ui/core/styles";
 import { Provider } from "react-redux";
-// import { createStore, applyMiddleware } from "redux";
-// import reduxThunk from "redux-thunk";
-// import reducers from "./reducers/index";
-// import { composeWithDevTools } from "redux-devtools-extension";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { green } from "@material-ui/core/colors";
 import store from "./store";
-
-// With Devtools
-// const store = createStore(
-//   reducers,
-//   composeWithDevTools(
-//     applyMiddleware(reduxThunk)
-//     // other store enhancers if any
-//   )
-// );
-
-// Without Devtools
-// const store = createStore(reducers, applyMiddleware(reduxThunk));
 
 const persistor = persistStore(store);
 

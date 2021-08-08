@@ -68,7 +68,7 @@ const Login = (props) => {
 
   useEffect(() => {
     if (auth.isAuthenticated && token.accessToken) {
-      history.push("/");
+      history.push("/home");
     }
   }, [auth, token, history]);
 
@@ -134,12 +134,6 @@ const Login = (props) => {
                   margin: "10px 0",
                 }}
               >
-                {/* <Field
-                  as={FormControlLabel}
-                  name="remember"
-                  control={<Checkbox color="primary" />}
-                  label="Remember me"
-                /> */}
                 <Typography
                   style={{ marginLeft: "auto", marginBottom: 0 }}
                   variant="subtitle1"

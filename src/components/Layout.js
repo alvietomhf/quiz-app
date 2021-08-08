@@ -33,6 +33,7 @@ import { withRouter } from "react-router-dom";
 import { Archive, PeopleAlt } from "@material-ui/icons";
 const Layout = (Component) => {
   const Navbar = (props) => {
+    console.clear();
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
@@ -53,8 +54,10 @@ const Layout = (Component) => {
 
     const handleLogOut = () => {
       setAnchorEl(null);
-      dispatch(logOut);
-      history.push("/login");
+      setTimeout(() => {
+        dispatch(logOut);
+        history.push("/login");
+      }, 2000);
     };
 
     const handleDropDownTugas = () => {
@@ -73,7 +76,7 @@ const Layout = (Component) => {
       {
         text: "Home",
         icon: <HomeIcon />,
-        onClick: () => history.push("/"),
+        onClick: () => history.push("/home"),
       },
       {
         text: "Tujuan",
@@ -231,7 +234,7 @@ const Layout = (Component) => {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap>
-                Ecosystem Quiz App
+                Ecosystem App
               </Typography>
             </Toolbar>
             <Toolbar style={{ marginLeft: "auto" }}>
@@ -261,7 +264,14 @@ const Layout = (Component) => {
                     open={open}
                     onClose={handleClose}
                   >
-                    <MenuItem onClick={handleClose}>Profile</MenuItem>
+                    <MenuItem
+                      onClick={() => {
+                        setAnchorEl(null);
+                        history.push("/profile");
+                      }}
+                    >
+                      Profile
+                    </MenuItem>
                     <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>
