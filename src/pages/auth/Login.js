@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Paper,
@@ -11,13 +11,10 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-// import FormControlLabel from "@material-ui/core/FormControlLabel";
-// import Checkbox from "@material-ui/core/Checkbox";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 import { loginUser } from "../../actions/auth/authAction";
@@ -28,11 +25,9 @@ const Login = (props) => {
     email: "dio@gmail.com",
     password: "Password`",
   };
-
+  const auth = props.auth.isAuthenticated;
   const history = useHistory();
   const dispatch = useDispatch();
-  const [success, setSuccess] = useState(false)
-
   const [state, setState] = useState({
     open: false,
     vertical: "top",
@@ -64,18 +59,17 @@ const Login = (props) => {
     setTimeout(() => {
       props.setSubmitting(false);
       props.resetForm();
-      history.push('/home')
-    },2000)
+      history.push("/home");
+    }, 2000);
   };
 
+  const token = Cookies.get('access')
+
   useEffect(() => {
-    if(props.auth.isAuthenticated && Cookies.get("access")) {
+    if(auth && token){
       history.push('/home')
     }
-    return () => {
-      setSuccess(false)
-    }
-  }, [])
+  }, [auth, token, history])
 
   const classes = useStyles();
 

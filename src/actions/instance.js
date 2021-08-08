@@ -1,5 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
+import { logOut } from "./auth/authAction";
 
 let token = Cookies.get("access");
 
@@ -28,7 +29,7 @@ instance.interceptors.response.use(
   (error) => {
     if (error.response.status === 401) {
       Cookies.remove("access");
-
+      logOut()
       return Promise.reject();
     }
 

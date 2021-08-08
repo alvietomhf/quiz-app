@@ -24,24 +24,34 @@ import SendIcon from "@material-ui/icons/Send";
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import StarBorder from "@material-ui/icons/StarBorder";
-import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router";
+import { connect } from "react-redux";
+import { logOut } from "../actions/auth/authAction";
 
-const withAuthNavbar = (Component) => {
+const Layout = (Component) => {
   const Navbar = (props) => {
     const { window } = props;
     const classes = useStyles();
     const theme = useTheme();
-    // const [auth, setAuth] = useState(true);
-    const auth = useSelector((state) => state.auth.isAuthenticated);
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const auth = useSelector((state) => state.auth);
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [dropDown, setdropDown] = useState(false);
-    const history = useHistory();
 
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
+    };
+
+    const handleLogOut = () => {
+      setAnchorEl(null);
+      dispatch(logOut);
+      setTimeout(() => {
+        history.push("/login");
+      }, 4000);
     };
 
     const handleDropDown = () => {
@@ -117,7 +127,7 @@ const withAuthNavbar = (Component) => {
               </Typography>
             </Toolbar>
             <Toolbar style={{ marginLeft: "auto" }}>
-              {auth && (
+              {auth.isAuthenticated && (
                 <div>
                   <IconButton
                     aria-label="account of current user"
@@ -144,7 +154,7 @@ const withAuthNavbar = (Component) => {
                     onClose={handleClose}
                   >
                     <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>
               )}
@@ -226,10 +236,16 @@ const withAuthNavbar = (Component) => {
   }));
 
   Navbar.propTypes = {
+    auth: PropTypes.object.isRequired,
+    errors: PropTypes.object.isRequired,
     window: PropTypes.func,
   };
+  const mapStateToProps = (state) => ({
+    auth: state.auth,
+    errors: state.errors,
+  });
 
-  return Navbar;
+  return connect(mapStateToProps, { logOut })(Navbar);
 };
 
-export default withAuthNavbar;
+export default Layout;
