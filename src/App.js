@@ -5,9 +5,18 @@ import Login from "./pages/auth/Login";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import LandingPage from "./pages/general/guest/LandingPage";
 import CircularLoading from "./components/lazyLoad/CircularLoading";
+
+const ResultsPage = lazy(() =>
+  import("./pages/quiz/multipeChoices/ResultsPage")
+);
 const HomePage = lazy(() => import("./pages/general/authenticated/HomePage"));
-const PurposePage = lazy(() => import("./pages/general/authenticated/PurposePage"));
-const ProfilePage = lazy(() => import("./pages/general/authenticated/ProfilePage"));
+const PurposePage = lazy(() =>
+  import("./pages/general/authenticated/PurposePage")
+);
+const ProfilePage = lazy(() =>
+  import("./pages/general/authenticated/ProfilePage")
+);
+const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 
 const App = () => {
   return (
@@ -19,6 +28,8 @@ const App = () => {
           <PrivateRoutes exact path="/home" component={HomePage} />
           <PrivateRoutes exact path="/profile" component={ProfilePage} />
           <PrivateRoutes exact path="/tujuan" component={PurposePage} />
+          <PrivateRoutes exact path="/quiz" component={QuizPage} />
+          <PrivateRoutes exact path="/quiz/result" component={ResultsPage} />
         </Suspense>
       </Switch>
     </BrowserRouter>

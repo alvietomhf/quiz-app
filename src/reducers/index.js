@@ -6,6 +6,7 @@ import errorReducer from "./errorReducer";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import session from "redux-persist/lib/storage/session";
 import accessReducer from "./accessReducer";
+import quizReducer from './quizReducer'
 // import { createSlice} from "@reduxjs/toolkit";
 // const rootPersistConfig = {
 //     key: "root",
@@ -27,6 +28,12 @@ const authPersistConfig = {
   blacklist: ["auth"],
 };
 
+const quizPersistConfig = {
+  key: "quiz",
+  storage: session,
+  blacklist: ["quiz"],
+};
+
 const accessPersistConfig = {
   key: "access",
   storage: session,
@@ -37,6 +44,7 @@ const accessPersistConfig = {
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   access: persistReducer(accessPersistConfig, accessReducer),
+  quiz: quizReducer,
   errors: errorReducer,
 });
 
