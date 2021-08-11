@@ -44,7 +44,7 @@ const accessPersistConfig = {
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   access: persistReducer(accessPersistConfig, accessReducer),
-  quiz: quizReducer,
+  quiz: persistReducer(quizPersistConfig, quizReducer),
   errors: errorReducer,
 });
 

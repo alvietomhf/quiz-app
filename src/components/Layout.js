@@ -94,7 +94,7 @@ const Layout = (Component) => {
       {
         text: "Quiz",
         icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-        onClick: () => history.push("/quiz"),
+        onClick: () => history.push("/quiz/dev"),
       },
       {
         text: "Essay",

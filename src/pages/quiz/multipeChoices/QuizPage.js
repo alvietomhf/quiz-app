@@ -1,4 +1,4 @@
-import { Paper, Typography } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import Layout from "../../../components/Layout";

@@ -1,9 +1,11 @@
-import { Button, Typography } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { Button, Snackbar, Typography } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import React, { useState } from "react";
+// import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
-// import { addScore } from "../../../actions/quiz/quizAction";
-import { ADD_SCORE_QUIZ } from "../../../constants/types";
+import "./Question.css";
+// // import { addScore } from "../../../actions/quiz/quizAction";
+// import { ADD_SCORE_QUIZ } from "../../../constants/types";
 
 const Question = ({
   currQues,
@@ -16,24 +18,44 @@ const Question = ({
   options,
 }) => {
   const [selected, setSelected] = useState();
-  const [error, setError] = useState("");
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const addScore = useSelector((state) => state.quiz.score)
+  const [error, setError] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState("");
+  const [state, setState] = useState({
+    vertical: "bottom",
+    horizontal: "center",
+  });
+  const { vertical, horizontal } = state;
 
-  //   const handleSelect = (i) => {
-  //     if (selected === i && selected === correct) return "primary";
-  //     else if (selected === i && selected !== correct) return "secondary";
-  //     else if (i === correct) return "select";
-  //   };
+  const handleClose = () => {
+    setTimeout(() => {
+      setOpen(false);
+      setError(false);
+    }, 1000);
+  };
+  const history = useHistory();
+
+  const handleSelect = (i) => {
+    if(selected === i) {
+      return 'primary'
+    }
+  };
 
   const handleNext = () => {
     if (currQues > 8) {
-      history.push("/quiz/result");
+      history.push({
+        pathname: "/quiz/result",
+        state: {
+          score: score,
+        },
+      });
     } else if (selected) {
       setCurrQues(currQues + 1);
       setSelected();
-    } else setError("Please select an option first");
+    } else {
+      setError(true);
+      setMessage("Please select options first.");
+    }
   };
 
   const handleQuit = () => {
@@ -45,11 +67,8 @@ const Question = ({
     setSelected(i);
     if (i === correct) {
       setScore(score + 1);
-      dispatch({
-          type: ADD_SCORE_QUIZ,
-          action: addScore + 1
-      });
     }
+    setError(false);
   };
 
   return (
@@ -68,6 +87,19 @@ const Question = ({
       <Typography style={{ marginBottom: 10 }} variant="h5">
         {questions[currQues].question}
       </Typography>
+      {error && (
+        <Snackbar
+          anchorOrigin={{ vertical, horizontal }}
+          open={error ? true : false}
+          key={vertical + horizontal}
+          onClose={handleClose}
+          autoHideDuration={500}
+        >
+          <Alert onClose={handleClose} severity="error">
+            {message}
+          </Alert>
+        </Snackbar>
+      )}
       <div
         style={{
           width: "100%",
@@ -79,18 +111,25 @@ const Question = ({
       >
         {options &&
           options.map((i) => (
-            <Button
+            <button
+              className={`${selected && handleSelect(i)}`}
+              key={i}
+              onClick={() => handleCheck(i)}
+            >
+              {i}
+            </button>
+          ))}
+        {/* <Button
               style={{ marginBottom: 10, width: "100%" }}
               size="large"
               key={i}
               variant="contained"
               color={selected ? "primary" : "secondary"}
               onClick={() => handleCheck(i)}
-              disabled={selected ? true : false}
+              disab={selected ? true : false}
             >
               {i}
-            </Button>
-          ))}
+            </Button> */}
       </div>
       <div style={{ display: "flex", marginTop: 10 }}>
         <Button
