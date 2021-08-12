@@ -11,7 +11,7 @@ const ResultsPage = (props) => {
 
   const history = useHistory();
   const handleBack = () => {
-    history.push("/quiz");
+    history.push("/quiz/dev");
     // dispatch({
     //   type: DELETE_SCORE_QUIZ,
     //   action: 0,

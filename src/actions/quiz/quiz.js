@@ -1,18 +1,18 @@
 import instance from "../instance";
 import { token } from "../../config/token";
 
-const index = (roles) =>
+const index = () =>
   instance({
-    url: "/api/" + roles + "/quizzes",
+    url: "/api/quizzes?type=quiz",
     method: "get",
     headers: {
       Authorization: "Bearer " + token(),
     },
   });
 
-const detail = (roles, slug) =>
+const detail = (slug) =>
   instance({
-    url: "/api/" + roles + "/quizzes/" + slug,
+    url: "/api/quizzes/" + slug,
     method: "get",
     headers: {
       Authorization: "Bearer " + token(),

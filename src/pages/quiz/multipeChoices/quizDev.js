@@ -23,13 +23,16 @@ const QuizDev = () => {
   const [quiz, setQuiz] = useState([]);
   const auth = useSelector((state) => state.auth);
   // const [isStarted, setStart] = useState(false);
+  const [isType, setType] = useState('')
   const history = useHistory();
 
   useEffect(() => {
     const fetchDataQuiz = async () => {
-      const response = await apiQuiz.index(auth.data.role);
-      setQuiz(response.data.data);
-      console.log(response.data.data);
+      const response = await apiQuiz.index();
+      const data = response.data.data;
+      setQuiz(data)
+      console.log(data);
+      // data.quesit
     };
     fetchDataQuiz();
   }, [auth]);
