@@ -16,6 +16,7 @@ const QuizPage = () => {
     return options.sort(() => Math.random() - 0.5);
   };
 
+
   useEffect(() => {
     if (isStarted) {
       setOptions(
@@ -28,7 +29,7 @@ const QuizPage = () => {
     }
   }, [currQues, isStarted, questions]);
 
-//   console.log(incorrectAnswers);
+  //   console.log(incorrectAnswers);
 
   const fetchQuestions = async () => {
     axios
@@ -36,7 +37,7 @@ const QuizPage = () => {
       .then((response) => {
         const res = response.data.results;
         setQuestions(res);
-        setStart(true)
+        setStart(true);
         console.log(res);
       })
       .catch((error) => [console.error(error)]);

@@ -21,7 +21,7 @@ import { loginUser } from "../../actions/auth/authAction";
 
 const Login = (props) => {
   const initialValues = {
-    email: "dio@gmail.com",
+    email: "test@gmail.com",
     password: "Password`",
   };
   const auth = props.auth;

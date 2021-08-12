@@ -6,6 +6,7 @@ import PrivateRoutes from "./routes/PrivateRoutes";
 import LandingPage from "./pages/general/guest/LandingPage";
 import CircularLoading from "./components/lazyLoad/CircularLoading";
 import QuizDev from "./pages/quiz/multipeChoices/quizDev";
+import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
 
 const ResultsPage = lazy(() =>
   import("./pages/quiz/multipeChoices/ResultsPage")
@@ -32,6 +33,7 @@ const App = () => {
           {/* <PrivateRoutes exact path="/quiz" component={QuizPage} /> */}
           <PrivateRoutes exact path="/quiz/result" component={ResultsPage} />
           <PrivateRoutes exact path="/quiz/dev" component={QuizDev} />
+          <PrivateRoutes exact path="/quiz/dev/:slug" component={QuizDetailPage} />
         </Suspense>
       </Switch>
     </BrowserRouter>
