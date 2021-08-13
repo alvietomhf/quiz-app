@@ -6,13 +6,6 @@ import errorReducer from "./errorReducer";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import session from "redux-persist/lib/storage/session";
 import accessReducer from "./accessReducer";
-import quizReducer from './quizReducer'
-// import { createSlice} from "@reduxjs/toolkit";
-// const rootPersistConfig = {
-//     key: "root",
-//     storage,
-//     whitelist: ["auth"],
-// };
 
 const encryptor = encryptTransform({
   secretKey: "myKey",
