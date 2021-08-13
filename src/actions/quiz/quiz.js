@@ -1,26 +1,17 @@
 import instance from "../instance";
 import { token } from "../../config/token";
 
-const index = () =>
+const index = (type) =>
   instance({
-    url: "/api/quizzes?type=quiz",
+    url: `/api/quizzes?type=${type}`,
     method: "get",
     headers: {
       Authorization: "Bearer " + token(),
     },
   });
 
-const detail = (slug) =>
-  instance({
-    url: "/api/quizzes/" + slug,
-    method: "get",
-    headers: {
-      Authorization: "Bearer " + token(),
-    },
-  });
 const apiQuiz = {
   index,
-  detail
 };
 
 export default apiQuiz;

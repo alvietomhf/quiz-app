@@ -28,12 +28,6 @@ const authPersistConfig = {
   blacklist: ["auth"],
 };
 
-const quizPersistConfig = {
-  key: "quiz",
-  storage: session,
-  blacklist: ["quiz"],
-};
-
 const accessPersistConfig = {
   key: "access",
   storage: session,
@@ -44,7 +38,6 @@ const accessPersistConfig = {
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
   access: persistReducer(accessPersistConfig, accessReducer),
-  quiz: persistReducer(quizPersistConfig, quizReducer),
   errors: errorReducer,
 });
 

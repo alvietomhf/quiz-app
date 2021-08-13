@@ -1,36 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useTimer } from "react-timer-hook";
-import { Link, useHistory, useParams } from "react-router-dom";
-import quizData from "./quizData";
+import { useHistory } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import apiQuiz from "../../../actions/quiz/quiz";
-import { useDispatch, useSelector } from "react-redux";
-import { logOut } from "../../../actions/auth/authAction";
+import { useSelector } from "react-redux";
 import {
-  Box,
   Button,
   Card,
   CardContent,
   Container,
   Grid,
   makeStyles,
-  Paper,
   Typography,
 } from "@material-ui/core";
 // import axios from "axios";
 
-const QuizDev = () => {
+const QuizDev = (props) => {
   const [quiz, setQuiz] = useState([]);
   const auth = useSelector((state) => state.auth);
-  // const [isStarted, setStart] = useState(false);
-  const [isType, setType] = useState('')
   const history = useHistory();
 
   useEffect(() => {
     const fetchDataQuiz = async () => {
-      const response = await apiQuiz.index();
+      const response = await apiQuiz.index('quiz');
       const data = response.data.data;
-      setQuiz(data)
+      setQuiz(data);
       console.log(data);
       // data.quesit
     };
@@ -42,6 +35,11 @@ const QuizDev = () => {
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
+        {props.auth.data.role === "guru" ? (
+          <Button variant="contained" onClick={() => history.push('/quiz/dev/add')}>Add Quiz</Button>
+        ) :
+          ""
+        }
         <Grid item xs={12}>
           {quiz.map((item) => {
             return (

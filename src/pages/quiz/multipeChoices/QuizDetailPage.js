@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { useParams, Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import { useTimer } from "react-timer-hook";
-import apiQuiz from "../../../actions/quiz/quiz";
+import { Link, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Layout from "../../../components/Layout";
-import { quizData } from "./quizData";
+import { token } from "../../../config/token";
+import instance from "../../../actions/instance";
 
 const QuizDetailPage = () => {
+  const history = useHistory();
+  const [currentIndex, setCurrentIndex] = useState(0);
   const { slug } = useParams();
+  const [error, setError] = useState(false);
+  const [message, setMessage] = useState("");
   const [quiz, setQuiz] = useState([{}]);
-  const [currentIndex, setCurrentIndex] = useState(0)
   const [score, setScore] = useState({
     correct: 0,
     false: 0,
   });
 
-   const FetchdetailQuiz = async () => {
-    const response = await apiQuiz.detail(slug);
-    const data = response.data.data.questions;
-    setQuiz(data);
-  };
-
-  const {question, options = [] } = quiz[currentIndex]
+  const { question, options = [] } = quiz[currentIndex];
 
   const MINUTES = 120 * 60;
   const time = new Date();
@@ -32,24 +29,43 @@ const QuizDetailPage = () => {
     onExpire: () => setCurrentIndex(quiz.length - 1),
   });
 
-  const checkScore = () => {
+  useEffect(() => {
+    instance
+      .get(`/api/quizzes/${slug}`, {
+        headers: {
+          Authorization: "Bearer " + token(),
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        const data = response.data.data.questions;
+        setQuiz(data);
+      })
+      .catch((error) => {
+        if (error.response.data.status === false) {
+          setError(true);
+          const responseMessage = error.response.data.message;
+          setMessage(responseMessage);
+          console.log(responseMessage);
+          setTimeout(() => {
+            history.push("/quiz/dev");
+          }, 4000);
+        }
+      });
+  }, [history, slug]);
+
+  useEffect(() => {
     const questionAnswered = quiz.filter((item) => item.selected);
     const questionCorrect = questionAnswered.filter((item) =>
       item.options.find(
         (option) => option.correct && option.selected === option.correct
       )
     );
-    console.log(questionCorrect)
     setScore({
       correct: questionCorrect.length,
       false: quiz.length - questionCorrect.length,
     });
-  };
-
-  useEffect(() => {
-    checkScore();
-    FetchdetailQuiz();
-  }, []);
+  }, [quiz]);
 
   const nextQuestion = () => {
     if (quiz.length - 1 === currentIndex) return;
@@ -79,11 +95,14 @@ const QuizDetailPage = () => {
     );
   };
 
+  if (error) {
+    return <div>{message}</div>;
+  }
+
   return (
     <div>
       <h2 className="text-center mb-3 mt-3">
-        Quiz Screen - Score: {score.correct} - {score.false} Timer: {hours}:
-        {minutes}:{seconds}
+        Quiz Screen - Timer: {hours}:{minutes}:{seconds}
       </h2>
       <div className="card mb-3">
         <div
@@ -199,14 +218,3 @@ const QuizDetailPage = () => {
 };
 
 export default Layout(QuizDetailPage);
-
-  // const FetchdetailQuiz = async () => {
-  //   const response = await apiQuiz.detail(slug);
-  //   const data = response.data.data.questions;
-  //   setQuiz(data);
-  // };
-
-  // useEffect(() => {
-  //   checkScore();
-  //   FetchdetailQuiz();
-  // }, []);
