@@ -5,9 +5,10 @@ import Login from "./pages/auth/Login";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import LandingPage from "./pages/general/guest/LandingPage";
 import CircularLoading from "./components/lazyLoad/CircularLoading";
-import QuizDev from "./pages/quiz/multipeChoices/quizDev";
+import QuizPage from "./pages/quiz/multipeChoices/QuizPage";
 import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
 import EssayPage from "./pages/quiz/uploadFiles/EssayPage";
+import AddQuizPage from "./pages/quiz/multipeChoices/AddQuizPage";
 // import My404Component from "./pages/general/guest/My404Component";
 
 const ResultsPage = lazy(() =>
@@ -31,7 +32,12 @@ const App = () => {
           <PrivateRoutes exact={true} path="/home" component={HomePage} />
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
           <PrivateRoutes exact={true} path="/tujuan" component={PurposePage} />
-          <PrivateRoutes exact={true} path="/quiz" component={QuizDev} />
+          <PrivateRoutes exact={true} path="/quiz" component={QuizPage} />
+          <PrivateRoutes
+            exact={true}
+            path="/quiz/add"
+            component={AddQuizPage}
+          />
           <PrivateRoutes
             exact={true}
             path="/quiz/start/:slug"

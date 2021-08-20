@@ -7,7 +7,7 @@ const ResultsPage = () => {
   const history = useHistory();
   const location = useLocation();
   useEffect(() => {
-    if (!location.state) history.push("/");
+    if (!location.state) history.push("/quiz");
   }, [history, location]);
 
   return !location.state ? (

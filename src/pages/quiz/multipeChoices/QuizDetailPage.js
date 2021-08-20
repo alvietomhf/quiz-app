@@ -7,9 +7,9 @@ import { token } from "../../../config/token";
 import instance from "../../../actions/instance";
 
 const QuizDetailPage = () => {
+  const { slug } = useParams();
   const history = useHistory();
   const [currentIndex, setCurrentIndex] = useState(0);
-  const { slug } = useParams();
   const [error, setError] = useState(false);
   const [message, setMessage] = useState("");
   const [quiz, setQuiz] = useState([{}]);
@@ -18,7 +18,7 @@ const QuizDetailPage = () => {
     false: 0,
   });
 
-  const { question, options = [] } = quiz[currentIndex];
+  const { image, question, options = [] } = quiz[currentIndex];
 
   const MINUTES = 120 * 60;
   const time = new Date();
@@ -37,7 +37,6 @@ const QuizDetailPage = () => {
         },
       })
       .then((response) => {
-        console.log(response);
         const data = response.data.data.questions;
         setQuiz(data);
       })
@@ -48,7 +47,7 @@ const QuizDetailPage = () => {
           setMessage(responseMessage);
           console.log(responseMessage);
           setTimeout(() => {
-            history.push("/quiz/dev");
+            history.push("/quiz");
           }, 4000);
         }
       });
@@ -141,6 +140,7 @@ const QuizDetailPage = () => {
           ))}
         </div>
       </div>
+      <img src={`http://localhost:8000/assets/images/quiz/${image}`} alt='imagequiz' />
       <div className="card">
         <div
           className="card-header bg-white font-weight-bold"
