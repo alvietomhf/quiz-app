@@ -17,6 +17,7 @@ const postQuiz = (postData) =>
     method: "post",
     headers: {
       Authorization: "Bearer " + token(),
+      "Content-Type": "multipart/form-data",
     },
   });
 
@@ -32,7 +33,7 @@ const deleteQuiz = (slug) =>
 const apiQuiz = {
   index,
   deleteQuiz,
-  postQuiz
+  postQuiz,
 };
 
 export default apiQuiz;

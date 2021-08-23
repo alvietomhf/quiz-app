@@ -9,6 +9,7 @@ import QuizPage from "./pages/quiz/multipeChoices/QuizPage";
 import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
 import EssayPage from "./pages/quiz/uploadFiles/EssayPage";
 import AddQuizPage from "./pages/quiz/multipeChoices/AddQuizPage";
+import AddQuizPageAlt from "./pages/quiz/multipeChoices/AddQuizPageAlt";
 // import My404Component from "./pages/general/guest/My404Component";
 
 const ResultsPage = lazy(() =>
@@ -21,6 +22,7 @@ const PurposePage = lazy(() =>
 const ProfilePage = lazy(() =>
   import("./pages/general/authenticated/ProfilePage")
 );
+const SiswaPage = lazy(() => import("./pages/user/students/SiswaPage"));
 
 const App = () => {
   return (
@@ -49,6 +51,7 @@ const App = () => {
             component={ResultsPage}
           />
           <PrivateRoutes exact={true} path="/essay" component={EssayPage} />
+          <PrivateRoutes exact={true} path="/siswa" component={SiswaPage} />
         </Suspense>
       </Switch>
     </BrowserRouter>

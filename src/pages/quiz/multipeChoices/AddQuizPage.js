@@ -16,19 +16,25 @@ import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
 import apiQuiz from "../../../actions/quiz/quiz";
 
-const AddQuizPage = (props) => {
+const AddQuizPage = () => {
   const FormikRef = createRef();
-  const [value, setValue] = useState(0);
+  // const [value, setValue] = useState(0);
   const [fileName, setFileName] = useState("");
-  const emptyOptions = { title: "", correct: 0 };
-  const emptyQuestions = {
-    question: "",
-    image: "",
-    options: [emptyOptions],
-  };
+  // const emptyOptions = { title: "", correct: 0 };
+  // const emptyQuestions = {
+  //   question: "",
+  //   image: "",
+  //   options: [emptyOptions],
+  // };
   const initialValues = {
     title: "",
-    questions: [emptyQuestions],
+    questions: [
+      {
+        question: "test",
+        image: "",
+        options: [{ title: "test", correct: 0 }],
+      },
+    ],
     type: "quiz",
   };
 
@@ -36,36 +42,79 @@ const AddQuizPage = (props) => {
     title: Yup.string().required("Required"),
   });
 
-  const onChange = (e, index) => {
-    const files = e.target.files;
+  const onChangeImage = (e, index) => {
+    const files = e.target.files || e.dataTransfer.files;
     if (!files.length) return;
-    createImage(files[0], index);
+    // createImage(files[0], index);
+    // const image = {
+    //   fileName: files[0].name,
+    //   type: files[0].type,
+    //   size: `${files[0].size} bytes`,
+    // };
+    FormikRef.current.setFieldValue(index, files[0]);
+    // console.log(files[0]);
+    // createImage(files[0], index);
   };
+  // const onChangeImage = (e, index) => {
+  //   e.preventDefault();
+  //   const file = e.target.files[0];
+  //   const fd = new FormData().append('image', file)
+
+  //   FormikRef.current.setFieldValue(index, fd);
+  //   console.log(fd)
+  // };
+
   const createImage = (file, index) => {
     let reader = new FileReader();
     reader.onload = (e) => {
       FormikRef.current.setFieldValue(index, e.target.result);
-      setFileName(file.name)
-      console.log(file.name)
-      console.log(reader)
+      setFileName(file.name);
     };
     reader.readAsDataURL(file);
-    // e.preventDefault();
-    // const data = new FormData();
-    // const fd = data.append('image', file)
-    // FormikRef.current.setFieldValue(index, fd);
+  };
+
+  const buildFormData = (formData, data, parentKey) => {
+    if (
+      data &&
+      typeof data === "object" &&
+      !(data instanceof Date) &&
+      !(data instanceof File) &&
+      !(data instanceof Blob)
+    ) {
+      Object.keys(data).forEach((key) => {
+        buildFormData(
+          formData,
+          data[key],
+          parentKey ? `${parentKey}[${key}]` : key
+        );
+      });
+    } else {
+      const value = data == null ? "" : data;
+
+      formData.append(parentKey, value);
+    }
+  };
+
+  const jsonToFormData = (data) => {
+    const formData = new FormData();
+    buildFormData(formData, data);
+    return formData;
   };
 
   const onSubmit = async (values) => {
-    const response = apiQuiz.postQuiz(values);
-    console.log(response);
+    const formData = jsonToFormData(values);
+    for (var pair of formData.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
+    // console.log(values);
+    apiQuiz.postQuiz(formData);
     FormikRef.current.setSubmitting(false);
     FormikRef.current.resetForm();
   };
 
   const classes = useStyles();
 
-  console.log(value);
+  // console.log(value);
 
   return (
     <Grid className={classes.root}>
@@ -150,7 +199,11 @@ const AddQuizPage = (props) => {
                                     </Fragment>
                                   ))}
                                   <Grid item xs={12} sm="auto">
-                                    <Button onClick={() => push(emptyOptions)}>
+                                    <Button
+                                      onClick={() =>
+                                        push({ title: "", correct: 0 })
+                                      }
+                                    >
                                       Add
                                     </Button>
                                   </Grid>
@@ -161,15 +214,22 @@ const AddQuizPage = (props) => {
                               <Button variant="outlined" component="label">
                                 Tambahkan Gambar
                                 <input
-                                  name={`questions[${i}].image`}
                                   type="file"
                                   hidden
-                                  onChange={(e) =>
-                                    onChange(e, `questions[${i}].image`)
-                                  }
+                                  name={`questions[${i}].image`}
+                                  // onChange={(e) =>
+                                  //   onChangeImage(e, `questions[${i}].image`)
+                                  // }
+                                  onChange={(event) => {
+                                    setFieldValue(
+                                      `questions[${i}].image`,
+                                      event.currentTarget.files[0]
+                                    );
+                                  }}
+                                  // onChange={onChangeImage}
                                 />
                               </Button>
-                              {/* {question.image} */}
+                              {/* {question.image.name} */}
                               {fileName}
                             </div>
                           </Grid>
@@ -177,7 +237,13 @@ const AddQuizPage = (props) => {
                         <Grid item xs={12} sm="auto">
                           <Button
                             disabled={isSubmitting}
-                            onClick={() => push(emptyQuestions)}
+                            onClick={() =>
+                              push({
+                                question: "",
+                                image: "",
+                                options: [{ title: "", correct: 0 }],
+                              })
+                            }
                           >
                             Add
                           </Button>
@@ -241,3 +307,35 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default Layout(AddQuizPage);
+
+// data.append("title", values.title);
+// data.append("type", values.type);
+// for (let i = 0; i < values.questions.length; i++) {
+//   data.append(`questions[${i}]`, values.questions[i]);
+// }
+// for (let key in values) {
+//   if (typeof values[key] === "object") {
+//     for (let subKey in values[key]) {
+//       data.append(`${key}.${subKey}`, values[key][subKey]);
+//     }
+//   } else {
+//     data.append(key, values[key]);
+//   }
+// }
+// for (let i = 0; i < values; i++) {
+//   data.append(i, values[i]);
+//   for (let j = 0; j < values[i].length; j++) {}
+// }
+// console.log(formData);
+// apiQuiz.postQuiz(formData);
+// console.log(response);
+//["apple", "ball", "cat"]
+// console.log(response);
+// console.log(values);
+// data.append("title", values.title);
+// data.append("type", values.type);
+// data.append("questions[0]", values.questions[0]);
+// data.append("question", values.questions[0].question);
+// values.questions.forEach((item, index) => {
+//   data.append("question", item[index]["question"]);
+// });

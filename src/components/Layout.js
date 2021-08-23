@@ -241,6 +241,7 @@ const Layout = (Component) => {
               {auth.isAuthenticated && access.accessToken && (
                 <div>
                   <IconButton
+                    className={classes.accountCircle}
                     aria-label="account of current user"
                     aria-controls="menu-appbar"
                     aria-haspopup="true"
