@@ -18,14 +18,6 @@ import apiQuiz from "../../../actions/quiz/quiz";
 
 const AddQuizPage = () => {
   const FormikRef = createRef();
-  // const [value, setValue] = useState(0);
-  const [fileName, setFileName] = useState("");
-  // const emptyOptions = { title: "", correct: 0 };
-  // const emptyQuestions = {
-  //   question: "",
-  //   image: "",
-  //   options: [emptyOptions],
-  // };
   const initialValues = {
     title: "",
     questions: [
@@ -41,37 +33,6 @@ const AddQuizPage = () => {
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Required"),
   });
-
-  const onChangeImage = (e, index) => {
-    const files = e.target.files || e.dataTransfer.files;
-    if (!files.length) return;
-    // createImage(files[0], index);
-    // const image = {
-    //   fileName: files[0].name,
-    //   type: files[0].type,
-    //   size: `${files[0].size} bytes`,
-    // };
-    FormikRef.current.setFieldValue(index, files[0]);
-    // console.log(files[0]);
-    // createImage(files[0], index);
-  };
-  // const onChangeImage = (e, index) => {
-  //   e.preventDefault();
-  //   const file = e.target.files[0];
-  //   const fd = new FormData().append('image', file)
-
-  //   FormikRef.current.setFieldValue(index, fd);
-  //   console.log(fd)
-  // };
-
-  const createImage = (file, index) => {
-    let reader = new FileReader();
-    reader.onload = (e) => {
-      FormikRef.current.setFieldValue(index, e.target.result);
-      setFileName(file.name);
-    };
-    reader.readAsDataURL(file);
-  };
 
   const buildFormData = (formData, data, parentKey) => {
     if (
@@ -90,31 +51,44 @@ const AddQuizPage = () => {
       });
     } else {
       const value = data == null ? "" : data;
-
+      console.log(value);
       formData.append(parentKey, value);
     }
   };
 
   const jsonToFormData = (data) => {
+    // console.log(data);
     const formData = new FormData();
     buildFormData(formData, data);
     return formData;
   };
+
+  const onChangeImage = (e, index) => {
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length) return;
+    FormikRef.current.setFieldValue(index, files[0]);
+  };
+
+  // const createImage = (file, index) => {
+  //   let reader = new FileReader();
+  //   reader.onload = (e) => {
+  //     FormikRef.current.setFieldValue(index, e.target.result);
+  //   };
+  //   reader.readAsDataURL(file);
+  // };
 
   const onSubmit = async (values) => {
     const formData = jsonToFormData(values);
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    // console.log(values);
+    // console.log(formData);
     apiQuiz.postQuiz(formData);
     FormikRef.current.setSubmitting(false);
     FormikRef.current.resetForm();
   };
 
   const classes = useStyles();
-
-  // console.log(value);
 
   return (
     <Grid className={classes.root}>
@@ -216,21 +190,31 @@ const AddQuizPage = () => {
                                 <input
                                   type="file"
                                   hidden
-                                  name={`questions[${i}].image`}
-                                  // onChange={(e) =>
-                                  //   onChangeImage(e, `questions[${i}].image`)
-                                  // }
+                                  accept="image/*"
                                   onChange={(event) => {
-                                    setFieldValue(
-                                      `questions[${i}].image`,
-                                      event.currentTarget.files[0]
+                                    //   const files = event.target.files;
+                                    //   let myFiles = Array.from(files);
+                                    //   setFieldValue(
+                                    //     `questions[${i}].image`,
+                                    //     myFiles
+                                    //   );
+                                    // setFieldValue(
+                                    //   `questions[${i}].image`,
+                                    //   event.target.files[0]
+                                    // );
+                                    onChangeImage(
+                                      event,
+                                      `questions[${i}].image`
                                     );
                                   }}
-                                  // onChange={onChangeImage}
                                 />
                               </Button>
-                              {/* {question.image.name} */}
-                              {fileName}
+                              {question.image.name}
+                              <img
+                                src={question.image}
+                                style={{ width: 120 }}
+                                alt="Image"
+                              />
                             </div>
                           </Grid>
                         </Grid>
