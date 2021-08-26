@@ -1,25 +1,21 @@
 import React, { createRef, Fragment, useState } from "react";
-import {
-  Button,
-  CircularProgress,
-  TextField,
-  Grid,
-  Paper,
-  Typography,
-  RadioGroup,
-  FormControlLabel,
-} from "@material-ui/core";
-import Radio from "@material-ui/core/Radio";
+import { Button, TextField, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../../components/Layout";
 import { Formik, Form, Field, ErrorMessage, FieldArray } from "formik";
 import * as Yup from "yup";
 import apiQuiz from "../../../actions/quiz/quiz";
+import DatePicker from "../../../components/DatePickers";
+import { buildFormData } from "../../../components/BuildFormData";
 
 const AddQuizPage = () => {
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toLocaleDateString()
+  );
   const FormikRef = createRef();
   const initialValues = {
     title: "",
+    deadline: "",
     questions: [
       {
         question: "test",
@@ -34,33 +30,15 @@ const AddQuizPage = () => {
     title: Yup.string().required("Required"),
   });
 
-  const buildFormData = (formData, data, parentKey) => {
-    if (
-      data &&
-      typeof data === "object" &&
-      !(data instanceof Date) &&
-      !(data instanceof File) &&
-      !(data instanceof Blob)
-    ) {
-      Object.keys(data).forEach((key) => {
-        buildFormData(
-          formData,
-          data[key],
-          parentKey ? `${parentKey}[${key}]` : key
-        );
-      });
-    } else {
-      const value = data == null ? "" : data;
-      console.log(value);
-      formData.append(parentKey, value);
-    }
-  };
-
   const jsonToFormData = (data) => {
-    // console.log(data);
     const formData = new FormData();
     buildFormData(formData, data);
     return formData;
+  };
+
+  const onChangeDate = (values) => {
+    setSelectedDate(values);
+    FormikRef.current.setFieldValue("deadline", selectedDate);
   };
 
   const onChangeImage = (e, index) => {
@@ -69,20 +47,11 @@ const AddQuizPage = () => {
     FormikRef.current.setFieldValue(index, files[0]);
   };
 
-  // const createImage = (file, index) => {
-  //   let reader = new FileReader();
-  //   reader.onload = (e) => {
-  //     FormikRef.current.setFieldValue(index, e.target.result);
-  //   };
-  //   reader.readAsDataURL(file);
-  // };
-
   const onSubmit = async (values) => {
     const formData = jsonToFormData(values);
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    // console.log(formData);
     apiQuiz.postQuiz(formData);
     FormikRef.current.setSubmitting(false);
     FormikRef.current.resetForm();
@@ -111,6 +80,11 @@ const AddQuizPage = () => {
                 fullWidth
                 error={errors.title && touched.title}
                 helperText={<ErrorMessage name="quiz" />}
+              />
+              <DatePicker
+                name="deadline"
+                onChangeDate={onChangeDate}
+                selectedDate={selectedDate}
               />
               <FieldArray name="questions">
                 {({ push, remove }) => (
@@ -192,16 +166,6 @@ const AddQuizPage = () => {
                                   hidden
                                   accept="image/*"
                                   onChange={(event) => {
-                                    //   const files = event.target.files;
-                                    //   let myFiles = Array.from(files);
-                                    //   setFieldValue(
-                                    //     `questions[${i}].image`,
-                                    //     myFiles
-                                    //   );
-                                    // setFieldValue(
-                                    //   `questions[${i}].image`,
-                                    //   event.target.files[0]
-                                    // );
                                     onChangeImage(
                                       event,
                                       `questions[${i}].image`
@@ -210,11 +174,6 @@ const AddQuizPage = () => {
                                 />
                               </Button>
                               {question.image.name}
-                              <img
-                                src={question.image}
-                                style={{ width: 120 }}
-                                alt="Image"
-                              />
                             </div>
                           </Grid>
                         </Grid>
@@ -291,35 +250,3 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default Layout(AddQuizPage);
-
-// data.append("title", values.title);
-// data.append("type", values.type);
-// for (let i = 0; i < values.questions.length; i++) {
-//   data.append(`questions[${i}]`, values.questions[i]);
-// }
-// for (let key in values) {
-//   if (typeof values[key] === "object") {
-//     for (let subKey in values[key]) {
-//       data.append(`${key}.${subKey}`, values[key][subKey]);
-//     }
-//   } else {
-//     data.append(key, values[key]);
-//   }
-// }
-// for (let i = 0; i < values; i++) {
-//   data.append(i, values[i]);
-//   for (let j = 0; j < values[i].length; j++) {}
-// }
-// console.log(formData);
-// apiQuiz.postQuiz(formData);
-// console.log(response);
-//["apple", "ball", "cat"]
-// console.log(response);
-// console.log(values);
-// data.append("title", values.title);
-// data.append("type", values.type);
-// data.append("questions[0]", values.questions[0]);
-// data.append("question", values.questions[0].question);
-// values.questions.forEach((item, index) => {
-//   data.append("question", item[index]["question"]);
-// });

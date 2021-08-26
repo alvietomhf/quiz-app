@@ -9,8 +9,6 @@ import QuizPage from "./pages/quiz/multipeChoices/QuizPage";
 import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
 import EssayPage from "./pages/quiz/uploadFiles/EssayPage";
 import AddQuizPage from "./pages/quiz/multipeChoices/AddQuizPage";
-import AddQuizPageAlt from "./pages/quiz/multipeChoices/AddQuizPageAlt";
-// import My404Component from "./pages/general/guest/My404Component";
 
 const ResultsPage = lazy(() =>
   import("./pages/quiz/multipeChoices/ResultsPage")
