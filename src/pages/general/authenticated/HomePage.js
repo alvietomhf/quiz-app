@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
@@ -13,6 +13,11 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import UserFeed from "../../../components/UserFeed";
 import UserOnline from "../../../components/UserOnline";
+// import apiFeeds from "../../../actions/feeds/feedsAction";
+import instance from "../../../actions/instance";
+import { token } from "../../../config/token";
+import PostFeed from "../../../components/PostFeed";
+import { Form, Formik } from "formik";
 
 const Home = (props) => {
   const userOnline = [
@@ -38,6 +43,41 @@ const Home = (props) => {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
     },
   ];
+
+  const [feeds, setFeeds] = useState([]);
+
+  useEffect(() => {
+    const fetchFeeds = async () => {
+      instance
+        .get("/api/feeds", {
+          headers: {
+            Authorization: "Bearer " + token(),
+          },
+        })
+        .then((response) => {
+          const data = response.data.data;
+          // const sortedData = data.sort((a, b) => {
+          //   const idA = a.id;
+          //   const idB = b.id;
+          //   // const dateA = new Date(a.created_at);
+          //   // const dateB = new Date(b.created_at);
+          //   if (idA < idB) return -1;
+          //   if (idA > idB) return 1;
+          //   console.log(idA);
+          //   console.log(idB);
+          //   return idA - idB;
+          // });
+          // const da
+          // console.log(sortedData);
+          setFeeds(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    fetchFeeds();
+  }, []);
+
   const classes = useStyles();
   return (
     <div>
@@ -56,7 +96,7 @@ const Home = (props) => {
                     style={{ padding: 5 }}
                     avatar={
                       <Avatar
-                        src="https://i.imgur.com/iJq78XH.jpg"
+                        src={`http://localhost:8000/assets/images/avatar/${props.auth.data.avatar}`}
                         aria-label="recipe"
                         className={classes.avatar}
                       />
@@ -66,7 +106,7 @@ const Home = (props) => {
                         variant="body1"
                         style={{ fontSize: 20, margin: 0 }}
                       >
-                        Yeremia Alfa {props.auth.data.name}
+                        {props.auth.data.name}
                         <br />
                       </Typography>
                     }
@@ -76,7 +116,7 @@ const Home = (props) => {
                         style={{ fontSize: 12, margin: 0 }}
                         gutterBottom
                       >
-                        raikkonen{props.auth.data.email}
+                        {props.auth.data.email}
                       </Typography>
                     }
                   />
@@ -126,55 +166,27 @@ const Home = (props) => {
                         </Typography>
                       }
                     />
-                    {/* <Typography variant="h4" gutterBottom>
-                      Hello, {props.auth.data.name}
-                      {props.auth.data.role === "guru" && (
-                        <Button variant="contained">Edit Guru</Button>
-                      )}
-                    </Typography> */}
                   </Grid>
                   <Grid item xs={12} style={{ width: "100%" }}>
-                    <TextareaAutosize
-                      maxRows={4}
-                      style={{
-                        width: "100%",
-                        minHeight: 100,
-                        border: "1px solid rgba(163, 163, 163, 0.5)",
-                        resize: "none",
-                        padding: 10,
-                        borderRadius: 5,
-                        fontFamily: "Nunito",
-                        marginBottom: 10,
-                      }}
-                      aria-label="maximum height"
-                      placeholder="Apa yang anda pikirkan?"
-                    />
-                    <div style={{ display: "flex" }}>
-                      <Button variant="outlined" component="label">
-                        Tambahkan File
-                        <input type="file" hidden />
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        style={{ padding: "5px 25px", marginLeft: "auto" }}
-                      >
-                        Kirim
-                      </Button>
-                    </div>
+                    <PostFeed />
                   </Grid>
                 </Grid>
               </Paper>
-              {userOnline.map((user) => {
+              {feeds.map((feed) => {
                 return (
                   <UserFeed
-                    key={user.id}
-                    name={user.name}
-                    email={user.email}
-                    caption={user.caption}
+                    key={feed.id}
+                    name={feed.user.name}
+                    image={feed.image}
+                    caption={feed.message}
                   />
                 );
               })}
+              {/* {feeds.sort((a, b) => {
+                const dateA = new Date(a.created_at);
+                const dateB = new Date(b.created_at);
+                return dateA - dateB;
+              })} */}
             </Grid>
             <Grid item className={classes.gridUserOnline}>
               <Paper className={classes.userOnlinePaper}>

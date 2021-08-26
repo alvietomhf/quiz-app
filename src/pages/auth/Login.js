@@ -92,7 +92,7 @@ const Login = (props) => {
                   variant="h3"
                   gutterBottom
                 >
-                  Sign Up
+                  Sign In
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
                   Silahkan masukkan kredensial untuk akses akun anda
@@ -163,7 +163,7 @@ const Login = (props) => {
                 {props.isSubmitting ? (
                   <CircularProgress size={24} />
                 ) : (
-                  "Sign in"
+                  "Login"
                 )}
               </Button>
               <Snackbar

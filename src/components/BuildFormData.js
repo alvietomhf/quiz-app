@@ -15,7 +15,6 @@ export const buildFormData = (formData, data, parentKey) => {
     });
   } else {
     const value = data == null ? "" : data;
-    console.log(value);
     formData.append(parentKey, value);
   }
 };

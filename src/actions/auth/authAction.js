@@ -8,6 +8,19 @@ import {
 } from "../../constants/types";
 import { token } from "../../config/token";
 
+export const registerUser = (data, role) => {
+  instance
+    .post(`api/register/${role}`, data)
+    .then((response) => {
+      const res = response.data;
+      console.log(res);
+    })
+    .catch((error) => {
+      const message = error.response.data.message;
+      console.log(message);
+    });
+};
+
 export const loginUser = (data) => (dispatch) => {
   instance.get("sanctum/csrf-cookie").then(() => {
     instance
@@ -22,7 +35,7 @@ export const loginUser = (data) => (dispatch) => {
           type: SAVE_ACCESS,
           payload: res.data.token,
         });
-        console.clear()
+        console.clear();
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -39,7 +52,6 @@ export const loginUser = (data) => (dispatch) => {
 };
 
 export const logOut = (dispatch) => {
-  // const token = Cookies.get("access");
   instance({
     url: "/api/logout",
     method: "post",
@@ -56,8 +68,7 @@ export const logOut = (dispatch) => {
         type: REMOVE_ACCESS,
         payload: {},
       });
-      // Cookies.remove("access");
-      console.clear()
+      console.clear();
     })
     .catch((error) => {
       dispatch({

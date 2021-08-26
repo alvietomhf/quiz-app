@@ -22,7 +22,6 @@ const QuizPage = (props) => {
 
   const deleteQuiz = async (slug) => {
     const response = await apiQuiz.deleteQuiz(slug);
-    window.location.reload();
     console.log(response);
   };
 

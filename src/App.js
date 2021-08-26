@@ -1,14 +1,13 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Login from "./pages/auth/Login";
-// import LoadingProgress from "./components/lazyLoad/LoadingProgress";
 import PrivateRoutes from "./routes/PrivateRoutes";
 import LandingPage from "./pages/general/guest/LandingPage";
 import CircularLoading from "./components/lazyLoad/CircularLoading";
 import QuizPage from "./pages/quiz/multipeChoices/QuizPage";
 import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
-import EssayPage from "./pages/quiz/uploadFiles/EssayPage";
 import AddQuizPage from "./pages/quiz/multipeChoices/AddQuizPage";
+import Register from "./pages/auth/Register";
 
 const ResultsPage = lazy(() =>
   import("./pages/quiz/multipeChoices/ResultsPage")
@@ -28,6 +27,7 @@ const App = () => {
       <Switch>
         <Route exact={true} path="/" component={LandingPage} />
         <Route exact={true} path="/login" component={Login} />
+        <Route exact={true} path="/register" component={Register} />
         <Suspense fallback={<CircularLoading />}>
           <PrivateRoutes exact={true} path="/home" component={HomePage} />
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
@@ -48,7 +48,6 @@ const App = () => {
             path="/quiz/result"
             component={ResultsPage}
           />
-          <PrivateRoutes exact={true} path="/essay" component={EssayPage} />
           <PrivateRoutes exact={true} path="/siswa" component={SiswaPage} />
         </Suspense>
       </Switch>

@@ -10,13 +10,13 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import AccountCircle from "@material-ui/icons/AccountCircle";
+// import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import HomeIcon from "@material-ui/icons/Home";
 import IconButton from "@material-ui/core/IconButton";
-import { Hidden } from "@material-ui/core";
+import { Avatar, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Collapse from "@material-ui/core/Collapse";
 import AssignmentIcon from "@material-ui/icons/Assignment";
@@ -248,7 +248,11 @@ const Layout = (Component) => {
                     onClick={handleMenu}
                     color="inherit"
                   >
-                    <AccountCircle />
+                    {/* <AccountCircle /> */}
+                    <Avatar
+                      alt="Profile Icon"
+                      src={`http://localhost:8000/assets/images/avatar/${auth.data.avatar}`}
+                    />
                   </IconButton>
                   <Menu
                     id="menu-appbar"

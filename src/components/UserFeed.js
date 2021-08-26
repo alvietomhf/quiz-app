@@ -13,7 +13,7 @@ import {
 import { MoreVert } from "@material-ui/icons";
 import ReactReadMoreReadLess from "react-read-more-read-less";
 
-const UserFeed = ({ name, email, caption, styleAvatar }) => {
+const UserFeed = ({ name, image, caption, styleAvatar }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -52,9 +52,8 @@ const UserFeed = ({ name, email, caption, styleAvatar }) => {
           <Avatar
             style={{
               width: 40,
-              height: "auto",
+              height: 40,
             }}
-            src="https://i.imgur.com/iJq78XH.jpg"
             aria-label="recipe"
             className={styleAvatar}
           />
@@ -71,32 +70,21 @@ const UserFeed = ({ name, email, caption, styleAvatar }) => {
             <br />
           </Typography>
         }
-        subheader={
-          <Typography
-            style={{
-              overflow: "hidden",
-              wordBreak: "break-all",
-            }}
-            variant="inherit"
-          >
-            {email}
-          </Typography>
-        }
       />
       <CardMedia
         component="img"
-        image="https://picsum.photos/seed/picsum/1600/900"
+        image={`http://localhost:8000/assets/images/feed/${image}`}
       />
       <CardContent>
-      <ReactReadMoreReadLess
-        charLimit={200}
-        readMoreText={"Read more"}
-        readLessText={"Read less"}
-        readMoreClassName="read-more-less--more"
-        readLessClassName="read-more-less--less"
-      >
-        {caption}
-      </ReactReadMoreReadLess>
+        <ReactReadMoreReadLess
+          charLimit={200}
+          readMoreText={"Read more"}
+          readLessText={"Read less"}
+          readMoreClassName="read-more-less--more"
+          readLessClassName="read-more-less--less"
+        >
+          {caption}
+        </ReactReadMoreReadLess>
       </CardContent>
     </Card>
   );

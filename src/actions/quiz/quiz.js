@@ -10,11 +10,22 @@ const index = (type) =>
     },
   });
 
-const postQuiz = (postData) =>
+const postQuiz = (data) =>
   instance({
     url: `/api/guru/quizzes`,
-    data: postData,
+    data: data,
     method: "post",
+    headers: {
+      Authorization: "Bearer " + token(),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
+const updateQuiz = (data) =>
+  instance({
+    url: `/api/guru/quizzes`,
+    data: data,
+    method: "put",
     headers: {
       Authorization: "Bearer " + token(),
       "Content-Type": "multipart/form-data",
@@ -34,6 +45,7 @@ const apiQuiz = {
   index,
   deleteQuiz,
   postQuiz,
+  updateQuiz
 };
 
 export default apiQuiz;
