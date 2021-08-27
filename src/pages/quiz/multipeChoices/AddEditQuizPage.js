@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useState } from "react";
+import React, { createRef, Fragment, useState, useEffect } from "react";
 import { Button, TextField, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../../components/Layout";
@@ -7,18 +7,24 @@ import * as Yup from "yup";
 import apiQuiz from "../../../actions/quiz/quiz";
 import DatePicker from "../../../components/DatePickers";
 import { buildFormData } from "../../../components/BuildFormData";
+import { token } from "../../../config/token";
+import { useHistory, useParams } from "react-router-dom";
+import instance from "../../../actions/instance";
 
-const AddQuizPage = () => {
+const AddEditQuizPage = () => {
   const [selectedDate, setSelectedDate] = useState();
+  const { slug } = useParams();
+  const isAddMode = !slug;
   const FormikRef = createRef();
+  const history = useHistory();
   const initialValues = {
     title: "",
-    deadline: "2021-01-01",
+    deadline: "",
     questions: [
       {
-        question: "test",
+        question: "",
         image: "",
-        options: [{ title: "test", correct: 0 }],
+        options: [{ title: "", correct: 0 }],
       },
     ],
     type: "quiz",
@@ -28,8 +34,45 @@ const AddQuizPage = () => {
     title: Yup.string().required("Required"),
   });
 
+  useEffect(() => {
+    if (!isAddMode) {
+      const getQuizDetail = async () => {
+        instance
+          .get(`/api/quizzes/${slug}`, {
+            headers: {
+              Authorization: "Bearer " + token(),
+            },
+          })
+          .then((response) => {
+            const res = response.data.data;
+            const quizField = ["title", "deadline", "questions", "type"];
+            quizField.forEach((field) =>
+              FormikRef.current.setFieldValue(field, res[field], false)
+            );
+            // res.questions.map((question, index) => {
+            //   const fields = [
+            //     `questions[${index}]question`,
+            //     "image",
+            //     `options[${index}].title`,
+            //     `options[${index}].correct`,
+            //   ];
+            //   return fields.forEach((field) =>
+            //     FormikRef.current.setFieldValue(field, question[field], false)
+            //   );
+            // });
+            console.log(quizField);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      };
+      getQuizDetail();
+    }
+  }, [history, slug, isAddMode]);
+
   const jsonToFormData = (data) => {
     const formData = new FormData();
+    formData.append("_method", "put");
     buildFormData(formData, data);
     return formData;
   };
@@ -64,9 +107,13 @@ const AddQuizPage = () => {
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    apiQuiz.postQuiz(formData);
+    if (isAddMode) {
+      await apiQuiz.postQuiz(formData);
+      FormikRef.current.resetForm();
+    } else {
+      await apiQuiz.updateQuiz(formData, slug);
+    }
     FormikRef.current.setSubmitting(false);
-    FormikRef.current.resetForm();
   };
 
   const classes = useStyles();
@@ -79,6 +126,7 @@ const AddQuizPage = () => {
           className={classes.form}
           initialValues={initialValues}
           validationSchema={validationSchema}
+          enableReinitialize={true}
           onSubmit={onSubmit}
         >
           {({ values, setFieldValue, errors, touched, isSubmitting }) => (
@@ -186,6 +234,16 @@ const AddQuizPage = () => {
                                 />
                               </Button>
                               {question.image.name}
+                              {!isAddMode ? (
+                                <div>
+                                  <img
+                                    src={`http://localhost:8000/assets/images/quiz/${question.image}`}
+                                    alt=""
+                                  />
+                                </div>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </Grid>
                         </Grid>
@@ -261,4 +319,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(AddQuizPage);
+export default Layout(AddEditQuizPage);

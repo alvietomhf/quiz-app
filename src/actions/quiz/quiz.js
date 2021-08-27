@@ -25,7 +25,7 @@ const updateQuiz = (putData, slug) =>
   instance({
     url: `/api/guru/quizzes/${slug}`,
     data: putData,
-    method: "put",
+    method: "post",
     headers: {
       Authorization: "Bearer " + token(),
       "Content-Type": "multipart/form-data",

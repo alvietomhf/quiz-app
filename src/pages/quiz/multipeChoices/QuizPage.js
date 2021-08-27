@@ -76,7 +76,9 @@ const QuizPage = (props) => {
                             <Fragment>
                               <Button
                                 onClick={() =>
-                                  history.push(`/quiz/update/${item.slug}`)
+                                  history.push(`/quiz/update/${item.slug}`, {
+                                    slug: item.slug,
+                                  })
                                 }
                                 variant="contained"
                                 color="default"

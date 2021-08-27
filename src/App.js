@@ -6,9 +6,9 @@ import LandingPage from "./pages/general/guest/LandingPage";
 import CircularLoading from "./components/lazyLoad/CircularLoading";
 import QuizPage from "./pages/quiz/multipeChoices/QuizPage";
 import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
-import AddQuizPage from "./pages/quiz/multipeChoices/AddQuizPage";
 import Register from "./pages/auth/Register";
-import UpdateQuizPage from "./pages/quiz/multipeChoices/UpdateQuizPage";
+import AddEditQuizPage from "./pages/quiz/multipeChoices/AddEditQuizPage";
+import EssayPage from "./pages/quiz/uploadFiles/EssayPage";
 
 const ResultsPage = lazy(() =>
   import("./pages/quiz/multipeChoices/ResultsPage")
@@ -29,31 +29,32 @@ const App = () => {
         <Route exact={true} path="/" component={LandingPage} />
         <Route exact={true} path="/login" component={Login} />
         <Route exact={true} path="/register" component={Register} />
+        <PrivateRoutes exact={true} path="/quiz" component={QuizPage} />
+        <PrivateRoutes
+          exact={true}
+          path="/quiz/add"
+          component={AddEditQuizPage}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/quiz/update/:slug"
+          component={AddEditQuizPage}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/quiz/start/:slug"
+          component={QuizDetailPage}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/quiz/result"
+          component={ResultsPage}
+        />
+        <PrivateRoutes exact={true} path="/essay" component={EssayPage} />
         <Suspense fallback={<CircularLoading />}>
           <PrivateRoutes exact={true} path="/home" component={HomePage} />
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
           <PrivateRoutes exact={true} path="/tujuan" component={PurposePage} />
-          <PrivateRoutes exact={true} path="/quiz" component={QuizPage} />
-          <PrivateRoutes
-            exact={true}
-            path="/quiz/add"
-            component={AddQuizPage}
-          />
-          <PrivateRoutes
-            exact={true}
-            path="/quiz/update/:slug"
-            component={UpdateQuizPage}
-          />
-          <PrivateRoutes
-            exact={true}
-            path="/quiz/start/:slug"
-            component={QuizDetailPage}
-          />
-          <PrivateRoutes
-            exact={true}
-            path="/quiz/result"
-            component={ResultsPage}
-          />
           <PrivateRoutes exact={true} path="/siswa" component={SiswaPage} />
         </Suspense>
       </Switch>
