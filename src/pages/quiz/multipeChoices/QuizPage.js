@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
+import { Fragment } from "react";
 
 const QuizPage = (props) => {
   const [quiz, setQuiz] = useState([]);
@@ -22,6 +23,7 @@ const QuizPage = (props) => {
 
   const deleteQuiz = async (slug) => {
     const response = await apiQuiz.deleteQuiz(slug);
+    window.location.reload();
     console.log(response);
   };
 
@@ -71,13 +73,24 @@ const QuizPage = (props) => {
                             Start Quiz
                           </Button>
                           {props.auth.data.role === "guru" && (
-                            <Button
-                              onClick={() => deleteQuiz(item.slug)}
-                              variant="contained"
-                              color="secondary"
-                            >
-                              Delete Quiz
-                            </Button>
+                            <Fragment>
+                              <Button
+                                onClick={() =>
+                                  history.push(`/quiz/update/${item.slug}`)
+                                }
+                                variant="contained"
+                                color="default"
+                              >
+                                Update Quiz
+                              </Button>
+                              <Button
+                                onClick={() => deleteQuiz(item.slug)}
+                                variant="contained"
+                                color="secondary"
+                              >
+                                Delete Quiz
+                              </Button>
+                            </Fragment>
                           )}
                         </Grid>
                       </CardContent>

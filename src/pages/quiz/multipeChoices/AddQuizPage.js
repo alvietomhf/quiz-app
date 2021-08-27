@@ -9,13 +9,11 @@ import DatePicker from "../../../components/DatePickers";
 import { buildFormData } from "../../../components/BuildFormData";
 
 const AddQuizPage = () => {
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toLocaleDateString()
-  );
+  const [selectedDate, setSelectedDate] = useState();
   const FormikRef = createRef();
   const initialValues = {
     title: "",
-    deadline: "",
+    deadline: "2021-01-01",
     questions: [
       {
         question: "test",
@@ -36,9 +34,23 @@ const AddQuizPage = () => {
     return formData;
   };
 
+  const formatDate = (date) => {
+    let d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  };
+
   const onChangeDate = (values) => {
     setSelectedDate(values);
-    FormikRef.current.setFieldValue("deadline", selectedDate);
+    const date = formatDate(values);
+    FormikRef.current.setFieldValue("deadline", date);
+    console.log(date);
   };
 
   const onChangeImage = (e, index) => {

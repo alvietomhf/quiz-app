@@ -10,10 +10,10 @@ const index = (type) =>
     },
   });
 
-const postQuiz = (data) =>
+const postQuiz = (postData) =>
   instance({
     url: `/api/guru/quizzes`,
-    data: data,
+    data: postData,
     method: "post",
     headers: {
       Authorization: "Bearer " + token(),
@@ -21,10 +21,10 @@ const postQuiz = (data) =>
     },
   });
 
-const updateQuiz = (data) =>
+const updateQuiz = (putData, slug) =>
   instance({
-    url: `/api/guru/quizzes`,
-    data: data,
+    url: `/api/guru/quizzes/${slug}`,
+    data: putData,
     method: "put",
     headers: {
       Authorization: "Bearer " + token(),
@@ -45,7 +45,7 @@ const apiQuiz = {
   index,
   deleteQuiz,
   postQuiz,
-  updateQuiz
+  updateQuiz,
 };
 
 export default apiQuiz;

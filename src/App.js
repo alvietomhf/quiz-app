@@ -8,6 +8,7 @@ import QuizPage from "./pages/quiz/multipeChoices/QuizPage";
 import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
 import AddQuizPage from "./pages/quiz/multipeChoices/AddQuizPage";
 import Register from "./pages/auth/Register";
+import UpdateQuizPage from "./pages/quiz/multipeChoices/UpdateQuizPage";
 
 const ResultsPage = lazy(() =>
   import("./pages/quiz/multipeChoices/ResultsPage")
@@ -37,6 +38,11 @@ const App = () => {
             exact={true}
             path="/quiz/add"
             component={AddQuizPage}
+          />
+          <PrivateRoutes
+            exact={true}
+            path="/quiz/update/:slug"
+            component={UpdateQuizPage}
           />
           <PrivateRoutes
             exact={true}

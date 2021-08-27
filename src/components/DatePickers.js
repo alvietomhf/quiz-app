@@ -13,7 +13,7 @@ const DatePicker = ({ name, onChangeDate, selectedDate }) => {
         name={name}
         disableToolbar
         variant="inline"
-        format="d/M/y"
+        format="yyyy/MM/dd"
         margin="normal"
         id="date-picker-inline"
         label="Date picker inline"
