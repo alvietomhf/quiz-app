@@ -6,8 +6,11 @@ import Layout from "../../../components/Layout";
 const ResultsPage = () => {
   const history = useHistory();
   const location = useLocation();
+  const resultQuiz = location.state.quiz;
+  const scoreQuiz = location.state.score;
   useEffect(() => {
     if (!location.state) history.push("/quiz");
+    console.log(location.state.quiz);
   }, [history, location]);
 
   return !location.state ? (
@@ -23,10 +26,10 @@ const ResultsPage = () => {
         }}
       >
         Quiz Summary Score:{" "}
-        <div className="text-success">{location.state.score.correct}</div>-{" "}
-        <div className="text-danger"> {location.state.score.false}</div>
+        <div className="text-success">{scoreQuiz.correct}</div>-{" "}
+        <div className="text-danger"> {scoreQuiz.false}</div>
       </h1>
-      {location.state.quiz.map((item, index) => (
+      {/* {resultQuiz.map((item, index) => (
         <div className="card mb-3" key={index}>
           <div className="card-header bg-white">
             <div className="font-weight-bold">No.{index + 1}</div>{" "}
@@ -57,6 +60,10 @@ const ResultsPage = () => {
               </div>
             ))}
           </div>
+          <img
+            src={`http://192.168.0.9:8000/assets/images/quiz/${item.image}`}
+            alt=""
+          />
           <div className="card-footer bg-white">
             {item.options.find(
               (option) => option.correct && option.selected === option.correct
@@ -72,14 +79,13 @@ const ResultsPage = () => {
                     "You don't answer this question"}
                 </div>
                 <div className="text-success">
-                  Correct Answer :{" "}
-                  {item.options.find((item) => item.correct).title}
+                  Correct Answer : {item.options.find((item) => item.correct).title}
                 </div>
               </>
             )}
           </div>
         </div>
-      ))}
+      ))} */}
     </div>
   );
 };

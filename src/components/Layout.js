@@ -251,7 +251,7 @@ const Layout = (Component) => {
                     {/* <AccountCircle /> */}
                     <Avatar
                       alt="Profile Icon"
-                      src={`http://localhost:8000/assets/images/avatar/${auth.data.avatar}`}
+                      src={`http://:3000/assets/images/avatar/${auth.data.avatar}`}
                     />
                   </IconButton>
                   <Menu

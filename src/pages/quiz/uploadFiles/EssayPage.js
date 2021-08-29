@@ -1,88 +1,119 @@
-import React, { createRef, useState } from "react";
-import { Fragment } from "react";
-import { Button, Paper, TextField } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Button,
+  Card,
+  Container,
+  CardContent,
+  makeStyles,
+} from "@material-ui/core";
+import React, { useState, useEffect, Fragment } from "react";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
-import { Field, FieldArray, Form, Formik } from "formik";
-import * as Yup from "yup";
-import DatePicker from "../../../components/DatePickers";
-import { formatDate } from "../../../components/formatDatePost";
+import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 
-const EssayPage = () => {
-  const [selectedDate, setSelectedDate] = useState();
-  const FormikRef = createRef();
-  const initialValues = {
-    title: "",
-    deadline: "",
-    questions: [
-      {
-        question: "",
-        image: "",
-      },
-    ],
-    type: "essay",
+const EssayPage = (props) => {
+  const [quiz, setQuiz] = useState([]);
+  const auth = useSelector((state) => state.auth);
+  const history = useHistory();
+  const [loading, setLoading] = useState(true);
+
+  const deleteQuiz = async (slug) => {
+    const response = await apiQuiz.deleteQuiz(slug);
+    window.location.reload();
+    console.log(response);
   };
 
-  const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Required"),
-  });
+  useEffect(() => {
+    const fetchDataQuiz = async () => {
+      const response = await apiQuiz.index("essay");
+      const data = response.data.data;
+      setQuiz(data);
+      setLoading(false);
+      console.log(data);
+    };
+    fetchDataQuiz();
+  }, [auth]);
 
-  const onChangeDate = (values) => {
-    setSelectedDate(values);
-    const date = formatDate(values);
-    FormikRef.current.setFieldValue("deadline", date);
-    console.log(date);
-  };
+  const classes = useStyles();
 
-  const onSubmit = async (values) => {
-    console.log(values);
-  };
   return (
-    <Fragment>
-      <Paper>
-        <Formik
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          innerRef={FormikRef}
-          validationSchema={validationSchema}
-        >
-          {(props) => (
-            <Form>
-              <Field
-                as={TextField}
-                variant="outlined"
-                label="title"
-                name="title"
-              />
-              <DatePicker
-                onChangeDate={onChangeDate}
-                selectedDate={selectedDate}
-                name="deadline"
-              />
-              <FieldArray name="questions">
-                <Fragment>
-                  <Field
-                    as={TextField}
-                    variant="outlined"
-                    label="Pertanyaan"
-                    name="questions[0].question"
-                  />
-                  <Field
-                    as={TextField}
-                    variant="outlined"
-                    label="gambar"
-                    name="questions[0].image"
-                  />
-                </Fragment>
-              </FieldArray>
-              <Button type="submit" variant="contained" color="primary">
-                Add Essay
-              </Button>
-            </Form>
+    <Container>
+      <Grid container className={classes.root} spacing={2}>
+        {props.auth.data.role === "guru" ? (
+          <Button variant="contained" onClick={() => history.push("/essay/add")}>
+            Add Essay
+          </Button>
+        ) : (
+          ""
+        )}
+        <Grid item xs={12}>
+          {loading ? (
+            <LoadingProgress />
+          ) : (
+            <div style={{ display: "flex" }}>
+              {quiz
+                .sort((a, b) => (a.title > b.title ? 1 : -1))
+                .map((item) => {
+                  return (
+                    <Card key={item.id} className={classes.cardQuizList}>
+                      <CardContent>
+                        <Typography variant="body1">{item.title}</Typography>
+                        <Grid container spacing={2}>
+                          <Button
+                            onClick={() =>
+                              history.push(`/essay/start/${item.slug}`)
+                            }
+                            variant="contained"
+                            color="primary"
+                          >
+                            Start Essay
+                          </Button>
+                          {props.auth.data.role === "guru" && (
+                            <Fragment>
+                              <Button
+                                onClick={() =>
+                                  history.push(`/essay/edit/${item.slug}`, {
+                                    slug: item.slug,
+                                  })
+                                }
+                                variant="contained"
+                                color="default"
+                              >
+                                Update Essay
+                              </Button>
+                              <Button
+                                onClick={() => deleteQuiz(item.slug)}
+                                variant="contained"
+                                color="secondary"
+                              >
+                                Delete Essay
+                              </Button>
+                            </Fragment>
+                          )}
+                        </Grid>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+            </div>
           )}
-        </Formik>
-      </Paper>
-    </Fragment>
+        </Grid>
+      </Grid>
+    </Container>
   );
 };
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  cardQuizList: {
+    margin: "0 10px",
+    width: 250,
+  },
+}));
 
 export default Layout(EssayPage);

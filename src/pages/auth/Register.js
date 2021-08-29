@@ -26,7 +26,7 @@ const Register = () => {
   const [role, setRole] = useState("");
   const auth = useSelector((state) => state.auth);
   //   const errors = useSelector((state) => state.errors);
-  const token = useSelector((state) => state.token);
+  const token = useSelector((state) => state.access);
   const history = useHistory();
   const handleChangeRole = (event) => {
     setRole(event.target.value);

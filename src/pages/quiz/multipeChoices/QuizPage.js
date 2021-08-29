@@ -36,6 +36,9 @@ const QuizPage = (props) => {
       console.log(data);
     };
     fetchDataQuiz();
+    setInterval(() => {
+      fetchDataQuiz();
+    }, 10000);
   }, [auth]);
 
   const classes = useStyles();
@@ -76,7 +79,7 @@ const QuizPage = (props) => {
                             <Fragment>
                               <Button
                                 onClick={() =>
-                                  history.push(`/quiz/update/${item.slug}`, {
+                                  history.push(`/quiz/edit/${item.slug}`, {
                                     slug: item.slug,
                                   })
                                 }

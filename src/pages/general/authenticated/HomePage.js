@@ -56,19 +56,6 @@ const Home = (props) => {
         })
         .then((response) => {
           const data = response.data.data;
-          // const sortedData = data.sort((a, b) => {
-          //   const idA = a.id;
-          //   const idB = b.id;
-          //   // const dateA = new Date(a.created_at);
-          //   // const dateB = new Date(b.created_at);
-          //   if (idA < idB) return -1;
-          //   if (idA > idB) return 1;
-          //   console.log(idA);
-          //   console.log(idB);
-          //   return idA - idB;
-          // });
-          // const da
-          // console.log(sortedData);
           setFeeds(data);
         })
         .catch((error) => {
@@ -76,6 +63,9 @@ const Home = (props) => {
         });
     };
     fetchFeeds();
+    setInterval(() => {
+      fetchFeeds();
+    }, 10000);
   }, []);
 
   const classes = useStyles();
@@ -96,7 +86,7 @@ const Home = (props) => {
                     style={{ padding: 5 }}
                     avatar={
                       <Avatar
-                        src={`http://localhost:8000/assets/images/avatar/${props.auth.data.avatar}`}
+                        src={`http://192.168.0.9:8000/assets/images/avatar/${props.auth.data.avatar}`}
                         aria-label="recipe"
                         className={classes.avatar}
                       />

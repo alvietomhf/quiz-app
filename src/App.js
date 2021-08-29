@@ -8,6 +8,7 @@ import QuizPage from "./pages/quiz/multipeChoices/QuizPage";
 import QuizDetailPage from "./pages/quiz/multipeChoices/QuizDetailPage";
 import Register from "./pages/auth/Register";
 import AddEditQuizPage from "./pages/quiz/multipeChoices/AddEditQuizPage";
+import AddEditEssayPage from "./pages/quiz/uploadFiles/AddEditEssayPage";
 import EssayPage from "./pages/quiz/uploadFiles/EssayPage";
 
 const ResultsPage = lazy(() =>
@@ -37,7 +38,7 @@ const App = () => {
         />
         <PrivateRoutes
           exact={true}
-          path="/quiz/update/:slug"
+          path="/quiz/edit/:slug"
           component={AddEditQuizPage}
         />
         <PrivateRoutes
@@ -47,8 +48,18 @@ const App = () => {
         />
         <PrivateRoutes
           exact={true}
-          path="/quiz/result"
-          component={ResultsPage}
+          path="/essay/start/:slug"
+          component={QuizDetailPage}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/essay/add"
+          component={AddEditEssayPage}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/essay/edit/:slug"
+          component={AddEditEssayPage}
         />
         <PrivateRoutes exact={true} path="/essay" component={EssayPage} />
         <Suspense fallback={<CircularLoading />}>
@@ -56,6 +67,11 @@ const App = () => {
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
           <PrivateRoutes exact={true} path="/tujuan" component={PurposePage} />
           <PrivateRoutes exact={true} path="/siswa" component={SiswaPage} />
+          <PrivateRoutes
+            exact={true}
+            path="/quiz/result"
+            component={ResultsPage}
+          />
         </Suspense>
       </Switch>
     </BrowserRouter>

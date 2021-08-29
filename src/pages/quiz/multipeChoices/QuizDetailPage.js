@@ -30,27 +30,30 @@ const QuizDetailPage = () => {
   });
 
   useEffect(() => {
-    instance
-      .get(`/api/quizzes/${slug}`, {
-        headers: {
-          Authorization: "Bearer " + token(),
-        },
-      })
-      .then((response) => {
-        const data = response.data.data.questions;
-        setQuiz(data);
-      })
-      .catch((error) => {
-        if (error.response.data.status === false) {
-          setError(true);
-          const responseMessage = error.response.data.message;
-          setMessage(responseMessage);
-          console.log(responseMessage);
-          setTimeout(() => {
-            history.push("/quiz");
-          }, 4000);
-        }
-      });
+    const fetchDetailQuiz = async () => {
+      instance
+        .get(`/api/quizzes/${slug}`, {
+          headers: {
+            Authorization: "Bearer " + token(),
+          },
+        })
+        .then((response) => {
+          const data = response.data.data.questions;
+          setQuiz(data);
+        })
+        .catch((error) => {
+          if (error.response.data.status === false) {
+            setError(true);
+            const responseMessage = error.response.data.message;
+            setMessage(responseMessage);
+            console.log(responseMessage);
+            setTimeout(() => {
+              history.push("/quiz");
+            }, 4000);
+          }
+        });
+    };
+    fetchDetailQuiz();
   }, [history, slug]);
 
   useEffect(() => {
@@ -140,7 +143,10 @@ const QuizDetailPage = () => {
           ))}
         </div>
       </div>
-      <img src={`http://localhost:8000/assets/images/quiz/${image}`} alt='imagequiz' />
+      <img
+        src={`http://192.168.0.9:8000/assets/images/quiz/${image}`}
+        alt="imagequiz"
+      />
       <div className="card">
         <div
           className="card-header bg-white font-weight-bold"

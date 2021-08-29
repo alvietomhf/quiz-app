@@ -1,4 +1,4 @@
-import React, { createRef, Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect, useRef } from "react";
 import { Button, TextField, Grid, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../../components/Layout";
@@ -15,7 +15,7 @@ const AddEditQuizPage = () => {
   const [selectedDate, setSelectedDate] = useState();
   const { slug } = useParams();
   const isAddMode = !slug;
-  const FormikRef = createRef();
+  const FormikRef = useRef();
   const history = useHistory();
   const initialValues = {
     title: "",
@@ -32,6 +32,7 @@ const AddEditQuizPage = () => {
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Required"),
+    deadline: Yup.date().required("Please input deadline"),
   });
 
   useEffect(() => {
@@ -49,17 +50,6 @@ const AddEditQuizPage = () => {
             quizField.forEach((field) =>
               FormikRef.current.setFieldValue(field, res[field], false)
             );
-            // res.questions.map((question, index) => {
-            //   const fields = [
-            //     `questions[${index}]question`,
-            //     "image",
-            //     `options[${index}].title`,
-            //     `options[${index}].correct`,
-            //   ];
-            //   return fields.forEach((field) =>
-            //     FormikRef.current.setFieldValue(field, question[field], false)
-            //   );
-            // });
             console.log(quizField);
           })
           .catch((error) => {
@@ -72,7 +62,9 @@ const AddEditQuizPage = () => {
 
   const jsonToFormData = (data) => {
     const formData = new FormData();
-    formData.append("_method", "put");
+    if (!isAddMode) {
+      formData.append("_method", "put");
+    }
     buildFormData(formData, data);
     return formData;
   };
@@ -145,6 +137,7 @@ const AddEditQuizPage = () => {
                 name="deadline"
                 onChangeDate={onChangeDate}
                 selectedDate={selectedDate}
+                label="Deadline"
               />
               <FieldArray name="questions">
                 {({ push, remove }) => (
@@ -233,11 +226,13 @@ const AddEditQuizPage = () => {
                                   }}
                                 />
                               </Button>
-                              {question.image.name}
+                              {question.image !== null
+                                ? question.image.name
+                                : ""}
                               {!isAddMode ? (
                                 <div>
                                   <img
-                                    src={`http://localhost:8000/assets/images/quiz/${question.image}`}
+                                    src={`http://192.168.0.9:8000/assets/images/quiz/${question.image}`}
                                     alt=""
                                   />
                                 </div>
