@@ -42,7 +42,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (auth.isAuthenticated && token.accessToken) {
+    if (auth.isAuthenticated && auth.data.token) {
       history.push("/home");
     }
   }, [auth, token, history]);

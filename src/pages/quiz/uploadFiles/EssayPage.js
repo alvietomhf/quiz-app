@@ -42,7 +42,7 @@ const EssayPage = (props) => {
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
-        {props.auth.data.role === "guru" ? (
+        {auth.data.role === "guru" ? (
           <Button variant="contained" onClick={() => history.push("/essay/add")}>
             Add Essay
           </Button>
@@ -71,7 +71,7 @@ const EssayPage = (props) => {
                           >
                             Start Essay
                           </Button>
-                          {props.auth.data.role === "guru" && (
+                          {auth.data.role === "guru" && (
                             <Fragment>
                               <Button
                                 onClick={() =>

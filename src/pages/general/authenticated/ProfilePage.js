@@ -4,11 +4,11 @@ import Layout from "../../../components/Layout";
 const ProfilePage = (props) => {
   return (
     <div>
-      {props.auth.data.name}
+      {props.auth.name}
       <br />
       {props.auth.data.role}
       <br />
-      {props.auth.data.email}
+      {props.auth.email}
     </div>
   );
 };

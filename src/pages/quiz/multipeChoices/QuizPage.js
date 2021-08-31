@@ -15,7 +15,7 @@ import {
 import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 import { Fragment } from "react";
 
-const QuizPage = (props) => {
+const QuizPage = () => {
   const [quiz, setQuiz] = useState([]);
   const auth = useSelector((state) => state.auth);
   const history = useHistory();
@@ -36,9 +36,6 @@ const QuizPage = (props) => {
       console.log(data);
     };
     fetchDataQuiz();
-    setInterval(() => {
-      fetchDataQuiz();
-    }, 10000);
   }, [auth]);
 
   const classes = useStyles();
@@ -46,7 +43,7 @@ const QuizPage = (props) => {
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
-        {props.auth.data.role === "guru" ? (
+        {auth.data.role === "guru" ? (
           <Button variant="contained" onClick={() => history.push("/quiz/add")}>
             Add Quiz
           </Button>
@@ -75,7 +72,7 @@ const QuizPage = (props) => {
                           >
                             Start Quiz
                           </Button>
-                          {props.auth.data.role === "guru" && (
+                          {auth.data.role === "guru" && (
                             <Fragment>
                               <Button
                                 onClick={() =>

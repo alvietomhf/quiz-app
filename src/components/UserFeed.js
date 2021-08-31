@@ -73,7 +73,7 @@ const UserFeed = ({ name, image, caption, styleAvatar }) => {
       />
       <CardMedia
         component="img"
-        image={`http://192.168.0.9:8000/assets/images/feed/${image}`}
+        image={`http://127.0.0.1:8000/assets/images/feed/${image}`}
       />
       <CardContent>
         <ReactReadMoreReadLess

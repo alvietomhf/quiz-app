@@ -1,12 +1,9 @@
 import { combineReducers } from "redux";
 import { persistReducer } from "redux-persist";
-// import storage from "redux-persist/lib/storage";
 import authReducer from "./authReducer";
 import errorReducer from "./errorReducer";
 import { encryptTransform } from "redux-persist-transform-encrypt";
 import session from "redux-persist/lib/storage/session";
-import accessReducer from "./accessReducer";
-
 const encryptor = encryptTransform({
   secretKey: "myKey",
   onError: function (error) {
@@ -21,16 +18,9 @@ const authPersistConfig = {
   blacklist: ["auth"],
 };
 
-const accessPersistConfig = {
-  key: "access",
-  storage: session,
-  transforms: [encryptor],
-  blacklist: ["access"],
-};
 
 const appReducer = combineReducers({
   auth: persistReducer(authPersistConfig, authReducer),
-  access: persistReducer(accessPersistConfig, accessReducer),
   errors: errorReducer,
 });
 

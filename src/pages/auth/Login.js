@@ -67,8 +67,8 @@ const Login = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
-    if (auth.isAuthenticated && token.accessToken) {
-      history.push("/home");
+    if (auth.isAuthenticated && auth.data.token) {
+      history.push("home");
     }
   }, [auth, token, history]);
 
@@ -160,11 +160,7 @@ const Login = (props) => {
                 disabled={props.isSubmitting}
                 fullWidth
               >
-                {props.isSubmitting ? (
-                  <CircularProgress size={24} />
-                ) : (
-                  "Login"
-                )}
+                {props.isSubmitting ? <CircularProgress size={24} /> : "Login"}
               </Button>
               <Snackbar
                 anchorOrigin={{ vertical, horizontal }}
@@ -240,11 +236,9 @@ const useStyles = makeStyles({
 Login.propTypes = {
   auth: PropTypes.object.isRequired,
   errors: PropTypes.object.isRequired,
-  access: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   auth: state.auth,
-  access: state.access,
   errors: state.errors,
 });
 

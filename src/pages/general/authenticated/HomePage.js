@@ -1,25 +1,20 @@
 import React, { useEffect, useState } from "react";
-import {
-  Avatar,
-  Box,
-  Button,
-  CardHeader,
-  TextareaAutosize,
-  Typography,
-} from "@material-ui/core";
+import { Avatar, Box, CardHeader, Typography } from "@material-ui/core";
 import Layout from "../../../components/Layout";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import UserFeed from "../../../components/UserFeed";
 import UserOnline from "../../../components/UserOnline";
-// import apiFeeds from "../../../actions/feeds/feedsAction";
 import instance from "../../../actions/instance";
 import { token } from "../../../config/token";
 import PostFeed from "../../../components/PostFeed";
-import { Form, Formik } from "formik";
+import { useSelector } from "react-redux";
 
-const Home = (props) => {
+const Home = () => {
+  const auth = useSelector((state) => state.auth.data.user);
+
+  // const history = useHistory();
   const userOnline = [
     {
       id: 1,
@@ -57,16 +52,14 @@ const Home = (props) => {
         .then((response) => {
           const data = response.data.data;
           setFeeds(data);
+          console.log(data);
         })
         .catch((error) => {
           console.log(error);
         });
     };
     fetchFeeds();
-    setInterval(() => {
-      fetchFeeds();
-    }, 10000);
-  }, []);
+  }, [auth]);
 
   const classes = useStyles();
   return (
@@ -86,7 +79,7 @@ const Home = (props) => {
                     style={{ padding: 5 }}
                     avatar={
                       <Avatar
-                        src={`http://192.168.0.9:8000/assets/images/avatar/${props.auth.data.avatar}`}
+                        src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
                         aria-label="recipe"
                         className={classes.avatar}
                       />
@@ -96,7 +89,7 @@ const Home = (props) => {
                         variant="body1"
                         style={{ fontSize: 20, margin: 0 }}
                       >
-                        {props.auth.data.name}
+                        {auth.name}
                         <br />
                       </Typography>
                     }
@@ -106,7 +99,7 @@ const Home = (props) => {
                         style={{ fontSize: 12, margin: 0 }}
                         gutterBottom
                       >
-                        {props.auth.data.email}
+                        {auth.email}
                       </Typography>
                     }
                   />
@@ -141,7 +134,7 @@ const Home = (props) => {
                           className={classes.textAreaUserDetail}
                           gutterBottom
                         >
-                          Yeremia Alfa {props.auth.data.name}
+                          {auth.name}
                           <br />
                         </Typography>
                       }
@@ -152,7 +145,7 @@ const Home = (props) => {
                           gutterBottom
                           className={classes.textAreaUserDetail}
                         >
-                          raikkonen{props.auth.data.email}
+                          {auth.email}
                         </Typography>
                       }
                     />
@@ -172,11 +165,6 @@ const Home = (props) => {
                   />
                 );
               })}
-              {/* {feeds.sort((a, b) => {
-                const dateA = new Date(a.created_at);
-                const dateB = new Date(b.created_at);
-                return dateA - dateB;
-              })} */}
             </Grid>
             <Grid item className={classes.gridUserOnline}>
               <Paper className={classes.userOnlinePaper}>

@@ -51,10 +51,13 @@ const PostFeed = () => {
                 placeholder="Apa yang anda pikirkan?"
               />
               <div style={{ display: "flex" }}>
-                <Button variant="outlined" component="label">
-                  Tambahkan File
-                  <input type="file" hidden onChange={onChangeImage} />
-                </Button>
+                <div>
+                  <Button variant="outlined" component="label">
+                    Tambahkan File
+                    <input type="file" hidden onChange={onChangeImage} />
+                  </Button>
+                  {values.image.name}
+                </div>
                 <Button
                   variant="contained"
                   color="primary"

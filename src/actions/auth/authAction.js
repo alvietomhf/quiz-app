@@ -2,11 +2,12 @@ import instance from "../instance";
 import {
   SET_USER,
   GET_ERRORS,
-  SAVE_ACCESS,
+  // SAVE_ACCESS,
   REMOVE_ACCESS,
   LOGOUT,
 } from "../../constants/types";
 import { token } from "../../config/token";
+import history from "../history";
 
 export const registerUser = (data, role) => {
   instance
@@ -29,13 +30,14 @@ export const loginUser = (data) => (dispatch) => {
         const res = response.data;
         dispatch({
           type: SET_USER,
-          payload: res.data.user,
+          payload: res.data,
         });
-        dispatch({
-          type: SAVE_ACCESS,
-          payload: res.data.token,
-        });
-        console.clear();
+        // dispatch({
+        //   type: SAVE_ACCESS,
+        //   payload: res.data.token,
+        // });
+        // history.push("home");
+        console.log(res)
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -68,16 +70,17 @@ export const logOut = (dispatch) => {
         type: REMOVE_ACCESS,
         payload: {},
       });
-      console.clear();
+      history.push("login");
+      console.log(response);
     })
     .catch((error) => {
-      dispatch({
-        type: GET_ERRORS,
-        payload: error,
-      });
-      setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+      // dispatch({
+      //   type: GET_ERRORS,
+      //   payload: error,
+      // });
+      // setTimeout(() => {
+      //   window.location.reload();
+      // }, 2000);
       console.log(error);
     });
 };

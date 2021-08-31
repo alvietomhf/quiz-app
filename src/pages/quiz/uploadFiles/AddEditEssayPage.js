@@ -151,7 +151,7 @@ const AddEditEssayPage = () => {
                         {!isAddMode ? (
                           <div>
                             <img
-                              src={`http://192.168.0.9:8000/assets/images/quiz/${values.questions[0].image}`}
+                              src={`http://127.0.0.1:8000/assets/images/quiz/${values.questions[0].image}`}
                               alt=""
                             />
                           </div>

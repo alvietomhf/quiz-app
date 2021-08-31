@@ -232,7 +232,7 @@ const AddEditQuizPage = () => {
                               {!isAddMode ? (
                                 <div>
                                   <img
-                                    src={`http://192.168.0.9:8000/assets/images/quiz/${question.image}`}
+                                    src={`http://127.0.0.1:8000/assets/images/quiz/${question.image}`}
                                     alt=""
                                   />
                                 </div>

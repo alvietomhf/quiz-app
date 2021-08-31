@@ -144,7 +144,7 @@ const QuizDetailPage = () => {
         </div>
       </div>
       <img
-        src={`http://192.168.0.9:8000/assets/images/quiz/${image}`}
+        src={`http://127.0.0.1:8000/assets/images/quiz/${image}`}
         alt="imagequiz"
       />
       <div className="card">

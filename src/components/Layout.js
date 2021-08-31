@@ -26,7 +26,6 @@ import ExpandMore from "@material-ui/icons/ExpandMore";
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { connect } from "react-redux";
 import { logOut } from "../actions/auth/authAction";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
@@ -40,7 +39,7 @@ const Layout = (Component) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
-    const access = useSelector((state) => state.access);
+    
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -54,10 +53,7 @@ const Layout = (Component) => {
 
     const handleLogOut = () => {
       setAnchorEl(null);
-      setTimeout(() => {
-        dispatch(logOut);
-        history.push("/login");
-      }, 2000);
+      dispatch(logOut);
     };
 
     const handleDropDownTugas = () => {
@@ -238,7 +234,7 @@ const Layout = (Component) => {
               </Typography>
             </Toolbar>
             <Toolbar style={{ marginLeft: "auto" }}>
-              {auth.isAuthenticated && access.accessToken && (
+              {auth.isAuthenticated && auth.data.token && (
                 <div>
                   <IconButton
                     className={classes.accountCircle}
@@ -251,7 +247,7 @@ const Layout = (Component) => {
                     {/* <AccountCircle /> */}
                     <Avatar
                       alt="Profile Icon"
-                      src={`http://:3000/assets/images/avatar/${auth.data.avatar}`}
+                      src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
                     />
                   </IconButton>
                   <Menu
@@ -359,18 +355,10 @@ const Layout = (Component) => {
   }));
 
   Navbar.propTypes = {
-    auth: PropTypes.object.isRequired,
-    errors: PropTypes.object.isRequired,
-    access: PropTypes.object.isRequired,
     window: PropTypes.func,
   };
-  const mapStateToProps = (state) => ({
-    auth: state.auth,
-    access: state.access,
-    errors: state.errors,
-  });
 
-  return connect(mapStateToProps, { logOut })(withRouter(Navbar));
+  return (withRouter(Navbar));
 };
 
 export default Layout;
