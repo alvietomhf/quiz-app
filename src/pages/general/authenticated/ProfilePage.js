@@ -13,4 +13,4 @@ const ProfilePage = (props) => {
   );
 };
 
-export default Layout(ProfilePage);
+export default Layout(ProfilePage, 'Halaman Profil');

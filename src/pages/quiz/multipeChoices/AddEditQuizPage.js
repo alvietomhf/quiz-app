@@ -314,4 +314,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(AddEditQuizPage);
+export default Layout(AddEditQuizPage, 'Quiz');

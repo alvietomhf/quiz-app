@@ -227,4 +227,4 @@ const QuizDetailPage = () => {
   );
 };
 
-export default Layout(QuizDetailPage);
+export default Layout(QuizDetailPage, 'Quiz');

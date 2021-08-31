@@ -1,18 +1,13 @@
 import {
   Button,
   CircularProgress,
-  FormControl,
   Grid,
-  InputLabel,
   Paper,
-  Select,
   TextField,
   Typography,
-  MenuItem,
-  makeStyles,
 } from "@material-ui/core";
 import { ErrorMessage, Form, Formik, Field } from "formik";
-import React, { createRef, useEffect, useState } from "react";
+import React, { createRef, useEffect } from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
@@ -22,22 +17,14 @@ import { buildFormData } from "../../components/BuildFormData";
 
 const Register = () => {
   const FormikRef = createRef();
-  const classes = useStyles();
-  const [role, setRole] = useState("");
   const auth = useSelector((state) => state.auth);
-  //   const errors = useSelector((state) => state.errors);
   const token = useSelector((state) => state.access);
   const history = useHistory();
-  const handleChangeRole = (event) => {
-    setRole(event.target.value);
-    FormikRef.current.setFieldValue("role", role);
-  };
 
   const initialValues = {
     name: "",
     email: "",
     password: "",
-    role: "",
     avatar: "",
   };
 
@@ -66,14 +53,14 @@ const Register = () => {
       email: values.email,
       password: values.password,
       password_confirmation: values.password,
-      role: role,
+      role: "student",
       avatar: values.avatar,
     };
     const formData = jsonToFormData(postData);
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    registerUser(formData, role);
+    registerUser(formData, "student");
     FormikRef.current.setSubmitting(false);
     FormikRef.current.resetForm();
   };
@@ -163,30 +150,10 @@ const Register = () => {
                   </Button>
                   {props.values.avatar.name}
                 </div>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel>Role</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-outlined-label"
-                    id="demo-simple-select-outlined"
-                    value={role}
-                    onChange={handleChangeRole}
-                    label="Role"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={"student"}>Murid</MenuItem>
-                    <MenuItem value={"teacher"}>Guru</MenuItem>
-                  </Select>
-                </FormControl>
                 <Button
                   type="submit"
                   color="primary"
                   variant="contained"
-                  //   onClick={handleClick({
-                  //     vertical: "bottom",
-                  //     horizontal: "center",
-                  //   })}
                   disabled={props.isSubmitting}
                   fullWidth
                 >
@@ -205,14 +172,14 @@ const Register = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+// const useStyles = makeStyles((theme) => ({
+//   formControl: {
+//     margin: theme.spacing(1),
+//     minWidth: 120,
+//   },
+//   selectEmpty: {
+//     marginTop: theme.spacing(2),
+//   },
+// }));
 
 export default Register;

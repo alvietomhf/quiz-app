@@ -15,6 +15,9 @@ const PostFeed = () => {
     formData.append("message", values.message);
     formData.append("image", values.image);
     const response = await apiFeeds.postFeed(formData);
+    FormikRef.current.setSubmitting(false);
+    FormikRef.current.resetForm();
+    window.location.reload();
     console.log(response);
   };
 
@@ -31,11 +34,22 @@ const PostFeed = () => {
         onSubmit={onSubmit}
         innerRef={FormikRef}
       >
-        {({ values, setFieldValue, errors, touched, isSubmitting }) => (
+        {({
+          values,
+          setFieldValue,
+          errors,
+          touched,
+          isSubmitting,
+          resetForm,
+        }) => (
           <Fragment>
             <Form>
               <TextareaAutosize
-                onChange={(e) => setFieldValue("message", e.target.value)}
+                onChange={(e) =>
+                  isSubmitting
+                    ? resetForm()
+                    : setFieldValue("message", e.target.value)
+                }
                 maxRows={4}
                 style={{
                   width: "100%",

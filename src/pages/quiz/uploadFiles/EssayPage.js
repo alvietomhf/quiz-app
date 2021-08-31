@@ -43,7 +43,10 @@ const EssayPage = (props) => {
     <Container>
       <Grid container className={classes.root} spacing={2}>
         {auth.data.role === "guru" ? (
-          <Button variant="contained" onClick={() => history.push("/essay/add")}>
+          <Button
+            variant="contained"
+            onClick={() => history.push("/essay/add")}
+          >
             Add Essay
           </Button>
         ) : (
@@ -54,50 +57,54 @@ const EssayPage = (props) => {
             <LoadingProgress />
           ) : (
             <div style={{ display: "flex" }}>
-              {quiz
-                .sort((a, b) => (a.title > b.title ? 1 : -1))
-                .map((item) => {
-                  return (
-                    <Card key={item.id} className={classes.cardQuizList}>
-                      <CardContent>
-                        <Typography variant="body1">{item.title}</Typography>
-                        <Grid container spacing={2}>
-                          <Button
-                            onClick={() =>
-                              history.push(`/essay/start/${item.slug}`)
-                            }
-                            variant="contained"
-                            color="primary"
-                          >
-                            Start Essay
-                          </Button>
-                          {auth.data.role === "guru" && (
-                            <Fragment>
+              {quiz.length === 0
+                ? "Essay not found"
+                : quiz
+                    .sort((a, b) => (a.title > b.title ? 1 : -1))
+                    .map((item) => {
+                      return (
+                        <Card key={item.id} className={classes.cardQuizList}>
+                          <CardContent>
+                            <Typography variant="body1">
+                              {item.title}
+                            </Typography>
+                            <Grid container spacing={2}>
                               <Button
                                 onClick={() =>
-                                  history.push(`/essay/edit/${item.slug}`, {
-                                    slug: item.slug,
-                                  })
+                                  history.push(`/essay/start/${item.slug}`)
                                 }
                                 variant="contained"
-                                color="default"
+                                color="primary"
                               >
-                                Update Essay
+                                Start Essay
                               </Button>
-                              <Button
-                                onClick={() => deleteQuiz(item.slug)}
-                                variant="contained"
-                                color="secondary"
-                              >
-                                Delete Essay
-                              </Button>
-                            </Fragment>
-                          )}
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                              {auth.data.role === "guru" && (
+                                <Fragment>
+                                  <Button
+                                    onClick={() =>
+                                      history.push(`/essay/edit/${item.slug}`, {
+                                        slug: item.slug,
+                                      })
+                                    }
+                                    variant="contained"
+                                    color="default"
+                                  >
+                                    Update Essay
+                                  </Button>
+                                  <Button
+                                    onClick={() => deleteQuiz(item.slug)}
+                                    variant="contained"
+                                    color="secondary"
+                                  >
+                                    Delete Essay
+                                  </Button>
+                                </Fragment>
+                              )}
+                            </Grid>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
             </div>
           )}
         </Grid>
@@ -116,4 +123,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(EssayPage);
+export default Layout(EssayPage, "Essay");

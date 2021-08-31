@@ -175,4 +175,4 @@ const AddEditEssayPage = () => {
   );
 };
 
-export default Layout(AddEditEssayPage);
+export default Layout(AddEditEssayPage, 'Essay');

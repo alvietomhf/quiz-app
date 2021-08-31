@@ -30,7 +30,7 @@ import { logOut } from "../actions/auth/authAction";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
 import { Archive, PeopleAlt } from "@material-ui/icons";
-const Layout = (Component) => {
+const Layout = (Component, namePage) => {
   const Navbar = (props) => {
     console.clear();
     const { window } = props;
@@ -230,7 +230,7 @@ const Layout = (Component) => {
                 <MenuIcon />
               </IconButton>
               <Typography variant="h6" noWrap>
-                Ecosystem App
+                {namePage}
               </Typography>
             </Toolbar>
             <Toolbar style={{ marginLeft: "auto" }}>
@@ -244,13 +244,13 @@ const Layout = (Component) => {
                     onClick={handleMenu}
                     color="inherit"
                   >
-                    {auth.avatar ? (
+                    {!auth.avatar ? (
+                      <AccountCircle />
+                    ) : (
                       <Avatar
                         alt="Profile Icon"
                         src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
                       />
-                    ) : (
-                      <AccountCircle />
                     )}
                   </IconButton>
                   <Menu

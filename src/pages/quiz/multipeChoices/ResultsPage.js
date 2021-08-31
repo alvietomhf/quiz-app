@@ -68,4 +68,4 @@ const ResultsPage = () => {
   );
 };
 
-export default Layout(ResultsPage);
+export default Layout(ResultsPage, 'Hasil Quiz');

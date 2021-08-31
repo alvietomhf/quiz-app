@@ -9,4 +9,4 @@ const PurposePage = () => {
     )
 }
 
-export default Layout(PurposePage)
+export default Layout(PurposePage, 'Halaman Tujuan')

@@ -280,4 +280,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(Home);
+export default Layout(Home, "Multimedia Interaktif");
