@@ -55,50 +55,54 @@ const QuizPage = () => {
             <LoadingProgress />
           ) : (
             <div style={{ display: "flex" }}>
-              {quiz
-                .sort((a, b) => (a.title > b.title ? 1 : -1))
-                .map((item) => {
-                  return (
-                    <Card key={item.id} className={classes.cardQuizList}>
-                      <CardContent>
-                        <Typography variant="body1">{item.title}</Typography>
-                        <Grid container spacing={2}>
-                          <Button
-                            onClick={() =>
-                              history.push(`/quiz/start/${item.slug}`)
-                            }
-                            variant="contained"
-                            color="primary"
-                          >
-                            Start Quiz
-                          </Button>
-                          {auth.data.role === "guru" && (
-                            <Fragment>
+              {quiz.length === 0
+                ? "Quiz not found"
+                : quiz
+                    .sort((a, b) => (a.title > b.title ? 1 : -1))
+                    .map((item) => {
+                      return (
+                        <Card key={item.id} className={classes.cardQuizList}>
+                          <CardContent>
+                            <Typography variant="body1">
+                              {item.title}
+                            </Typography>
+                            <Grid container spacing={2}>
                               <Button
                                 onClick={() =>
-                                  history.push(`/quiz/edit/${item.slug}`, {
-                                    slug: item.slug,
-                                  })
+                                  history.push(`/quiz/start/${item.slug}`)
                                 }
                                 variant="contained"
-                                color="default"
+                                color="primary"
                               >
-                                Update Quiz
+                                Start Quiz
                               </Button>
-                              <Button
-                                onClick={() => deleteQuiz(item.slug)}
-                                variant="contained"
-                                color="secondary"
-                              >
-                                Delete Quiz
-                              </Button>
-                            </Fragment>
-                          )}
-                        </Grid>
-                      </CardContent>
-                    </Card>
-                  );
-                })}
+                              {auth.data.role === "guru" && (
+                                <Fragment>
+                                  <Button
+                                    onClick={() =>
+                                      history.push(`/quiz/edit/${item.slug}`, {
+                                        slug: item.slug,
+                                      })
+                                    }
+                                    variant="contained"
+                                    color="default"
+                                  >
+                                    Update Quiz
+                                  </Button>
+                                  <Button
+                                    onClick={() => deleteQuiz(item.slug)}
+                                    variant="contained"
+                                    color="secondary"
+                                  >
+                                    Delete Quiz
+                                  </Button>
+                                </Fragment>
+                              )}
+                            </Grid>
+                          </CardContent>
+                        </Card>
+                      );
+                    })}
             </div>
           )}
         </Grid>

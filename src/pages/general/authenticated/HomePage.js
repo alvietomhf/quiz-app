@@ -10,11 +10,10 @@ import instance from "../../../actions/instance";
 import { token } from "../../../config/token";
 import PostFeed from "../../../components/PostFeed";
 import { useSelector } from "react-redux";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const Home = () => {
   const auth = useSelector((state) => state.auth.data.user);
-
-  // const history = useHistory();
   const userOnline = [
     {
       id: 1,
@@ -78,11 +77,15 @@ const Home = () => {
                   <CardHeader
                     style={{ padding: 5 }}
                     avatar={
-                      <Avatar
-                        src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
-                        aria-label="recipe"
-                        className={classes.avatar}
-                      />
+                      auth.avatar ? (
+                        <Avatar
+                          src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
+                          aria-label="recipe"
+                          className={classes.avatar}
+                        />
+                      ) : (
+                        <AccountCircle />
+                      )
                     }
                     title={
                       <Typography
@@ -155,16 +158,18 @@ const Home = () => {
                   </Grid>
                 </Grid>
               </Paper>
-              {feeds.map((feed) => {
-                return (
-                  <UserFeed
-                    key={feed.id}
-                    name={feed.user.name}
-                    image={feed.image}
-                    caption={feed.message}
-                  />
-                );
-              })}
+              {feeds
+                .sort((a, b) => (a > b ? 1 : -1))
+                .map((item) => {
+                  return (
+                    <UserFeed
+                      key={item.id}
+                      name={item.user.name}
+                      image={item.image}
+                      caption={item.message}
+                    />
+                  );
+                })}
             </Grid>
             <Grid item className={classes.gridUserOnline}>
               <Paper className={classes.userOnlinePaper}>

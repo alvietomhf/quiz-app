@@ -10,7 +10,7 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-// import AccountCircle from "@material-ui/icons/AccountCircle";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
@@ -39,7 +39,7 @@ const Layout = (Component) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
-    
+
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -244,11 +244,14 @@ const Layout = (Component) => {
                     onClick={handleMenu}
                     color="inherit"
                   >
-                    {/* <AccountCircle /> */}
-                    <Avatar
-                      alt="Profile Icon"
-                      src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
-                    />
+                    {auth.avatar ? (
+                      <Avatar
+                        alt="Profile Icon"
+                        src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
+                      />
+                    ) : (
+                      <AccountCircle />
+                    )}
                   </IconButton>
                   <Menu
                     id="menu-appbar"
@@ -358,7 +361,7 @@ const Layout = (Component) => {
     window: PropTypes.func,
   };
 
-  return (withRouter(Navbar));
+  return withRouter(Navbar);
 };
 
 export default Layout;

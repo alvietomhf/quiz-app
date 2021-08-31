@@ -143,10 +143,14 @@ const QuizDetailPage = () => {
           ))}
         </div>
       </div>
-      <img
-        src={`http://127.0.0.1:8000/assets/images/quiz/${image}`}
-        alt="imagequiz"
-      />
+      {image ? (
+        <img
+          src={`http://127.0.0.1:8000/assets/images/quiz/${image}`}
+          alt="imagequiz"
+        />
+      ) : (
+        ""
+      )}
       <div className="card">
         <div
           className="card-header bg-white font-weight-bold"
