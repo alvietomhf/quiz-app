@@ -10,6 +10,7 @@ import { buildFormData } from "../../../components/BuildFormData";
 import { token } from "../../../config/token";
 import { useHistory, useParams } from "react-router-dom";
 import instance from "../../../actions/instance";
+import moment from "moment";
 
 const AddEditQuizPage = () => {
   const [selectedDate, setSelectedDate] = useState();
@@ -32,7 +33,6 @@ const AddEditQuizPage = () => {
 
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Required"),
-    deadline: Yup.date().required("Please input deadline"),
   });
 
   useEffect(() => {
@@ -46,6 +46,7 @@ const AddEditQuizPage = () => {
           })
           .then((response) => {
             const res = response.data.data;
+            console.log(res);
             const quizField = ["title", "deadline", "questions", "type"];
             quizField.forEach((field) =>
               FormikRef.current.setFieldValue(field, res[field], false)
@@ -69,21 +70,21 @@ const AddEditQuizPage = () => {
     return formData;
   };
 
-  const formatDate = (date) => {
-    let d = new Date(date),
-      month = "" + (d.getMonth() + 1),
-      day = "" + d.getDate(),
-      year = d.getFullYear();
+  // const formatDate = (date) => {
+  //   let d = new Date(date),
+  //     month = "" + (d.getMonth() + 1),
+  //     day = "" + d.getDate(),
+  //     year = d.getFullYear();
 
-    if (month.length < 2) month = "0" + month;
-    if (day.length < 2) day = "0" + day;
+  //   if (month.length < 2) month = "0" + month;
+  //   if (day.length < 2) day = "0" + day;
 
-    return [year, month, day].join("-");
-  };
+  //   return [year, month, day].join("-");
+  // };
 
   const onChangeDate = (values) => {
-    setSelectedDate(values);
-    const date = formatDate(values);
+    const date = moment(values).format("YYYY-MM-DD HH:mm");
+    setSelectedDate(date);
     FormikRef.current.setFieldValue("deadline", date);
     console.log(date);
   };
@@ -314,4 +315,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(AddEditQuizPage, 'Quiz');
+export default Layout(AddEditQuizPage, "Quiz");

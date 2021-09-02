@@ -2,9 +2,10 @@ import "date-fns";
 import React from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
+  DateTimePicker,
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
 } from "@material-ui/pickers";
+import { Fragment } from "react";
 
 const DatePicker = ({
   name,
@@ -16,21 +17,16 @@ const DatePicker = ({
 }) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <KeyboardDatePicker
-        name={name}
+      <DateTimePicker
         disableToolbar
-        variant="inline"
-        format="yyyy/MM/dd"
-        margin="normal"
-        id="date-picker-inline"
-        label={label}
-        value={selectedDate}
+        name={name}
         error={error}
         helperText={helperText}
         onChange={onChangeDate}
-        KeyboardButtonProps={{
-          "aria-label": "change date",
-        }}
+        value={selectedDate}
+        label={label}
+        format="yyyy/MM/dd hh:mm"
+        showTodayButton
       />
     </MuiPickersUtilsProvider>
   );

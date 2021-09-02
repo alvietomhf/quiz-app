@@ -21,6 +21,16 @@ const postQuiz = (postData) =>
     },
   });
 
+const postResultQuiz = (postData, slug) =>
+  instance({
+    url: `/api/siswa/result/${slug}/quiz`,
+    data: { data: postData },
+    method: "post",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
+
 const updateQuiz = (putData, slug) =>
   instance({
     url: `/api/guru/quizzes/${slug}`,
@@ -46,6 +56,7 @@ const apiQuiz = {
   deleteQuiz,
   postQuiz,
   updateQuiz,
+  postResultQuiz,
 };
 
 export default apiQuiz;

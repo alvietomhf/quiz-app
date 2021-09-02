@@ -17,7 +17,7 @@ import { Fragment } from "react";
 
 const QuizPage = () => {
   const [quiz, setQuiz] = useState([]);
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth.data.user);
   const history = useHistory();
   const [loading, setLoading] = useState(true);
 
@@ -43,7 +43,7 @@ const QuizPage = () => {
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
-        {auth.data.role === "guru" ? (
+        {auth.role === "guru" ? (
           <Button variant="contained" onClick={() => history.push("/quiz/add")}>
             Add Quiz
           </Button>
@@ -67,16 +67,7 @@ const QuizPage = () => {
                               {item.title}
                             </Typography>
                             <Grid container spacing={2}>
-                              <Button
-                                onClick={() =>
-                                  history.push(`/quiz/start/${item.slug}`)
-                                }
-                                variant="contained"
-                                color="primary"
-                              >
-                                Start Quiz
-                              </Button>
-                              {auth.data.role === "guru" && (
+                              {auth.role === "guru" ? (
                                 <Fragment>
                                   <Button
                                     onClick={() =>
@@ -97,6 +88,18 @@ const QuizPage = () => {
                                     Delete Quiz
                                   </Button>
                                 </Fragment>
+                              ) : auth.role === "siswa" ? (
+                                <Button
+                                  onClick={() =>
+                                    history.push(`/quiz/start/${item.slug}`)
+                                  }
+                                  variant="contained"
+                                  color="primary"
+                                >
+                                  Start Quiz
+                                </Button>
+                              ) : (
+                                ""
                               )}
                             </Grid>
                           </CardContent>
@@ -121,4 +124,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(QuizPage, 'Quiz');
+export default Layout(QuizPage, "Quiz");

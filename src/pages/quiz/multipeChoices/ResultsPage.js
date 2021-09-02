@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useLocation } from "react-router-dom";
 import Layout from "../../../components/Layout";
@@ -6,18 +6,18 @@ import Layout from "../../../components/Layout";
 const ResultsPage = () => {
   const history = useHistory();
   const location = useLocation();
-  const resultQuiz = location.state.quiz;
-  const scoreQuiz = location.state.score;
+  // const [isSubmitted, setSubmitted] = useState(false);
+
   useEffect(() => {
     if (!location.state) history.push("/quiz");
-    console.log(resultQuiz);
-  }, [history, location, resultQuiz]);
+  }, [history, location]);
 
   return !location.state ? (
     <h1>Forbidden</h1>
   ) : (
     <div className="mt-3">
-      <h1
+      {/* {isSubmitted && <div>{message}</div>} */}
+      {/* <h1
         style={{
           display: "flex",
           flexDirection: "row",
@@ -63,9 +63,9 @@ const ResultsPage = () => {
             </div>
           </div>
         ))}
-      </h1>
+      </h1> */}
     </div>
   );
 };
 
-export default Layout(ResultsPage, 'Hasil Quiz');
+export default Layout(ResultsPage, "Hasil Quiz");

@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import { token } from "../../../config/token";
 import instance from "../../../actions/instance";
+import apiQuiz from "../../../actions/quiz/quiz";
 
 const QuizDetailPage = () => {
   const { slug } = useParams();
@@ -77,6 +78,21 @@ const QuizDetailPage = () => {
   const previousQuestion = () => {
     if (currentIndex === 0) return;
     setCurrentIndex(currentIndex - 1);
+  };
+
+  const postResultQuiz = async (quiz) => {
+    const data = JSON.stringify(quiz);
+    console.log(data);
+    apiQuiz
+      .postResultQuiz(data, slug)
+      .then((res) => {
+        const response = res.data;
+        console.log(response.status);
+      })
+      .catch((errors) => {
+        const error = errors;
+        console.log(error);
+      });
   };
 
   const selectOption = (indexSelected, indexOptionSelected) => {
@@ -208,11 +224,16 @@ const QuizDetailPage = () => {
               pathname: "/quiz/result",
               state: {
                 quiz,
-                score,
+                message,
               },
             }}
           >
-            Finish
+            <button
+              className="btn btn-primary col-sm-2"
+              onClick={() => postResultQuiz(quiz)}
+            >
+              Finish
+            </button>
           </Link>
         ) : (
           <button
@@ -227,4 +248,4 @@ const QuizDetailPage = () => {
   );
 };
 
-export default Layout(QuizDetailPage, 'Quiz');
+export default Layout(QuizDetailPage, "Quiz");
