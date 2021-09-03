@@ -16,7 +16,7 @@ import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 
 const EssayPage = (props) => {
   const [quiz, setQuiz] = useState([]);
-  const auth = useSelector((state) => state.auth);
+  const auth = useSelector((state) => state.auth.data.user);
   const history = useHistory();
   const [loading, setLoading] = useState(true);
 
@@ -42,7 +42,7 @@ const EssayPage = (props) => {
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
-        {auth.data.role === "guru" ? (
+        {auth.role === "guru" ? (
           <Button
             variant="contained"
             onClick={() => history.push("/essay/add")}
@@ -78,7 +78,7 @@ const EssayPage = (props) => {
                               >
                                 Start Essay
                               </Button>
-                              {auth.data.role === "guru" && (
+                              {auth.role === "guru" && (
                                 <Fragment>
                                   <Button
                                     onClick={() =>

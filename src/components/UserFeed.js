@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   Avatar,
+  Box,
   Card,
   CardContent,
   CardHeader,
@@ -12,11 +13,29 @@ import {
 } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
 import ReactReadMoreReadLess from "react-read-more-read-less";
+import { Link } from "react-router-dom";
+import moment from "moment";
 
-const UserFeed = ({ name, image, caption, styleAvatar }) => {
+const UserFeed = ({
+  id,
+  dateCreated,
+  comments,
+  name,
+  image,
+  caption,
+  styleAvatar,
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
+  const post = {
+    id,
+    dateCreated,
+    comments,
+    name,
+    image,
+    caption,
+    styleAvatar,
+  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -70,21 +89,39 @@ const UserFeed = ({ name, image, caption, styleAvatar }) => {
             <br />
           </Typography>
         }
+        subheader={moment(dateCreated).fromNow()}
       />
       <CardMedia
         component="img"
         image={`http://127.0.0.1:8000/assets/images/feed/${image}`}
       />
       <CardContent>
-        <ReactReadMoreReadLess
-          charLimit={200}
-          readMoreText={"Read more"}
-          readLessText={"Read less"}
-          readMoreClassName="read-more-less--more"
-          readLessClassName="read-more-less--less"
-        >
-          {caption}
-        </ReactReadMoreReadLess>
+        <Box display="flex" flexDirection="column">
+          <div>
+            {name}{" "}
+            <ReactReadMoreReadLess
+              charLimit={200}
+              readMoreText={"Read more"}
+              readLessText={"Read less"}
+              readMoreClassName="read-more-less--more"
+              readLessClassName="read-more-less--less"
+            >
+              {caption}
+            </ReactReadMoreReadLess>
+          </div>
+          <p>{comments.length === 0 ? "No Comments" : "Comments Found"}</p>
+          <Link
+            style={{ textDecoration: "none", cursor: "pointer" }}
+            to={{
+              pathname: `${id}`,
+              state: {
+                post,
+              },
+            }}
+          >
+            View comments
+          </Link>
+        </Box>
       </CardContent>
     </Card>
   );

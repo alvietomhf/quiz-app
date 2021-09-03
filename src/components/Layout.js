@@ -29,7 +29,7 @@ import { useHistory } from "react-router";
 import { logOut } from "../actions/auth/authAction";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
-import { Archive, PeopleAlt } from "@material-ui/icons";
+import { Archive, Group, PeopleAlt } from "@material-ui/icons";
 const Layout = (Component, namePage) => {
   const Navbar = (props) => {
     console.clear();
@@ -72,7 +72,7 @@ const Layout = (Component, namePage) => {
       {
         text: "Home",
         icon: <HomeIcon />,
-        onClick: () => history.push("/home"),
+        onClick: () => history.push("/"),
       },
       {
         text: "Tujuan",
@@ -83,6 +83,11 @@ const Layout = (Component, namePage) => {
         text: "Petunjuk",
         icon: <HelpOutlineIcon />,
         onClick: () => history.push("/petunjuk"),
+      },
+      {
+        text: "Anggota",
+        icon: <PeopleAlt />,
+        onClick: () => history.push("/users"),
       },
     ];
 
@@ -110,18 +115,18 @@ const Layout = (Component, namePage) => {
         onClick: () => history.push("/materi2"),
       },
     ];
-    const usersDropDownList = [
-      {
-        text: "Siswa",
-        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-        onClick: () => history.push("/siswa"),
-      },
-      {
-        text: "Guru",
-        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-        onClick: () => history.push("/guru"),
-      },
-    ];
+    // const usersDropDownList = [
+    //   {
+    //     text: "Siswa",
+    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+    //     onClick: () => history.push("/siswa"),
+    //   },
+    //   {
+    //     text: "Guru",
+    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+    //     onClick: () => history.push("/guru"),
+    //   },
+    // ];
 
     const drawer = (
       <div>
@@ -169,26 +174,6 @@ const Layout = (Component, namePage) => {
         <Collapse in={dropDownTugas} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
             {tugasDropDownList.map((item) => {
-              const { text, icon, onClick } = item;
-              return (
-                <ListItem button key={text} onClick={onClick}>
-                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
-                  <ListItemText primary={text} />
-                </ListItem>
-              );
-            })}
-          </List>
-        </Collapse>
-        <ListItem button onClick={handleDropDownUser}>
-          <ListItemIcon>
-            <PeopleAlt />
-          </ListItemIcon>
-          <ListItemText primary="Anggota" />
-          {dropDownUser ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={dropDownUser} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {usersDropDownList.map((item) => {
               const { text, icon, onClick } = item;
               return (
                 <ListItem button key={text} onClick={onClick}>

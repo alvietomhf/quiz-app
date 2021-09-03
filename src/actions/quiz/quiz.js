@@ -51,12 +51,22 @@ const deleteQuiz = (slug) =>
     },
   });
 
+const resultQuiz = (slug) =>
+  instance({
+    url: `/api/guru/result/${slug}/quiz`,
+    method: "get",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
+
 const apiQuiz = {
   index,
   deleteQuiz,
   postQuiz,
   updateQuiz,
   postResultQuiz,
+  resultQuiz,
 };
 
 export default apiQuiz;

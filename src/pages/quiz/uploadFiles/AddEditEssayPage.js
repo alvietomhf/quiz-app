@@ -11,12 +11,16 @@ import { buildFormData } from "../../../components/BuildFormData";
 import apiQuiz from "../../../actions/quiz/quiz";
 import instance from "../../../actions/instance";
 import { token } from "../../../config/token";
+import { Document, Page } from "react-pdf";
+import moment from "moment";
 
 const AddEditEssayPage = () => {
   const [selectedDate, setSelectedDate] = useState();
   const FormikRef = useRef();
   const { slug } = useParams();
   const isAddMode = !slug;
+  const [numPages, setNumPages] = useState(null);
+  const [pageNumber, setPageNumber] = useState(1);
   const initialValues = {
     title: "",
     deadline: "",
@@ -29,19 +33,23 @@ const AddEditEssayPage = () => {
     type: "essay",
   };
 
+  const onDocumentLoadSuccess = ({ numPages }) => {
+    setNumPages(numPages);
+  };
+
   const validationSchema = Yup.object().shape({
     title: Yup.string().required("Required"),
     deadline: Yup.date().required("Required"),
   });
 
   const onChangeDate = (values) => {
-    setSelectedDate(values);
-    const date = formatDate(values);
+    const date = moment(values).format("YYYY-MM-DD HH:mm");
+    setSelectedDate(date);
     FormikRef.current.setFieldValue("deadline", date);
     console.log(date);
   };
 
-  const onChangeImage = (e, index) => {
+  const onChangeFile = (e, index) => {
     let files = e.target.files || e.dataTransfer.files;
     if (!files.length) return;
     FormikRef.current.setFieldValue(index, files[0]);
@@ -135,29 +143,33 @@ const AddEditEssayPage = () => {
                       />
                       <div>
                         <Button variant="outlined" component="label">
-                          Tambahkan Gambar
+                          Tambahkan File
                           <input
                             type="file"
                             hidden
-                            accept="image/*"
                             onChange={(event) => {
-                              onChangeImage(event, `questions[0].image`);
+                              onChangeFile(event, `questions[0].image`);
                             }}
                           />
                         </Button>
-                        {values.questions[0].image !== null
-                          ? values.questions[0].name
+                        {/* {values.questions[0].file !== null
+                          ? values.questions[0].file
                           : ""}
                         {!isAddMode ? (
                           <div>
-                            <img
-                              src={`http://127.0.0.1:8000/assets/images/quiz/${values.questions[0].image}`}
-                              alt=""
-                            />
+                            <Document
+                              file={`http://127.0.0.1:8000/assets/images/quiz/${values.questions[0].file}`}
+                              onLoadSuccess={onDocumentLoadSuccess}
+                            >
+                              <Page pageNumber={pageNumber} />
+                            </Document>
+                            <p>
+                              Page {pageNumber} of {numPages}
+                            </p>
                           </div>
                         ) : (
                           ""
-                        )}
+                        )} */}
                       </div>
                     </Fragment>
                   </FieldArray>
@@ -175,4 +187,4 @@ const AddEditEssayPage = () => {
   );
 };
 
-export default Layout(AddEditEssayPage, 'Essay');
+export default Layout(AddEditEssayPage, "Essay");

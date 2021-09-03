@@ -1,71 +1,64 @@
+import { Container, Paper } from "@material-ui/core";
+import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useLocation } from "react-router-dom";
+import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
 
 const ResultsPage = () => {
   const history = useHistory();
   const location = useLocation();
-  // const [isSubmitted, setSubmitted] = useState(false);
+  const [result, setResult] = useState([]);
+  const slug = location.state.slug;
+  const [isLoading, setLoading] = useState(true);
+
+  const columns = [
+    {
+      title: "Nama",
+      field: "name",
+    },
+    {
+      title: "Score",
+      field: "results[0].score",
+    },
+  ];
 
   useEffect(() => {
     if (!location.state) history.push("/quiz");
+    apiQuiz
+      .resultQuiz(slug)
+      .then((response) => {
+        const res = response.data.data;
+        console.log(res);
+        console.log(response.data.data);
+        setLoading(false);
+        setResult(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [history, location]);
 
   return !location.state ? (
     <h1>Forbidden</h1>
   ) : (
-    <div className="mt-3">
-      {/* {isSubmitted && <div>{message}</div>} */}
-      {/* <h1
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          marginBottom: 10,
-        }}
-      >
-        Quiz Summary Score:{" "}
-        <div className="text-success">{scoreQuiz.correct}</div>-{" "}
-        <div className="text-danger"> {scoreQuiz.false}</div>
-        <br />
-        {resultQuiz.map((item, index) => (
-          <div key={index}>
-            <div className="card-header bg-white">
-              <div className="font-weight-bold">No.{index + 1}</div>{" "}
-              {item.question}
-            </div>
-            <div>
-              {item.options.map((item, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    justifyItems: "center",
-                    alignItems: "center",
-                    fontSize: 18,
-                  }}
-                >
-                  <div
-                    style={{
-                      height: 20,
-                      width: 20,
-                      borderRadius: 100,
-                      backgroundColor: item?.selected ? "greenyellow" : "grey",
-                      cursor: "pointer",
-                      marginRight: 5,
-                    }}
-                  >
-                    {item.title}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </h1> */}
-    </div>
+    <Container>
+      <Paper>
+        <MaterialTable
+          title="Hasil Kuis"
+          isLoading={isLoading}
+          columns={columns}
+          data={result}
+          options={{
+            search: true,
+            sorting: true,
+            tableLayout: "auto",
+          }}
+        />
+      </Paper>
+    </Container>
   );
 };
 
-export default Layout(ResultsPage, "Hasil Quiz");
+export default Layout(ResultsPage, "Quiz");

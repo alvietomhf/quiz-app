@@ -14,12 +14,14 @@ import {
 } from "@material-ui/core";
 import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 import { Fragment } from "react";
+import moment from "moment";
 
 const QuizPage = () => {
   const [quiz, setQuiz] = useState([]);
   const auth = useSelector((state) => state.auth.data.user);
   const history = useHistory();
   const [loading, setLoading] = useState(true);
+  let dateNow = moment().format("YYYY-MM-DD HH:mm");
 
   const deleteQuiz = async (slug) => {
     const response = await apiQuiz.deleteQuiz(slug);
@@ -87,8 +89,23 @@ const QuizPage = () => {
                                   >
                                     Delete Quiz
                                   </Button>
+                                  <Button
+                                    onClick={() =>
+                                      history.push(
+                                        `/quiz/result/${item.slug}`,
+                                        {
+                                          slug: item.slug,
+                                        }
+                                      )
+                                    }
+                                    variant="contained"
+                                    color="default"
+                                  >
+                                    Lihat Hasil
+                                  </Button>
                                 </Fragment>
-                              ) : auth.role === "siswa" ? (
+                              ) : auth.role === "siswa" &&
+                                dateNow < item.deadline ? (
                                 <Button
                                   onClick={() =>
                                     history.push(`/quiz/start/${item.slug}`)
@@ -99,7 +116,9 @@ const QuizPage = () => {
                                   Start Quiz
                                 </Button>
                               ) : (
-                                ""
+                                <p style={{ color: "red" }}>
+                                  Kuis sudah selesai.
+                                </p>
                               )}
                             </Grid>
                           </CardContent>

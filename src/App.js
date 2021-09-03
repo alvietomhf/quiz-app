@@ -5,6 +5,9 @@ import PrivateRoutes from "./routes/PrivateRoutes";
 import LandingPage from "./pages/general/guest/LandingPage";
 import CircularLoading from "./components/lazyLoad/CircularLoading";
 import Register from "./pages/auth/Register";
+import ListUsersPage from "./pages/users/ListUsersPage";
+import HomePage from "./pages/general/authenticated/HomePage";
+import DetailPost from "./pages/general/authenticated/DetailPost";
 
 const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 const QuizDetailPage = lazy(() =>
@@ -17,10 +20,10 @@ const AddEditQuizPage = lazy(() =>
 const AddEditEssayPage = lazy(() =>
   import("./pages/quiz/uploadFiles/AddEditEssayPage")
 );
-const ResultsPage = lazy(() =>
+const QuizResult = lazy(() =>
   import("./pages/quiz/multipeChoices/ResultsPage")
 );
-const HomePage = lazy(() => import("./pages/general/authenticated/HomePage"));
+
 const PurposePage = lazy(() =>
   import("./pages/general/authenticated/PurposePage")
 );
@@ -32,12 +35,13 @@ const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route exact={true} path="/" component={LandingPage} />
+        <Route exact={true} path="/landing" component={LandingPage} />
         <Route exact={true} path="/login" component={Login} />
         <Route exact={true} path="/register" component={Register} />
-
+        <Route exact={true} path="/users" component={ListUsersPage} />
+        <PrivateRoutes exact={true} path="/" component={HomePage} />
+        <PrivateRoutes exact={true} path="/:id" component={DetailPost} />
         <Suspense fallback={<CircularLoading />}>
-          <PrivateRoutes exact={true} path="/home" component={HomePage} />
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
           <PrivateRoutes exact={true} path="/tujuan" component={PurposePage} />
           <PrivateRoutes exact={true} path="/quiz" component={QuizPage} />
@@ -74,8 +78,8 @@ const App = () => {
           />
           <PrivateRoutes
             exact={true}
-            path="/quiz/result"
-            component={ResultsPage}
+            path="/quiz/result/:slug"
+            component={QuizResult}
           />
         </Suspense>
       </Switch>

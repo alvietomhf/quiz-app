@@ -25,7 +25,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Nunito"].join(","),
+    fontFamily: ["Inter"].join(","),
   },
 });
 

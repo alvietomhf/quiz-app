@@ -164,9 +164,12 @@ const Home = () => {
                   return (
                     <UserFeed
                       key={item.id}
+                      id={item.id}
                       name={item.user.name}
+                      dateCreated={item.created_at}
                       image={item.image}
                       caption={item.message}
+                      comments={item.replies}
                     />
                   );
                 })}
