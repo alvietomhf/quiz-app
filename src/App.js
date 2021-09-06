@@ -18,7 +18,7 @@ const AddEditQuizPage = lazy(() =>
   import("./pages/quiz/multipeChoices/AddEditQuizPage")
 );
 const AddEditEssayPage = lazy(() =>
-  import("./pages/quiz/uploadFiles/AddEditEssayPage")
+  import("./pages/quiz/uploadFiles/AddStartEssayPage")
 );
 const QuizResult = lazy(() =>
   import("./pages/quiz/multipeChoices/ResultsPage")
@@ -40,7 +40,7 @@ const App = () => {
         <Route exact={true} path="/register" component={Register} />
         <Route exact={true} path="/users" component={ListUsersPage} />
         <PrivateRoutes exact={true} path="/" component={HomePage} />
-        <PrivateRoutes exact={true} path="/:id" component={DetailPost} />
+        {/* <PrivateRoutes exact={true} path="/:id" component={DetailPost} /> */}
         <Suspense fallback={<CircularLoading />}>
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
           <PrivateRoutes exact={true} path="/tujuan" component={PurposePage} />
@@ -61,11 +61,11 @@ const App = () => {
             component={QuizDetailPage}
           />
           <PrivateRoutes exact={true} path="/essay" component={EssayPage} />
-          <PrivateRoutes
+          {/* <PrivateRoutes
             exact={true}
             path="/essay/start/:slug"
-            component={QuizDetailPage}
-          />
+            component={EssayDetailPage}
+          /> */}
           <PrivateRoutes
             exact={true}
             path="/essay/add"
@@ -73,7 +73,7 @@ const App = () => {
           />
           <PrivateRoutes
             exact={true}
-            path="/essay/edit/:slug"
+            path="/essay/start/:slug"
             component={AddEditEssayPage}
           />
           <PrivateRoutes

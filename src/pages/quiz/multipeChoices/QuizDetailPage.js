@@ -19,7 +19,7 @@ const QuizDetailPage = () => {
     false: 0,
   });
 
-  const { image, question, options = [] } = quiz[currentIndex];
+  const { file, question, options = [] } = quiz[currentIndex];
 
   const MINUTES = 120 * 60;
   const time = new Date();
@@ -159,11 +159,8 @@ const QuizDetailPage = () => {
           ))}
         </div>
       </div>
-      {image ? (
-        <img
-          src={`http://127.0.0.1:8000/assets/images/quiz/${image}`}
-          alt="imagequiz"
-        />
+      {file ? (
+        <img src={`http://127.0.0.1:8000/assets/files/quiz/${file}`} alt="" />
       ) : (
         ""
       )}

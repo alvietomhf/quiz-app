@@ -50,6 +50,14 @@ const deleteQuiz = (slug) =>
       Authorization: "Bearer " + token(),
     },
   });
+const deleteImageQuiz = (id) =>
+  instance({
+    url: `/api/guru/quizzes/questions/${id}/file`,
+    method: "delete",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
 
 const resultQuiz = (slug) =>
   instance({
@@ -67,6 +75,7 @@ const apiQuiz = {
   updateQuiz,
   postResultQuiz,
   resultQuiz,
+  deleteImageQuiz,
 };
 
 export default apiQuiz;

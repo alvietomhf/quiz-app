@@ -65,7 +65,7 @@ const ListUsersPage = () => {
       })
       .then((response) => {
         setLoading(false);
-        setData(response.data);
+        setData(response.data.data);
       });
   }, []);
   console.log(data);

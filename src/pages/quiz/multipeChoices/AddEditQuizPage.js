@@ -23,9 +23,10 @@ const AddEditQuizPage = () => {
     deadline: "",
     questions: [
       {
+        id: "",
         question: "",
-        image: "",
-        options: [{ title: "", correct: 0 }],
+        file: "",
+        options: [{ id: "", title: "", correct: 0 }],
       },
     ],
     type: "quiz",
@@ -39,7 +40,7 @@ const AddEditQuizPage = () => {
         Yup.object()
           .shape({
             question: Yup.string().required("Required"),
-            image: Yup.mixed().nullable(),
+            file: Yup.mixed().nullable(),
             options: Yup.array().of(
               Yup.object().shape({
                 title: Yup.string().required("Required"),
@@ -156,11 +157,18 @@ const AddEditQuizPage = () => {
                         errors,
                         `questions[${i}].question`
                       );
-                      const errorImage = getIn(errors, `questions[${i}].image`);
+                      const errorImage = getIn(errors, `questions[${i}].file`);
                       return (
                         <Grid container key={i} item spacing={2}>
                           <Grid item container spacing={2} xs={12} sm="auto">
                             <Grid item xs={12} sm={6}>
+                              <Field
+                                fullWidth
+                                variant="outlined"
+                                name={`questions[${i}].id`}
+                                style={{ display: "none" }}
+                                as={TextField}
+                              />
                               <Field
                                 fullWidth
                                 variant="outlined"
@@ -184,6 +192,13 @@ const AddEditQuizPage = () => {
                                       );
                                       return (
                                         <Fragment key={index}>
+                                          <Field
+                                            fullWidth
+                                            variant="outlined"
+                                            name={`questions[${i}].options[${index}].id`}
+                                            as={TextField}
+                                            style={{ display: "none" }}
+                                          />
                                           <Field
                                             fullWidth
                                             variant="outlined"
@@ -244,16 +259,17 @@ const AddEditQuizPage = () => {
                               </FieldArray>
                               <div>
                                 <Button variant="outlined" component="label">
-                                  Tambahkan Gambar
+                                  {question.file ? "Edit" : "Tambah"} Gambar
                                   <input
-                                    color={errorImage ? "red" : ""}
+                                    style={{ color: errorImage ? "red" : "" }}
                                     type="file"
+                                    name={`questions[${i}].file`}
                                     hidden
                                     accept="image/*"
                                     onChange={(event) => {
                                       onChangeImage(
                                         event,
-                                        `questions[${i}].image`
+                                        `questions[${i}].file`
                                       );
                                     }}
                                   />
@@ -263,39 +279,67 @@ const AddEditQuizPage = () => {
                                     {errorImage}
                                   </div>
                                 )}
-                                {question.image ? (
+                                {question.file ? (
                                   <div>
-                                    {`Image Uploaded: ${question.image}`}
+                                    {`Image Uploaded: ${question.file}`}
+                                    <img
+                                      style={{ width: 100 }}
+                                      src={`http://127.0.0.1:8000/assets/files/quiz/${question.file}`}
+                                      alt=""
+                                    />
+                                    <button
+                                      type="button"
+                                      style={{ cursor: "pointer" }}
+                                      onClick={async () => {
+                                        await apiQuiz.deleteImageQuiz(
+                                          question.id
+                                        );
+                                        window.location.reload();
+                                      }}
+                                    >
+                                      Remove Image
+                                    </button>
                                   </div>
                                 ) : (
                                   ""
                                 )}
-
-                                <button
-                                  type="button"
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() =>
-                                    setFieldValue(`questions[${i}].image`, null)
-                                  }
-                                >
-                                  No Image
-                                </button>
                               </div>
                             </Grid>
                           </Grid>
                           <Grid item xs={12} sm="auto">
-                            <Button
-                              disabled={isSubmitting}
-                              onClick={() =>
-                                push({
-                                  question: "",
-                                  image: "",
-                                  options: [{ title: "", correct: 0 }],
-                                })
-                              }
-                            >
-                              Add
-                            </Button>
+                            {!isAddMode ? (
+                              <Button
+                                disabled={isSubmitting}
+                                onClick={() =>
+                                  push({
+                                    id: -1,
+                                    question: "",
+                                    file: "",
+                                    options: [
+                                      { id: -1, title: "", correct: 0 },
+                                    ],
+                                  })
+                                }
+                              >
+                                Add
+                              </Button>
+                            ) : (
+                              <Button
+                                disabled={isSubmitting}
+                                onClick={() =>
+                                  push({
+                                    id: "",
+                                    question: "",
+                                    file: "",
+                                    options: [
+                                      { id: "", title: "", correct: 0 },
+                                    ],
+                                  })
+                                }
+                              >
+                                Add
+                              </Button>
+                            )}
                           </Grid>
                           <Grid item xs={12} sm="auto">
                             <Button

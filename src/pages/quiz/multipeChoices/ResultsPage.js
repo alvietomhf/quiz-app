@@ -38,7 +38,7 @@ const ResultsPage = () => {
       .catch((error) => {
         console.log(error);
       });
-  }, [history, location]);
+  }, [history, location, slug]);
 
   return !location.state ? (
     <h1>Forbidden</h1>
