@@ -61,11 +61,6 @@ const App = () => {
             component={QuizDetailPage}
           />
           <PrivateRoutes exact={true} path="/essay" component={EssayPage} />
-          {/* <PrivateRoutes
-            exact={true}
-            path="/essay/start/:slug"
-            component={EssayDetailPage}
-          /> */}
           <PrivateRoutes
             exact={true}
             path="/essay/add"

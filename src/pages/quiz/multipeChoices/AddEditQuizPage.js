@@ -8,7 +8,7 @@ import apiQuiz from "../../../actions/quiz/quiz";
 import DatePicker from "../../../components/DatePickers";
 import { buildFormData } from "../../../components/BuildFormData";
 import { token } from "../../../config/token";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Redirect } from "react-router-dom";
 import instance from "../../../actions/instance";
 import moment from "moment";
 
@@ -111,6 +111,7 @@ const AddEditQuizPage = () => {
       await apiQuiz.updateQuiz(formData, slug);
     }
     FormikRef.current.setSubmitting(false);
+    history.goBack();
   };
 
   const classes = useStyles();

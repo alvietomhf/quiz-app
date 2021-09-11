@@ -24,7 +24,10 @@ const EssayPage = () => {
 
   const deleteQuiz = async (slug) => {
     const response = await apiQuiz.deleteQuiz(slug);
-    window.location.reload();
+    const responseQuiz = await apiQuiz.index("essay");
+    const data = responseQuiz.data.data;
+    setQuiz(data);
+    setLoading(false);
     console.log(response);
   };
 

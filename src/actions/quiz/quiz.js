@@ -31,6 +31,17 @@ const postResultQuiz = (postData, slug) =>
     },
   });
 
+const postResultEssay = (postData, slug) =>
+  instance({
+    url: `/api/siswa/result/${slug}/essay`,
+    data: postData,
+    method: "post",
+    headers: {
+      Authorization: "Bearer " + token(),
+      "Content-Type": "multipart/form-data",
+    },
+  });
+
 const updateQuiz = (putData, slug) =>
   instance({
     url: `/api/guru/quizzes/${slug}`,
@@ -74,6 +85,7 @@ const apiQuiz = {
   postQuiz,
   updateQuiz,
   postResultQuiz,
+  postResultEssay,
   resultQuiz,
   deleteImageQuiz,
 };

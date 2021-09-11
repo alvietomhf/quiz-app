@@ -11,6 +11,7 @@ import { token } from "../../../config/token";
 import PostFeed from "../../../components/PostFeed";
 import { useSelector } from "react-redux";
 import AccountCircle from "@material-ui/icons/AccountCircle";
+import apiFeeds from "../../../actions/feeds/feedsAction";
 
 const Home = () => {
   const auth = useSelector((state) => state.auth.data.user);
@@ -40,22 +41,22 @@ const Home = () => {
 
   const [feeds, setFeeds] = useState([]);
 
+  const sortByDate = (a, b) => {
+    if (a.created_at < b.created_at) {
+      return 1;
+    }
+    if (a.created_at > b.created_at) {
+      return -1;
+    }
+    return 0;
+  };
+
   useEffect(() => {
     const fetchFeeds = async () => {
-      instance
-        .get("/api/feeds", {
-          headers: {
-            Authorization: "Bearer " + token(),
-          },
-        })
-        .then((response) => {
-          const data = response.data.data;
-          setFeeds(data);
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      const response = await apiFeeds.indexFeed();
+      const data = response.data.data;
+      setFeeds(data);
+      console.log(data);
     };
     fetchFeeds();
   }, [auth]);
@@ -154,12 +155,12 @@ const Home = () => {
                     />
                   </Grid>
                   <Grid item xs={12} style={{ width: "100%" }}>
-                    <PostFeed />
+                    <PostFeed setFeeds={setFeeds} />
                   </Grid>
                 </Grid>
               </Paper>
               {feeds
-                .sort((a, b) => (a > b ? 1 : -1))
+                .sort(sortByDate)
                 .map((item) => {
                   return (
                     <UserFeed

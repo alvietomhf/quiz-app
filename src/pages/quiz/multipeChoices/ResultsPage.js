@@ -1,11 +1,11 @@
-import { Container, Paper } from "@material-ui/core";
+import { Avatar, CardHeader, Container, Paper } from "@material-ui/core";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useLocation } from "react-router-dom";
 import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
-
 const ResultsPage = () => {
   const history = useHistory();
   const location = useLocation();
@@ -15,8 +15,29 @@ const ResultsPage = () => {
 
   const columns = [
     {
-      title: "Nama",
+      title: "Email",
+      field: "email",
+    },
+    {
       field: "name",
+      title: "Name",
+      render: (rowData) => {
+        return (
+          <CardHeader
+            style={{ padding: 0 }}
+            avatar={
+              rowData.avatar !== null ? (
+                <Avatar
+                  src={`http://127.0.0.1:8000/assets/images/avatar/${rowData.avatar}`}
+                />
+              ) : (
+                <AccountCircle />
+              )
+            }
+            title={rowData.name}
+          />
+        );
+      },
     },
     {
       title: "Score",
@@ -31,7 +52,6 @@ const ResultsPage = () => {
       .then((response) => {
         const res = response.data.data;
         console.log(res);
-        console.log(response.data.data);
         setLoading(false);
         setResult(res);
       })

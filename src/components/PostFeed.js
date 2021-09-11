@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import React, { createRef, Fragment } from "react";
 import apiFeeds from "../actions/feeds/feedsAction";
 
-const PostFeed = () => {
+const PostFeed = ({ setFeeds }) => {
   const FormikRef = createRef();
   const initialValues = {
     message: "",
@@ -11,13 +11,18 @@ const PostFeed = () => {
   };
 
   const onSubmit = async (values) => {
+    //Post Data Feeds
     const formData = new FormData();
     formData.append("message", values.message);
     formData.append("image", values.image);
     const response = await apiFeeds.postFeed(formData);
     FormikRef.current.setSubmitting(false);
     FormikRef.current.resetForm();
-    window.location.reload();
+
+    //Fetch Data Feeds
+    const responseFeeds = await apiFeeds.indexFeed();
+    const data = responseFeeds.data.data;
+    setFeeds(data);
     console.log(response);
   };
 
@@ -46,9 +51,7 @@ const PostFeed = () => {
             <Form>
               <TextareaAutosize
                 onChange={(e) =>
-                  isSubmitting
-                    ? resetForm()
-                    : setFieldValue("message", e.target.value)
+                  isSubmitting ? "" : setFieldValue("message", e.target.value)
                 }
                 maxRows={4}
                 style={{
@@ -61,6 +64,8 @@ const PostFeed = () => {
                   fontFamily: "Nunito",
                   marginBottom: 10,
                 }}
+                defaultValue=""
+                value={values.message}
                 aria-label="maximum height"
                 placeholder="Apa yang anda pikirkan?"
               />

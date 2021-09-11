@@ -6,7 +6,7 @@ import { ErrorMessage, Field, FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import DatePicker from "../../../components/DatePickers";
 import { formatDate } from "../../../components/formatDatePost";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { buildFormData } from "../../../components/BuildFormData";
 import apiQuiz from "../../../actions/quiz/quiz";
 import instance from "../../../actions/instance";
@@ -18,10 +18,10 @@ const AddEditEssayPage = () => {
   const [selectedDate, setSelectedDate] = useState();
   const FormikRef = useRef();
   const { slug } = useParams();
+  const history = useHistory();
   const isAddMode = !slug;
   const auth = useSelector((state) => state.auth.data.user);
   const initialValues = {
-    id: "",
     title: "",
     deadline: "",
     comment: "",
@@ -64,7 +64,7 @@ const AddEditEssayPage = () => {
           })
           .then((response) => {
             const res = response.data.data;
-            console.log(res);
+            console.log(response);
             const quizField = ["title", "deadline", "questions", "type"];
             quizField.forEach((field) =>
               FormikRef.current.setFieldValue(field, res[field], false)
@@ -84,6 +84,10 @@ const AddEditEssayPage = () => {
     if (!isAddMode) {
       formData.append("_method", "put");
     }
+    if (!isAddMode && auth.role === "siswa") {
+      formData.append("question_id", data.questions[0].id);
+      formData.delete("_method");
+    }
     buildFormData(formData, data);
     return formData;
   };
@@ -97,9 +101,16 @@ const AddEditEssayPage = () => {
       await apiQuiz.postQuiz(formData);
       FormikRef.current.resetForm();
     } else {
-      await apiQuiz.updateQuiz(formData, slug);
+      if (auth.role === "siswa") {
+        // console.log(formData)
+        await apiQuiz.postResultEssay(formData, slug);
+      }
+      if (auth.role === "guru") {
+        await apiQuiz.updateQuiz(formData, slug);
+      }
     }
     FormikRef.current.setSubmitting(false);
+    // history.goBack();
   };
 
   return (
@@ -114,7 +125,7 @@ const AddEditEssayPage = () => {
               innerRef={FormikRef}
               validationSchema={validationSchema}
             >
-              {({ values, errors, touched, isSubmitting }) => (
+              {({ values, errors, touched, isSubmitting, setFieldValue }) => (
                 <Form>
                   <div style={{ display: isAddMode ? "contents" : "none" }}>
                     <Field

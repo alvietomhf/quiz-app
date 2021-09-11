@@ -1,6 +1,15 @@
 import { token } from "../../config/token";
 import instance from "../instance";
 
+const indexFeed = () =>
+  instance({
+    url: "api/feeds",
+    method: "get",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
+
 const postFeed = (data) =>
   instance({
     url: `/api/feeds`,
@@ -14,6 +23,7 @@ const postFeed = (data) =>
 
 const apiFeeds = {
   postFeed,
+  indexFeed,
 };
 
 export default apiFeeds;
