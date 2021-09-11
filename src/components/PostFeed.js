@@ -1,9 +1,16 @@
-import { Button, CircularProgress, TextareaAutosize } from "@material-ui/core";
+import {
+  Button,
+  CircularProgress,
+  TextareaAutosize,
+  Typography,
+} from "@material-ui/core";
 import { Form, Formik } from "formik";
-import React, { createRef, Fragment } from "react";
+import React, { createRef, Fragment, useState } from "react";
 import apiFeeds from "../actions/feeds/feedsAction";
 
 const PostFeed = ({ setFeeds }) => {
+  const [message, setMessage] = useState("");
+  const [isError, setError] = useState(false);
   const FormikRef = createRef();
   const initialValues = {
     message: "",
@@ -15,9 +22,22 @@ const PostFeed = ({ setFeeds }) => {
     const formData = new FormData();
     formData.append("message", values.message);
     formData.append("image", values.image);
-    const response = await apiFeeds.postFeed(formData);
-    FormikRef.current.setSubmitting(false);
-    FormikRef.current.resetForm();
+    const response = await apiFeeds
+      .postFeed(formData)
+      .then((res) => {
+        // console.log(response.data.data.status);
+        FormikRef.current.setSubmitting(false);
+        FormikRef.current.resetForm();
+        setMessage(res.data.message);
+      })
+      .catch((error) => {
+        setError(true);
+        setMessage(error.response.data.message);
+        setTimeout(() => {
+          setError(false);
+          setMessage("");
+        }, 2000);
+      });
 
     //Fetch Data Feeds
     const responseFeeds = await apiFeeds.indexFeed();
@@ -39,14 +59,7 @@ const PostFeed = ({ setFeeds }) => {
         onSubmit={onSubmit}
         innerRef={FormikRef}
       >
-        {({
-          values,
-          setFieldValue,
-          errors,
-          touched,
-          isSubmitting,
-          resetForm,
-        }) => (
+        {({ values, setFieldValue, isSubmitting }) => (
           <Fragment>
             <Form>
               <TextareaAutosize
@@ -57,19 +70,27 @@ const PostFeed = ({ setFeeds }) => {
                 style={{
                   width: "100%",
                   minHeight: 100,
-                  border: "1px solid rgba(163, 163, 163, 0.5)",
+                  border: `1px solid ${
+                    isError ? "red" : "rgba(163, 163, 163, 0.5)"
+                  }`,
                   resize: "none",
                   padding: 10,
                   borderRadius: 5,
                   fontFamily: "Nunito",
-                  marginBottom: 10,
+                  marginBottom: 5,
                 }}
-                defaultValue=""
                 value={values.message}
                 aria-label="maximum height"
                 placeholder="Apa yang anda pikirkan?"
               />
-              <div style={{ display: "flex" }}>
+              <Typography
+                style={{ margin: "5px 0" }}
+                variant="caption"
+                color={isError ? "error" : "primary"}
+              >
+                {message}
+              </Typography>
+              <div style={{ display: "flex", margin: "10px 0" }}>
                 <div>
                   <Button variant="outlined" component="label">
                     Tambahkan File

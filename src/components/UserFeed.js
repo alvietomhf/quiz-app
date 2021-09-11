@@ -91,10 +91,14 @@ const UserFeed = ({
         }
         subheader={moment(dateCreated).fromNow()}
       />
-      <CardMedia
-        component="img"
-        image={`http://127.0.0.1:8000/assets/images/feed/${image}`}
-      />
+      {image !== null ? (
+        <CardMedia
+          component="img"
+          image={`http://127.0.0.1:8000/assets/images/feed/${image}`}
+        />
+      ) : (
+        ""
+      )}
       <CardContent>
         <Box display="flex" flexDirection="column">
           <div>
