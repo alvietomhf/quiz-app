@@ -8,6 +8,7 @@ import Register from "./pages/auth/Register";
 import ListUsersPage from "./pages/users/ListUsersPage";
 import HomePage from "./pages/general/authenticated/HomePage";
 import DetailPost from "./pages/general/authenticated/DetailPost";
+import UserProfilePage from "./pages/users/UserProfilePage";
 
 const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 const QuizDetailPage = lazy(() =>
@@ -43,6 +44,8 @@ const App = () => {
         {/* <PrivateRoutes exact={true} path="/:id" component={DetailPost} /> */}
         <Suspense fallback={<CircularLoading />}>
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
+          <PrivateRoutes exact={true} path="/users/:id" component={UserProfilePage} />
+          <PrivateRoutes exact={true} path="/posts/:id" component={DetailPost} />
           <PrivateRoutes exact={true} path="/tujuan" component={PurposePage} />
           <PrivateRoutes exact={true} path="/quiz" component={QuizPage} />
           <PrivateRoutes

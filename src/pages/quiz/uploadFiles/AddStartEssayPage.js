@@ -175,7 +175,7 @@ const AddEditEssayPage = () => {
                       {values.questions[0].file ? (
                         <div>
                           <a
-                            href={`http://127.0.0.1:8000/assets/files/quiz/${values.questions[0].file}`}
+                            href={`http://192.168.0.8:8000/assets/files/quiz/${values.questions[0].file}`}
                           >
                             download file
                           </a>

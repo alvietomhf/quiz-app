@@ -15,11 +15,13 @@ const DatePicker = ({
   label,
   onChangeDate,
   selectedDate,
+  style
 }) => {
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker
         name={name}
+        style={style}
         disableToolbar
         error={error}
         margin="normal"

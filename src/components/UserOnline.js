@@ -10,8 +10,9 @@ import {
 } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
 
-const UserOnline = ({ id, name, email }) => {
+const UserOnline = ({ id, name, email, goToUserProfile }) => {
   const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
@@ -23,7 +24,7 @@ const UserOnline = ({ id, name, email }) => {
   };
   return (
     <div>
-      <Box textOverflow="ellipsis" key={id} margin={1}>
+      <Box textOverflow="ellipsis" key={id} marginX={1}>
         <CardHeader
           style={{ padding: "10px 0" }}
           action={
@@ -42,7 +43,7 @@ const UserOnline = ({ id, name, email }) => {
                 keepMounted
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>See Profile</MenuItem>
+                <MenuItem onClick={goToUserProfile}>See Profile</MenuItem>
               </Menu>
             </div>
           }
@@ -57,28 +58,18 @@ const UserOnline = ({ id, name, email }) => {
             />
           }
           title={
-            <Typography
+            <div
               style={{
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                width: 220,
                 overflow: "hidden",
-                wordBreak: "break-all",
               }}
-              variant="body2"
             >
-              {name}
-              <br />
-            </Typography>
+              <Typography variant="inherit">{name}</Typography>
+            </div>
           }
-          subheader={
-            <Typography
-              style={{
-                overflow: "hidden",
-                wordBreak: "break-all",
-              }}
-              variant="inherit"
-            >
-              {email}
-            </Typography>
-          }
+          subheader={<Typography variant="inherit">{email}</Typography>}
         />
       </Box>
     </div>

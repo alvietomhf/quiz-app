@@ -118,7 +118,7 @@ const AddEditQuizPage = () => {
 
   return (
     <Grid className={classes.root}>
-      <Paper className={classes.paper}>
+      <Paper>
         <Formik
           innerRef={FormikRef}
           className={classes.form}
@@ -129,242 +129,271 @@ const AddEditQuizPage = () => {
         >
           {({ values, setFieldValue, errors, touched, isSubmitting }) => (
             <Form>
-              <Field
-                as={TextField}
-                variant="outlined"
-                label="Judul Kuis"
-                name="title"
-                placeholder="Judul Kuis"
-                fullWidth
-                error={errors.title && touched.title}
-                helperText={<ErrorMessage name="title" />}
-              />
-              <DatePicker
-                name="deadline"
-                onChangeDate={onChangeDate}
-                selectedDate={selectedDate}
-                error={errors.deadline && touched.deadline}
-                helperText={<ErrorMessage name="deadline" />}
-                label="Deadline"
-              />
-              <FieldArray name="questions">
-                {({ push, remove }) => (
-                  <Fragment>
-                    <Grid item>
-                      <Typography variant="body2">Questions</Typography>
-                    </Grid>
-                    {values.questions.map((question, i) => {
-                      const errorQuestion = getIn(
-                        errors,
-                        `questions[${i}].question`
-                      );
-                      const errorImage = getIn(errors, `questions[${i}].file`);
-                      return (
-                        <Grid container key={i} item spacing={2}>
-                          <Grid item container spacing={2} xs={12} sm="auto">
-                            <Grid item xs={12} sm={6}>
-                              <Field
-                                fullWidth
-                                variant="outlined"
-                                name={`questions[${i}].id`}
-                                style={{ display: "none" }}
-                                as={TextField}
-                              />
-                              <Field
-                                fullWidth
-                                variant="outlined"
-                                name={`questions[${i}].question`}
-                                as={TextField}
-                                error={errorQuestion && true}
-                                label={`Pertanyaan ${i + 1}`}
-                              />
-                              {errorQuestion && (
-                                <div style={{ color: "red" }}>
-                                  {errorQuestion}
-                                </div>
-                              )}
-                              <FieldArray name={`questions[${i}].options`}>
-                                {({ push, remove }) => (
-                                  <Fragment>
-                                    {question.options.map((option, index) => {
-                                      const errorOptionTitle = getIn(
-                                        errors,
-                                        `questions[${i}].options[${index}].title`
-                                      );
-                                      return (
-                                        <Fragment key={index}>
-                                          <Field
-                                            fullWidth
-                                            variant="outlined"
-                                            name={`questions[${i}].options[${index}].id`}
-                                            as={TextField}
-                                            style={{ display: "none" }}
-                                          />
-                                          <Field
-                                            fullWidth
-                                            variant="outlined"
-                                            name={`questions[${i}].options[${index}].title`}
-                                            as={TextField}
-                                            error={errorOptionTitle && true}
-                                            label={`Opsi ${index + 1}`}
-                                          />
-                                          {errorOptionTitle && (
-                                            <div style={{ color: "red" }}>
-                                              {errorOptionTitle}
-                                            </div>
-                                          )}
-                                          <Grid item xs={12} sm="auto">
-                                            <Button
-                                              variant="contained"
-                                              onClick={() => {
-                                                question.options.map(
-                                                  (correct, index2) =>
-                                                    setFieldValue(
-                                                      `questions[${i}].options[${index2}].correct`,
-                                                      0
-                                                    )
-                                                );
-                                                setFieldValue(
-                                                  `questions[${i}].options[${index}].correct`,
-                                                  1
-                                                );
-                                              }}
-                                            >
-                                              {values.questions[i].options[
-                                                index
-                                              ].correct
-                                                ? "Correct Answer"
-                                                : "Mark As Correct"}
-                                            </Button>
-                                            <Button
-                                              variant="contained"
-                                              onClick={() => remove(i)}
-                                            >
-                                              Delete
-                                            </Button>
-                                          </Grid>
-                                        </Fragment>
-                                      );
-                                    })}
-                                    <Grid item xs={12} sm="auto">
-                                      <Button
-                                        onClick={() =>
-                                          push({ title: "", correct: 0 })
-                                        }
-                                      >
-                                        Add
-                                      </Button>
-                                    </Grid>
-                                  </Fragment>
-                                )}
-                              </FieldArray>
-                              <div>
-                                <Button variant="outlined" component="label">
-                                  {question.file ? "Edit" : "Tambah"} Gambar
-                                  <input
-                                    style={{ color: errorImage ? "red" : "" }}
-                                    type="file"
-                                    name={`questions[${i}].file`}
-                                    hidden
-                                    accept="image/*"
-                                    onChange={(event) => {
-                                      onChangeImage(
-                                        event,
-                                        `questions[${i}].file`
-                                      );
-                                    }}
-                                  />
-                                </Button>
-                                {errorImage && (
+              <div style={{ border: "2px solid black", padding: 10 }}>
+                <div style={{ margin: "15px 0" }}>
+                  <Grid item>
+                    <Typography variant="body2" style={{ marginBottom: 10 }}>
+                      Judul Kuis
+                    </Typography>
+                  </Grid>
+                  <Field
+                    as={TextField}
+                    variant="outlined"
+                    name="title"
+                    placeholder="Masukkan Judul Kuis"
+                    size="small"
+                    error={errors.title && touched.title}
+                    helperText={<ErrorMessage name="title" />}
+                  />
+                </div>
+                <div style={{ margin: "15px 0" }}>
+                  <Grid item>
+                    <Typography variant="body2">Deadline</Typography>
+                  </Grid>
+                  <DatePicker
+                    style={{ margin: 0 }}
+                    name="deadline"
+                    onChangeDate={onChangeDate}
+                    selectedDate={selectedDate}
+                    error={errors.deadline && touched.deadline}
+                    helperText={<ErrorMessage name="deadline" />}
+                  />
+                </div>
+                <FieldArray name="questions">
+                  {({ push, remove }) => (
+                    <Fragment>
+                      <Grid item>
+                        <Typography variant="body2">Questions</Typography>
+                      </Grid>
+                      {values.questions.map((question, i) => {
+                        const errorQuestion = getIn(
+                          errors,
+                          `questions[${i}].question`
+                        );
+                        const errorImage = getIn(
+                          errors,
+                          `questions[${i}].file`
+                        );
+                        return (
+                          <Grid container key={i} item spacing={2}>
+                            <Grid item container spacing={2} xs={12} sm="auto">
+                              <Grid item xs={12} sm={6}>
+                                <Field
+                                  fullWidth
+                                  variant="outlined"
+                                  name={`questions[${i}].id`}
+                                  style={{ display: "none" }}
+                                  as={TextField}
+                                />
+                                <Grid item>
+                                  <Typography variant="body2">
+                                    {`Pertanyaan ${i + 1}`}
+                                  </Typography>
+                                </Grid>
+                                <Field
+                                  fullWidth
+                                  variant="outlined"
+                                  name={`questions[${i}].question`}
+                                  size="small"
+                                  as={TextField}
+                                  placeholder="Masukkan pertanyaan"
+                                  error={errorQuestion && true}
+                                />
+                                {errorQuestion && (
                                   <div style={{ color: "red" }}>
-                                    {errorImage}
+                                    {errorQuestion}
                                   </div>
                                 )}
-                                {question.file ? (
-                                  <div>
-                                    {`Image Uploaded: ${question.file}`}
-                                    <img
-                                      style={{ width: 100 }}
-                                      src={`http://127.0.0.1:8000/assets/files/quiz/${question.file}`}
-                                      alt=""
-                                    />
-                                    <button
-                                      type="button"
-                                      style={{ cursor: "pointer" }}
-                                      onClick={async () => {
-                                        await apiQuiz.deleteImageQuiz(
-                                          question.id
+                                <FieldArray name={`questions[${i}].options`}>
+                                  {({ push, remove }) => (
+                                    <Fragment>
+                                      {question.options.map((option, index) => {
+                                        const errorOptionTitle = getIn(
+                                          errors,
+                                          `questions[${i}].options[${index}].title`
                                         );
-                                        window.location.reload();
+                                        return (
+                                          <Fragment key={index}>
+                                            <Field
+                                              fullWidth
+                                              variant="outlined"
+                                              name={`questions[${i}].options[${index}].id`}
+                                              as={TextField}
+                                              style={{ display: "none" }}
+                                            />
+                                            <Field
+                                              fullWidth
+                                              variant="outlined"
+                                              name={`questions[${i}].options[${index}].title`}
+                                              as={TextField}
+                                              error={errorOptionTitle && true}
+                                              label={`Opsi ${index + 1}`}
+                                            />
+                                            {errorOptionTitle && (
+                                              <div style={{ color: "red" }}>
+                                                {errorOptionTitle}
+                                              </div>
+                                            )}
+                                            <Grid item xs={12} sm="auto">
+                                              <Button
+                                                variant="contained"
+                                                onClick={() => {
+                                                  question.options.map(
+                                                    (correct, index2) =>
+                                                      setFieldValue(
+                                                        `questions[${i}].options[${index2}].correct`,
+                                                        0
+                                                      )
+                                                  );
+                                                  setFieldValue(
+                                                    `questions[${i}].options[${index}].correct`,
+                                                    1
+                                                  );
+                                                }}
+                                              >
+                                                {values.questions[i].options[
+                                                  index
+                                                ].correct
+                                                  ? "Correct Answer"
+                                                  : "Mark As Correct"}
+                                              </Button>
+                                            </Grid>
+                                            <Grid item xs={6} sm="auto">
+                                              {index === 3 ? (
+                                                ""
+                                              ) : (
+                                                <Button
+                                                  onClick={() =>
+                                                    push({
+                                                      title: "",
+                                                      correct: 0,
+                                                    })
+                                                  }
+                                                >
+                                                  Add
+                                                </Button>
+                                              )}
+                                              <Button
+                                                onClick={() => remove(index)}
+                                              >
+                                                Delete
+                                              </Button>
+                                            </Grid>
+                                          </Fragment>
+                                        );
+                                      })}
+                                    </Fragment>
+                                  )}
+                                </FieldArray>
+                                <div>
+                                  <Button variant="outlined" component="label">
+                                    {question.file ? "Edit" : "Tambah"} Gambar
+                                    <input
+                                      style={{ color: errorImage ? "red" : "" }}
+                                      type="file"
+                                      name={`questions[${i}].file`}
+                                      hidden
+                                      accept="image/*"
+                                      onChange={(event) => {
+                                        onChangeImage(
+                                          event,
+                                          `questions[${i}].file`
+                                        );
                                       }}
-                                    >
-                                      Remove Image
-                                    </button>
-                                  </div>
-                                ) : (
-                                  ""
-                                )}
-                              </div>
+                                    />
+                                  </Button>
+                                  {errorImage && (
+                                    <div style={{ color: "red" }}>
+                                      {errorImage}
+                                    </div>
+                                  )}
+                                  {question.file ? (
+                                    <div>
+                                      {`Image Uploaded: ${question.file}`}
+                                      <img
+                                        style={{ width: 100 }}
+                                        src={`http://192.168.0.8:8000/assets/files/quiz/${question.file}`}
+                                        alt=""
+                                      />
+                                      <button
+                                        type="button"
+                                        style={{ cursor: "pointer" }}
+                                        onClick={async () => {
+                                          await apiQuiz.deleteImageQuiz(
+                                            question.id
+                                          );
+                                          window.location.reload();
+                                        }}
+                                      >
+                                        Remove Image
+                                      </button>
+                                    </div>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
+                              </Grid>
+                            </Grid>
+                            <Grid item xs={12} sm="auto">
+                              {!isAddMode ? (
+                                <Button
+                                  disabled={isSubmitting}
+                                  onClick={() =>
+                                    push({
+                                      id: -1,
+                                      question: "",
+                                      file: "",
+                                      options: [
+                                        { id: -1, title: "", correct: 0 },
+                                      ],
+                                    })
+                                  }
+                                >
+                                  Add
+                                </Button>
+                              ) : i === 9 ? (
+                                ""
+                              ) : (
+                                <Button
+                                  disabled={isSubmitting}
+                                  onClick={() =>
+                                    push({
+                                      id: "",
+                                      question: "",
+                                      file: "",
+                                      options: [
+                                        { id: "", title: "", correct: 0 },
+                                      ],
+                                    })
+                                  }
+                                >
+                                  Add
+                                </Button>
+                              )}
+                            </Grid>
+                            <Grid item xs={12} sm="auto">
+                              <Button
+                                disabled={i <= 0 || isSubmitting}
+                                onClick={() => remove(i)}
+                              >
+                                Delete
+                              </Button>
                             </Grid>
                           </Grid>
-                          <Grid item xs={12} sm="auto">
-                            {!isAddMode ? (
-                              <Button
-                                disabled={isSubmitting}
-                                onClick={() =>
-                                  push({
-                                    id: -1,
-                                    question: "",
-                                    file: "",
-                                    options: [
-                                      { id: -1, title: "", correct: 0 },
-                                    ],
-                                  })
-                                }
-                              >
-                                Add
-                              </Button>
-                            ) : (
-                              <Button
-                                disabled={isSubmitting}
-                                onClick={() =>
-                                  push({
-                                    id: "",
-                                    question: "",
-                                    file: "",
-                                    options: [
-                                      { id: "", title: "", correct: 0 },
-                                    ],
-                                  })
-                                }
-                              >
-                                Add
-                              </Button>
-                            )}
-                          </Grid>
-                          <Grid item xs={12} sm="auto">
-                            <Button
-                              disabled={i <= 0 || isSubmitting}
-                              onClick={() => remove(i)}
-                            >
-                              Delete
-                            </Button>
-                          </Grid>
-                        </Grid>
-                      );
-                    })}
-                  </Fragment>
-                )}
-              </FieldArray>
-              <Button
-                type="submit"
-                color="primary"
-                variant="contained"
-                fullWidth
-                style={{ margin: 10 }}
-              >
-                Submit
-              </Button>
+                        );
+                      })}
+                    </Fragment>
+                  )}
+                </FieldArray>
+                <Button
+                  type="submit"
+                  color="primary"
+                  variant="contained"
+                  style={{ margin: 10 }}
+                >
+                  Submit
+                </Button>
+              </div>
             </Form>
           )}
         </Formik>

@@ -160,7 +160,7 @@ const QuizDetailPage = () => {
         </div>
       </div>
       {file ? (
-        <img src={`http://127.0.0.1:8000/assets/files/quiz/${file}`} alt="" />
+        <img src={`http://192.168.0.8:8000/assets/files/quiz/${file}`} alt="" />
       ) : (
         ""
       )}

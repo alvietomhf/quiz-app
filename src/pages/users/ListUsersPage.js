@@ -10,6 +10,7 @@ import {
   CardHeader,
   Typography,
   Avatar,
+  Grid,
 } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
@@ -35,7 +36,7 @@ const ListUsersPage = () => {
             avatar={
               rowData.avatar !== null ? (
                 <Avatar
-                  src={`http://127.0.0.1:8000/assets/images/avatar/${rowData.avatar}`}
+                  src={`http://192.168.0.8:8000/assets/images/avatar/${rowData.avatar}`}
                 />
               ) : (
                 <AccountCircle />
@@ -71,26 +72,31 @@ const ListUsersPage = () => {
   console.log(data);
   return (
     <div>
-      {auth.role === "admin" && (
-        <Button
-          style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-          variant="contained"
-          color="primary"
-        >
-          Tambah Guru
-        </Button>
-      )}
-      <MaterialTable
-        title="Users"
-        isLoading={isLoading}
-        columns={columns}
-        data={data}
-        options={{
-          search: true,
-          sorting: true,
-          tableLayout: "auto",
-        }}
-      />
+      <Grid container>
+        <Grid xs={12} item style={{ width: 120 }}>
+          {auth.role === "admin" && (
+            <Button
+              style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
+              variant="contained"
+              color="primary"
+            >
+              Tambah Guru
+            </Button>
+          )}
+          <MaterialTable
+            title="Users"
+            isLoading={isLoading}
+            style={{ width: "100%" }}
+            columns={columns}
+            data={data}
+            options={{
+              search: true,
+              sorting: true,
+              tableLayout: "auto",
+            }}
+          />
+        </Grid>
+      </Grid>
     </div>
   );
 };

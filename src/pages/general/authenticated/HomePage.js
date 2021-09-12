@@ -12,32 +12,38 @@ import PostFeed from "../../../components/PostFeed";
 import { useSelector } from "react-redux";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import apiFeeds from "../../../actions/feeds/feedsAction";
+import { useHistory } from "react-router";
+import FeedSkeleton from "../../../components/FeedSkeleton";
+import SkeletonUserOnline from "../../../components/SkeletonUserOnline";
 
 const Home = () => {
   const auth = useSelector((state) => state.auth.data.user);
-  const userOnline = [
-    {
-      id: 1,
-      name: "Dr.Hendrawan, S.Pd",
-      email: "hendrawanspd@gmail.com",
-      caption:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
-    },
-    {
-      id: 2,
-      name: "Dr.Dwiki Yosafat, S.Pd",
-      email: "hendrawanspd@gmail.com",
-      caption:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
-    },
-    {
-      id: 3,
-      name: "Dr.Heri Purwanto, S.Pd",
-      email: "hendrawanspd@gmail.com",
-      caption:
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
-    },
-  ];
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const history = useHistory();
+  // const userOnline = [
+  //   {
+  //     id: 1,
+  //     name: "Dr.Hendrawan, S.Pd",
+  //     email: "hendrawanspd@gmail.com",
+  //     caption:
+  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Dr.Dwiki Yosafat, S.Pd",
+  //     email: "hendrawanspd@gmail.com",
+  //     caption:
+  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Dr.Heri Purwanto, S.Pd",
+  //     email: "hendrawanspd@gmail.com",
+  //     caption:
+  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
+  //   },
+  // ];
 
   const [feeds, setFeeds] = useState([]);
 
@@ -51,147 +57,145 @@ const Home = () => {
     return 0;
   };
 
+  const goToUserProfile = (id) => {
+    history.push({ pathname: `/users/${id}` });
+  };
+
   useEffect(() => {
     const fetchFeeds = async () => {
       const response = await apiFeeds.indexFeed();
       const data = response.data.data;
       setFeeds(data);
+      setLoading(false);
       console.log(data);
     };
+    const fetchUser = async () => {
+      instance
+        .get("api/users", {
+          headers: {
+            Authorization: "Bearer " + token(),
+          },
+        })
+        .then((response) => {
+          setOnlineUsers(response.data.data);
+          setLoading(false);
+        });
+    };
     fetchFeeds();
+    fetchUser();
   }, [auth]);
 
   const classes = useStyles();
   return (
     <div>
-      <Grid container className={classes.root} spacing={2}>
-        <Grid item xs={12}>
-          <Grid
-            container
-            className={classes.rootGrid}
-            justifyContent="center"
-            spacing={2}
-          >
-            <Grid item>
-              <Paper className={classes.userPaper}>
-                <Box>
-                  <CardHeader
-                    style={{ padding: 5 }}
-                    avatar={
-                      auth.avatar ? (
-                        <Avatar
-                          src={`http://127.0.0.1:8000/assets/images/avatar/${auth.avatar}`}
-                          aria-label="recipe"
-                          className={classes.avatar}
-                        />
-                      ) : (
-                        <AccountCircle />
-                      )
-                    }
-                    title={
-                      <Typography
-                        variant="body1"
-                        style={{ fontSize: 20, margin: 0 }}
-                      >
-                        {auth.name}
-                        <br />
-                      </Typography>
-                    }
-                    subheader={
-                      <Typography
-                        variant="subtitle1"
-                        style={{ fontSize: 12, margin: 0 }}
-                        gutterBottom
-                      >
-                        {auth.email}
-                      </Typography>
-                    }
-                  />
-                </Box>
-              </Paper>
+      <Grid container spacing={2} className={classes.rootGrid}>
+        {/* <Grid item xs={12}>
+          <Grid container justifyContent="center" spacing={2}>
+            <Grid item style={{ border: "1px solid black" }}>
+              Recent User
             </Grid>
-            <Grid item className={classes.userGridInput}>
-              <Paper
-                style={{ minHeight: 180, overflow: "hidden" }}
-                className={classes.userInputFeed}
-              >
-                <Grid container>
-                  <Grid
-                    item
-                    xs={12}
-                    className={classes.userDetailInputFeed}
-                    lg={1}
+            <Grid item style={{ border: "1px solid black" }}>
+              Post Feed
+            </Grid>
+            <Grid item style={{ border: "1px solid black" }}>
+              Feeds
+            </Grid>
+          </Grid>
+        </Grid> */}
+        <Grid item xs={12} lg={3} className={classes.gridItem}>
+          <Paper className={classes.userPaper}>
+            <Box>
+              <CardHeader
+                style={{ padding: 5 }}
+                avatar={
+                  auth.avatar ? (
+                    <Avatar
+                      src={`http://192.168.0.8:8000/assets/images/avatar/${auth.avatar}`}
+                      aria-label="recipe"
+                      className={classes.avatar}
+                    />
+                  ) : (
+                    <AccountCircle />
+                  )
+                }
+                title={
+                  <Typography
+                    variant="body1"
+                    style={{ fontSize: 20, margin: 0 }}
                   >
-                    <CardHeader
-                      style={{ padding: 5 }}
-                      avatar={
-                        <Avatar
-                          src="https://i.imgur.com/iJq78XH.jpg"
-                          aria-label="recipe"
-                          className={classes.avatarFeed}
-                        />
-                      }
-                      title={
-                        <Typography
-                          variant="body1"
-                          style={{ fontSize: 20, margin: 0 }}
-                          className={classes.textAreaUserDetail}
-                          gutterBottom
-                        >
-                          {auth.name}
-                          <br />
-                        </Typography>
-                      }
-                      subheader={
-                        <Typography
-                          variant="subtitle1"
-                          style={{ fontSize: 12, margin: 0 }}
-                          gutterBottom
-                          className={classes.textAreaUserDetail}
-                        >
-                          {auth.email}
-                        </Typography>
-                      }
-                    />
-                  </Grid>
-                  <Grid item xs={12} style={{ width: "100%" }}>
-                    <PostFeed setFeeds={setFeeds} />
-                  </Grid>
-                </Grid>
-              </Paper>
-              {feeds
-                .sort(sortByDate)
-                .map((item) => {
-                  return (
-                    <UserFeed
-                      key={item.id}
-                      id={item.id}
-                      name={item.user.name}
-                      dateCreated={item.created_at}
-                      image={item.image}
-                      caption={item.message}
-                      comments={item.replies}
-                    />
-                  );
-                })}
+                    {auth.name}
+                    <br />
+                  </Typography>
+                }
+                subheader={
+                  <Typography
+                    variant="subtitle1"
+                    style={{ fontSize: 12, margin: 0 }}
+                    gutterBottom
+                  >
+                    {auth.email}
+                  </Typography>
+                }
+              />
+            </Box>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} lg={5} className={classes.gridItem}>
+          <Paper
+            style={{ minHeight: 180, overflow: "hidden" }}
+            className={classes.userInputFeed}
+          >
+            <Grid container>
+              <Grid item xs={12} style={{ width: "100%" }}>
+                <PostFeed setFeeds={setFeeds} />
+              </Grid>
             </Grid>
-            <Grid item className={classes.gridUserOnline}>
-              <Paper className={classes.userOnlinePaper}>
-                <Typography variant="h6" gutterBottom>
-                  <b>User Online</b>
-                </Typography>
-                {userOnline.map((user) => {
+          </Paper>
+          {loading ? (
+            <FeedSkeleton />
+          ) : (
+            feeds.sort(sortByDate).map((item) => {
+              return (
+                <UserFeed
+                  key={item.id}
+                  id={item.id}
+                  name={item.user.name}
+                  dateCreated={item.created_at}
+                  image={item.image}
+                  setFeeds={setFeeds}
+                  caption={item.message}
+                  comments={item.replies}
+                  userID={item.user.id}
+                />
+              );
+            })
+          )}
+        </Grid>
+        <Grid item xs={12} lg={4} className={classes.gridItem}>
+          <Paper className={classes.userOnlinePaper}>
+            <div>
+              <Typography variant="h6" gutterBottom>
+                <b>User Online</b>
+              </Typography>
+              {loading ? (
+                <div>
+                  <SkeletonUserOnline />
+                  <SkeletonUserOnline />
+                </div>
+              ) : (
+                onlineUsers.map((user) => {
                   return (
                     <UserOnline
                       key={user.id}
                       name={user.name}
                       email={user.email}
+                      goToUserProfile={() => goToUserProfile(user.id)}
                     />
                   );
-                })}
-              </Paper>
-            </Grid>
-          </Grid>
+                })
+              )}
+            </div>
+          </Paper>
         </Grid>
       </Grid>
     </div>
@@ -199,8 +203,11 @@ const Home = () => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
+  root: {},
+  gridItem: {
+    [theme.breakpoints.up("lg")]: {
+      margin: 0,
+    },
   },
   rootGrid: {
     [theme.breakpoints.down("sm")]: {
@@ -221,7 +228,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   userPaper: {
-    width: 260,
     padding: 10,
     position: "sticky",
     alignSelf: "flex-start",
@@ -244,19 +250,8 @@ const useStyles = makeStyles((theme) => ({
     position: "sticky",
     alignSelf: "flex-start",
     top: 80,
-    overflowY: "auto",
-    padding: 10,
+    padding: 15,
     [theme.breakpoints.down("sm")]: {
-      width: "100%",
-    },
-  },
-  gridUserOnline: {
-    flexDirection: "column-reverse",
-    width: 330,
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-    },
-    [theme.breakpoints.between("sm", "md")]: {
       width: "100%",
     },
   },
@@ -284,4 +279,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(Home, "Multimedia Interaktif");
+export default Layout(Home, "Home");

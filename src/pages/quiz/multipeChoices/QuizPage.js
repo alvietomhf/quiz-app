@@ -15,6 +15,7 @@ import {
 import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 import { Fragment } from "react";
 import moment from "moment";
+import EmptyDataComponent from "../../../components/EmptyData";
 
 const QuizPage = () => {
   const [quiz, setQuiz] = useState([]);
@@ -48,24 +49,42 @@ const QuizPage = () => {
   return (
     <Container>
       <Grid container className={classes.root} spacing={2}>
-        {auth.role === "guru" ? (
-          <Button variant="contained" onClick={() => history.push("/quiz/add")}>
-            Add Quiz
-          </Button>
-        ) : (
-          ""
-        )}
         <Grid item xs={12}>
           {loading ? (
             <LoadingProgress />
           ) : (
-            <div style={{ display: "flex" }}>
-              {quiz.length === 0
-                ? "Quiz not found"
-                : quiz
-                    .sort((a, b) => (a.title > b.title ? 1 : -1))
-                    .map((item) => {
-                      return (
+            <div>
+              {quiz.length === 0 ? (
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "80vh",
+                  }}
+                >
+                  <EmptyDataComponent label="Kuis" />
+                  {auth.role === "guru" ? (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={() => history.push("/essay/add")}
+                    >
+                      Add Essay
+                    </Button>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                quiz
+                  .sort((a, b) => (a.title > b.title ? 1 : -1))
+                  .map((item) => {
+                    return (
+                      <div>
                         <Card key={item.id} className={classes.cardQuizList}>
                           <CardContent>
                             <Typography variant="body1">
@@ -126,8 +145,10 @@ const QuizPage = () => {
                             </Grid>
                           </CardContent>
                         </Card>
-                      );
-                    })}
+                      </div>
+                    );
+                  })
+              )}
             </div>
           )}
         </Grid>

@@ -20,10 +20,20 @@ const postFeed = (data) =>
       "Content-Type": "multipart/form-data",
     },
   });
+const postFeedComments = (data, feedID) =>
+  instance({
+    url: `/api/feeds/${feedID}/reply`,
+    data: data,
+    method: "post",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
 
 const apiFeeds = {
   postFeed,
   indexFeed,
+  postFeedComments,
 };
 
 export default apiFeeds;
