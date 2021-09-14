@@ -426,7 +426,10 @@ const AddEditQuizPage = () => {
                                       {`Image Found`}
                                       <Button
                                         color="secondary"
-                                        style={{ cursor: "pointer", marginLeft: 5 }}
+                                        style={{
+                                          cursor: "pointer",
+                                          marginLeft: 5,
+                                        }}
                                         onClick={async () => {
                                           await apiQuiz.deleteImageQuiz(
                                             question.id
@@ -448,10 +451,7 @@ const AddEditQuizPage = () => {
                                 </div>
                               </Grid>
                             </Grid>
-                            <Grid
-                              container
-                              style={{ marginTop: 15, marginLeft: 7 }}
-                            >
+                            <Grid container style={{ margin: "15px 0 15px 7px" }}>
                               <Grid
                                 item
                                 xs={12}
