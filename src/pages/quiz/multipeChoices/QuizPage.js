@@ -71,9 +71,9 @@ const QuizPage = () => {
                       variant="contained"
                       color="primary"
                       size="large"
-                      onClick={() => history.push("/essay/add")}
+                      onClick={() => history.push("/quiz/add")}
                     >
-                      Add Essay
+                      Add Kuis
                     </Button>
                   ) : (
                     ""
@@ -84,8 +84,8 @@ const QuizPage = () => {
                   .sort((a, b) => (a.title > b.title ? 1 : -1))
                   .map((item) => {
                     return (
-                      <div>
-                        <Card key={item.id} className={classes.cardQuizList}>
+                      <div key={item.id}>
+                        <Card className={classes.cardQuizList}>
                           <CardContent>
                             <Typography variant="body1">
                               {item.title}

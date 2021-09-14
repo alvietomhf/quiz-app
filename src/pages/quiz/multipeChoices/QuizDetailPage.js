@@ -21,15 +21,6 @@ const QuizDetailPage = () => {
 
   const { file, question, options = [] } = quiz[currentIndex];
 
-  const MINUTES = 120 * 60;
-  const time = new Date();
-  time.setSeconds(time.getSeconds() + MINUTES);
-
-  const { seconds, minutes, hours } = useTimer({
-    expiryTimestamp: time,
-    onExpire: () => setCurrentIndex(quiz.length - 1),
-  });
-
   useEffect(() => {
     const fetchDetailQuiz = async () => {
       instance
@@ -95,6 +86,15 @@ const QuizDetailPage = () => {
       });
   };
 
+  const MINUTES = 900;
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + MINUTES);
+
+  const { seconds, minutes } = useTimer({
+    expiryTimestamp: time,
+    onExpire: () => setCurrentIndex(quiz.length - 1),
+  });
+
   const selectOption = (indexSelected, indexOptionSelected) => {
     setQuiz(
       quiz.map((item, index) =>
@@ -120,7 +120,7 @@ const QuizDetailPage = () => {
   return (
     <div>
       <h2 className="text-center mb-3 mt-3">
-        Quiz Screen - Timer: {hours}:{minutes}:{seconds}
+        Quiz Screen - Timer: {minutes}:{seconds}
       </h2>
       <div className="card mb-3">
         <div
@@ -160,7 +160,11 @@ const QuizDetailPage = () => {
         </div>
       </div>
       {file ? (
-        <img src={`http://192.168.0.8:8000/assets/files/quiz/${file}`} alt="" />
+        <img
+          style={{ width: 240 }}
+          src={`http://192.168.0.8:8000/assets/files/quiz/${file}`}
+          alt=""
+        />
       ) : (
         ""
       )}

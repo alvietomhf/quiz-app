@@ -29,7 +29,7 @@ import { useHistory } from "react-router";
 import { logOut } from "../actions/auth/authAction";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
-import { Archive, Group, PeopleAlt } from "@material-ui/icons";
+import { Archive, PeopleAlt } from "@material-ui/icons";
 const Layout = (Component, namePage) => {
   const Navbar = (props) => {
     console.clear();
@@ -62,10 +62,6 @@ const Layout = (Component, namePage) => {
 
     const handleDropDownMateri = () => {
       setdropDownMateri(!dropDownMateri);
-    };
-
-    const handleDropDownUser = () => {
-      setdropDownUser(!dropDownUser);
     };
 
     const itemsList = [

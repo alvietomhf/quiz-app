@@ -2,10 +2,8 @@ import "date-fns";
 import React from "react";
 import DateFnsUtils from "@date-io/date-fns";
 import {
-  DateTimePicker,
   KeyboardDateTimePicker,
   MuiPickersUtilsProvider,
-  KeyboardDatePicker,
 } from "@material-ui/pickers";
 
 const DatePicker = ({
