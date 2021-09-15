@@ -8,7 +8,7 @@ import {
   Card,
   Box,
   CardContent,
-  Container,
+  Paper,
   Grid,
   makeStyles,
   Typography,
@@ -19,6 +19,7 @@ import { Fragment } from "react";
 import moment from "moment";
 import EmptyDataComponent from "../../../components/EmptyData";
 import AddCircle from "@material-ui/icons/AddCircle";
+import { Skeleton } from "@material-ui/lab";
 
 const QuizPage = () => {
   const [quiz, setQuiz] = useState([]);
@@ -54,7 +55,13 @@ const QuizPage = () => {
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={12}>
           {loading ? (
-            <LoadingProgress />
+            <Card className={classes.cardQuizList}>
+              <CardContent>
+                <Skeleton animation="wave" width={240} />
+                <Skeleton animation="wave" width={200} />
+                <Skeleton animation="wave" width={120} />
+              </CardContent>
+            </Card>
           ) : (
             <div>
               {quiz.length === 0 ? (
@@ -99,8 +106,14 @@ const QuizPage = () => {
                         .sort((a, b) => (a.title > b.title ? 1 : -1))
                         .map((item) => {
                           return (
-                            <Grid item xs={12} lg={4} key={item.id}>
-                              <Card className={classes.cardQuizList}>
+                            <Grid
+                              item
+                              xs={12}
+                              className={classes.cardQuizList}
+                              lg={4}
+                              key={item.id}
+                            >
+                              <Card>
                                 <CardContent>
                                   <div
                                     style={{
@@ -210,7 +223,7 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   cardQuizList: {
-    width: 340,
+    width: "fit-content",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
