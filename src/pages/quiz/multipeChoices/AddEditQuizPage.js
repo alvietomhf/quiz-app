@@ -191,8 +191,23 @@ const AddEditQuizPage = () => {
                         );
                         return (
                           <Grid container key={i} item spacing={2}>
-                            <Grid item container spacing={2}>
-                              <Grid item xs={12}>
+                            <Grid
+                              item
+                              container
+                              spacing={2}
+                              style={{
+                                margin: "20px 0",
+                              }}
+                            >
+                              <Grid
+                                item
+                                xs={12}
+                                style={{
+                                  borderTop: "1px solid #E3E3E3",
+                                  borderBottom: "1px solid #E3E3E3",
+                                  padding: "20px 0",
+                                }}
+                              >
                                 <Field
                                   fullWidth
                                   variant="outlined"
@@ -289,7 +304,7 @@ const AddEditQuizPage = () => {
                                                     >
                                                       <Grid
                                                         item
-                                                        xs={12}
+                                                        xs={6}
                                                         sm="auto"
                                                       >
                                                         <Button
@@ -339,7 +354,7 @@ const AddEditQuizPage = () => {
                                                       </Grid>
                                                       <Grid
                                                         item
-                                                        xs={12}
+                                                        xs={6}
                                                         sm="auto"
                                                       >
                                                         {index > 0 ? (
@@ -451,7 +466,10 @@ const AddEditQuizPage = () => {
                                 </div>
                               </Grid>
                             </Grid>
-                            <Grid container style={{ margin: "15px 0 15px 7px" }}>
+                            <Grid
+                              container
+                              style={{ margin: "15px 0 15px 7px" }}
+                            >
                               <Grid
                                 item
                                 xs={12}
