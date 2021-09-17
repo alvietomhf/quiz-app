@@ -43,7 +43,6 @@ const Layout = (Component, namePage) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
-    const [dropDownUser, setdropDownUser] = useState(false);
     const [dropDownTugas, setdropDownTugas] = useState(false);
     const [dropDownMateri, setdropDownMateri] = useState(false);
 

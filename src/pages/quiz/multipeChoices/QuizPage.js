@@ -8,18 +8,14 @@ import {
   Card,
   Box,
   CardContent,
-  Paper,
   Grid,
   makeStyles,
   Typography,
-  IconButton,
   CardMedia,
 } from "@material-ui/core";
-import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 import { Fragment } from "react";
 import moment from "moment";
 import EmptyDataComponent from "../../../components/EmptyData";
-import AddCircle from "@material-ui/icons/AddCircle";
 import { Skeleton } from "@material-ui/lab";
 
 const QuizPage = () => {
@@ -119,6 +115,7 @@ const QuizPage = () => {
                                   <CardMedia
                                     component="img"
                                     height="240"
+                                    loading='lazy'
                                     image={`http://192.168.0.8:8000/assets/images/quiz/${item.banner}`}
                                     alt=""
                                   />
@@ -126,7 +123,8 @@ const QuizPage = () => {
                                   <CardMedia
                                     component="img"
                                     height="240"
-                                    image={`https://source.unsplash.com/1600x900/?quiz,learning`}
+                                    loading='lazy'
+                                    image={`https://source.unsplash.com/1600x900/?students,teacher`}
                                     alt=""
                                   />
                                 )}

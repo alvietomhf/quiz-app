@@ -15,19 +15,12 @@ import apiQuiz from "../../../actions/quiz/quiz";
 import DatePicker from "../../../components/DatePickers";
 import { buildFormData } from "../../../components/BuildFormData";
 import { token } from "../../../config/token";
-import { useHistory, useParams, Redirect } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import instance from "../../../actions/instance";
 import moment from "moment";
 import AddIcon from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
-import {
-  Camera,
-  CameraAlt,
-  Delete,
-  Save,
-  SaveAlt,
-  Send,
-} from "@material-ui/icons";
+import { CameraAlt, Delete, Send } from "@material-ui/icons";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 const AddEditQuizPage = () => {
@@ -254,12 +247,11 @@ const AddEditQuizPage = () => {
                                 }}
                               >
                                 <Field
+                                  as={TextField}
                                   fullWidth
                                   variant="outlined"
                                   name={`questions[${i}].id`}
                                   style={{ display: "none" }}
-                                  as={TextField}
-                                  fullWidth
                                 />
                                 <Grid item>
                                   <Typography
@@ -271,11 +263,10 @@ const AddEditQuizPage = () => {
                                   </Typography>
                                 </Grid>
                                 <Field
+                                  as={TextField}
                                   fullWidth
                                   variant="outlined"
                                   name={`questions[${i}].question`}
-                                  as={TextField}
-                                  fullWidth
                                   placeholder="Masukkan pertanyaan"
                                   error={errorQuestion && true}
                                 />

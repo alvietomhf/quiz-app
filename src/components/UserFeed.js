@@ -56,17 +56,13 @@ const UserFeed = ({
     const response = await apiFeeds
       .postFeedComments(formData, id)
       .then((res) => {
-        // console.log(response.data.data.status);
         FormikRef.current.setSubmitting(false);
         FormikRef.current.resetForm();
-        // setMessage(res.data.message);
       })
       .catch((error) => {
         setError(true);
-        // setMessage(error.response.data.message);
         setTimeout(() => {
           setError(false);
-          // setMessage("");
         }, 2000);
       });
 
@@ -177,18 +173,6 @@ const UserFeed = ({
                   aria-label="maximum height"
                   placeholder="Tulis komentar anda..."
                 />
-                {/* <button
-                  type="submit"
-                  style={{
-                    border: 0,
-                    background: "transparent",
-                    cursor: "pointer",
-                  }}
-                >
-                  <Typography variant="body1" color="textSecondary">
-                    Post
-                  </Typography>
-                </button> */}
                 <Button
                   style={{ margin: "0 5px" }}
                   color="primary"

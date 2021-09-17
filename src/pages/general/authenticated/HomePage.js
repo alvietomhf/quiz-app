@@ -21,30 +21,6 @@ const Home = () => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const history = useHistory();
-  // const userOnline = [
-  //   {
-  //     id: 1,
-  //     name: "Dr.Hendrawan, S.Pd",
-  //     email: "hendrawanspd@gmail.com",
-  //     caption:
-  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Dr.Dwiki Yosafat, S.Pd",
-  //     email: "hendrawanspd@gmail.com",
-  //     caption:
-  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Dr.Heri Purwanto, S.Pd",
-  //     email: "hendrawanspd@gmail.com",
-  //     caption:
-  //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus fermentum venenatis pulvinar. Proin vitae lectus urna. Sed erat ipsum, maximus a elit nec, condimentum placerat ex. Ut tincidunt mi eget condimentum mollis. Pellentesque aliquam velit quis est varius, sed molestie dolor ultrices. Pellentesque eget dapibus eros, at blandit arcu. Duis id purus quis mi porttitor viverra vel tempus elit. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos posuere",
-  //   },
-  // ];
-
   const [feeds, setFeeds] = useState([]);
 
   const sortByDate = (a, b) => {

@@ -6,9 +6,7 @@ import MaterialTable from "material-table";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import {
   Button,
-  Paper,
   CardHeader,
-  Typography,
   Avatar,
   Grid,
 } from "@material-ui/core";

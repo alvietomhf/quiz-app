@@ -70,9 +70,9 @@ const deleteImageQuiz = (id) =>
     },
   });
 
-const resultQuiz = (slug) =>
+const resultQuiz = (slug, type) =>
   instance({
-    url: `/api/guru/result/${slug}/quiz`,
+    url: `/api/guru/result/${slug}/${type}`,
     method: "get",
     headers: {
       Authorization: "Bearer " + token(),

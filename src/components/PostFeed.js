@@ -1,15 +1,14 @@
 import {
   Button,
   CircularProgress,
-  TextareaAutosize,
+  TextField,
   Typography,
 } from "@material-ui/core";
-import { Form, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import React, { createRef, Fragment, useState } from "react";
 import apiFeeds from "../actions/feeds/feedsAction";
 
-const PostFeed = ({ setFeeds }) => {
-  const [message, setMessage] = useState("");
+const PostFeed = ({ setFeeds, setMessage }) => {
   const [isError, setError] = useState(false);
   const FormikRef = createRef();
   const initialValues = {
@@ -62,34 +61,22 @@ const PostFeed = ({ setFeeds }) => {
         {({ values, setFieldValue, isSubmitting }) => (
           <Fragment>
             <Form>
-              <TextareaAutosize
-                onChange={(e) =>
-                  isSubmitting ? "" : setFieldValue("message", e.target.value)
-                }
-                maxRows={4}
-                style={{
-                  width: "100%",
-                  minHeight: 100,
-                  border: `1px solid ${
-                    isError ? "red" : "rgba(163, 163, 163, 0.5)"
-                  }`,
-                  resize: "none",
-                  padding: 10,
-                  borderRadius: 5,
-                  fontFamily: "Nunito",
-                  marginBottom: 5,
-                }}
-                value={values.message}
-                aria-label="maximum height"
+              <Field
+                as={TextField}
+                multiline
+                rows={4}
+                fullWidth
+                style={{ margin: "5px 0" }}
                 placeholder="Apa yang anda pikirkan?"
+                name="message"
+                errors={isError}
+                variant="outlined"
               />
               <Typography
                 style={{ margin: "5px 0" }}
                 variant="caption"
                 color={isError ? "error" : "primary"}
-              >
-                {message}
-              </Typography>
+              ></Typography>
               <div style={{ display: "flex", margin: "10px 0" }}>
                 <div>
                   <Button variant="outlined" component="label">
@@ -105,7 +92,11 @@ const PostFeed = ({ setFeeds }) => {
                   disabled={isSubmitting}
                   style={{ padding: "5px 25px", marginLeft: "auto" }}
                 >
-                  {isSubmitting ? <CircularProgress size="24" /> : "Post"}
+                  {isSubmitting ? (
+                    <CircularProgress size="24" color="primary" />
+                  ) : (
+                    "Post"
+                  )}
                 </Button>
               </div>
             </Form>

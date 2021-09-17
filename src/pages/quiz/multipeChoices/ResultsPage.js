@@ -48,7 +48,7 @@ const ResultsPage = () => {
   useEffect(() => {
     if (!location.state) history.push("/quiz");
     apiQuiz
-      .resultQuiz(slug)
+      .resultQuiz(slug, "quiz")
       .then((response) => {
         const res = response.data.data;
         console.log(res);
