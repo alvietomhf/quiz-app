@@ -13,18 +13,20 @@ const DatePicker = ({
   label,
   onChangeDate,
   selectedDate,
-  style
+  style,
 }) => {
+  // console.clear();
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <KeyboardDateTimePicker
         name={name}
         style={style}
-        disableToolbar
+        variant="dialog"
+        inputVariant="outlined"
         error={error}
         margin="normal"
         label={label}
-        format="MMMM dd, yyyy HH:mm:ss"
+        format="MMMM dd, yyyy HH:mm:ss a"
         showTodayButton
         value={selectedDate}
         onChange={onChangeDate}

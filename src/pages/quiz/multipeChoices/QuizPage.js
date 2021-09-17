@@ -13,6 +13,7 @@ import {
   makeStyles,
   Typography,
   IconButton,
+  CardMedia,
 } from "@material-ui/core";
 import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 import { Fragment } from "react";
@@ -114,6 +115,21 @@ const QuizPage = () => {
                               key={item.id}
                             >
                               <Card>
+                                {item.banner !== null ? (
+                                  <CardMedia
+                                    component="img"
+                                    height="240"
+                                    image={`http://192.168.0.8:8000/assets/images/quiz/${item.banner}`}
+                                    alt=""
+                                  />
+                                ) : (
+                                  <CardMedia
+                                    component="img"
+                                    height="240"
+                                    image={`https://source.unsplash.com/1600x900/?quiz,learning`}
+                                    alt=""
+                                  />
+                                )}
                                 <CardContent>
                                   <div
                                     style={{

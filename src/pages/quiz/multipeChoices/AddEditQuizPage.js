@@ -39,6 +39,7 @@ const AddEditQuizPage = () => {
   const initialValues = {
     title: "",
     deadline: "",
+    banner: "",
     questions: [
       {
         id: "",
@@ -176,6 +177,50 @@ const AddEditQuizPage = () => {
                     error={errors.deadline && touched.deadline}
                     helperText={<ErrorMessage name="deadline" />}
                   />
+                </div>
+                <div
+                  style={{
+                    margin: "5px 0",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    component="label"
+                    style={{
+                      marginRight: 10,
+                    }}
+                    startIcon={<CameraAlt />}
+                  >
+                    Upload Banner
+                    <input
+                      type="file"
+                      name="banner"
+                      hidden
+                      accept="image/*"
+                      onChange={(event) => {
+                        onChangeImage(event, "banner");
+                      }}
+                    />
+                  </Button>
+                  {values.banner ? (
+                    <div>
+                      {`Image Found`}
+                      <Button
+                        color="secondary"
+                        style={{
+                          cursor: "pointer",
+                          marginLeft: 5,
+                        }}
+                        onClick={() => setFieldValue("", "banner")}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
                 <FieldArray name="questions">
                   {({ push, remove }) => (
@@ -416,7 +461,7 @@ const AddEditQuizPage = () => {
                                     }}
                                     startIcon={<CameraAlt />}
                                   >
-                                    Upload
+                                    Tambah Gambar
                                     <input
                                       style={{ color: errorImage ? "red" : "" }}
                                       type="file"
