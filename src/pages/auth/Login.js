@@ -89,12 +89,16 @@ const Login = (props) => {
                     fontWeight: "bold",
                     margin: 0,
                   }}
-                  variant="h3"
+                  variant="h4"
                   gutterBottom
                 >
                   Sign In
                 </Typography>
-                <Typography variant="subtitle1" gutterBottom>
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  gutterBottom
+                >
                   Silahkan masukkan kredensial untuk akses akun anda
                 </Typography>
               </Grid>
@@ -224,7 +228,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
   },
   labelForm: {
-    margin: "15px 0",
+    margin: "20px 0",
   },
   logo: {
     height: "100px",

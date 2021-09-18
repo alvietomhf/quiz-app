@@ -15,6 +15,7 @@ import apiFeeds from "../../../actions/feeds/feedsAction";
 import { useHistory } from "react-router";
 import FeedSkeleton from "../../../components/FeedSkeleton";
 import SkeletonUserOnline from "../../../components/SkeletonUserOnline";
+import sortByDate from "../../../config/sortByDate";
 
 const Home = () => {
   const auth = useSelector((state) => state.auth.data.user);
@@ -22,16 +23,6 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const [feeds, setFeeds] = useState([]);
-
-  const sortByDate = (a, b) => {
-    if (a.created_at < b.created_at) {
-      return 1;
-    }
-    if (a.created_at > b.created_at) {
-      return -1;
-    }
-    return 0;
-  };
 
   const goToUserProfile = (id) => {
     history.push({ pathname: `/users/${id}` });
@@ -65,19 +56,6 @@ const Home = () => {
   return (
     <div>
       <Grid container spacing={2} className={classes.rootGrid}>
-        {/* <Grid item xs={12}>
-          <Grid container justifyContent="center" spacing={2}>
-            <Grid item style={{ border: "1px solid black" }}>
-              Recent User
-            </Grid>
-            <Grid item style={{ border: "1px solid black" }}>
-              Post Feed
-            </Grid>
-            <Grid item style={{ border: "1px solid black" }}>
-              Feeds
-            </Grid>
-          </Grid>
-        </Grid> */}
         <Grid item xs={12} lg={3} className={classes.gridItem}>
           <Paper className={classes.userPaper}>
             <Box>
@@ -191,7 +169,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   userDetailInputFeed: {
-    margin: "15px auto",
+    margin: "20px auto",
     [theme.breakpoints.up("lg")]: {
       display: "none",
       margin: 15,

@@ -6,7 +6,7 @@ import Layout from "../../../components/Layout";
 import { token } from "../../../config/token";
 import instance from "../../../actions/instance";
 import apiQuiz from "../../../actions/quiz/quiz";
-import ResultQuizIndicator from "./ResultIndicator";
+import ResultQuizIndicator from "../../../components/ResultIndicator";
 
 const QuizDetailPage = () => {
   const { slug } = useParams();
@@ -40,7 +40,6 @@ const QuizDetailPage = () => {
             setError(true);
             const responseMessage = error.response.data.message;
             setMessage(responseMessage);
-            console.log(responseMessage);
             setTimeout(() => {
               history.push("/quiz");
             }, 4000);

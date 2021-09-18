@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { Fragment, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { Redirect, useHistory, useParams } from "react-router";
 import instance from "../../../actions/instance";
 import Layout from "../../../components/Layout";
 import { token } from "../../../config/token";
@@ -23,11 +23,15 @@ import { Field, Form, Formik } from "formik";
 import { buildFormData } from "../../../components/BuildFormData";
 import { Send } from "@material-ui/icons";
 import apiQuiz from "../../../actions/quiz/quiz";
+import ResultQuizIndicator from "../../../components/ResultIndicator";
+import { Alert } from "@material-ui/lab";
 
 const DetailEssay = () => {
   const slug = useParams();
   const [data, setData] = useState([{}]);
+  const [error, setError] = useState("");
   const [questions, setQuestions] = useState([{}]);
+  const [open, setOpen] = useState(false);
   const initialValues = {
     file: "",
     comment: "",
@@ -67,10 +71,28 @@ const DetailEssay = () => {
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    await apiQuiz.siswaSubmitEssay(formData, slug.slug);
+    await apiQuiz
+      .siswaSubmitEssay(formData, slug.slug)
+      .then(() => {
+        setOpen(true);
+        setTimeout(() => {
+          setOpen(false);
+          <Redirect to="essay" />;
+        }, 2000);
+      })
+      .catch((err) => {
+        setError(err.response.data.message);
+        setTimeout(() => {
+          setOpen(false);
+          setError("");
+        }, 2000);
+      });
   };
   return (
     <Fragment>
+      <div>
+        <ResultQuizIndicator open={open} setOpen={setOpen} />
+      </div>
       <Grid container spacing={2} className={classes.root}>
         <Grid item xs={12} lg={9}>
           <Formik onSubmit={onSubmit} initialValues={initialValues}>
@@ -84,7 +106,7 @@ const DetailEssay = () => {
             }) => (
               <Form>
                 <Paper className={classes.paper}>
-                  <Box width="fit-content">
+                  <Box>
                     <Typography
                       variant="h4"
                       gutterBottom
@@ -92,6 +114,11 @@ const DetailEssay = () => {
                     >
                       {questions.question}
                     </Typography>
+                    {error && (
+                      <Alert variant="standard" severity={"error"}>
+                        {error}
+                      </Alert>
+                    )}
                     <Box marginY={2}>
                       <Fragment>
                         <Typography variant="body1" gutterBottom>
@@ -150,6 +177,7 @@ const DetailEssay = () => {
                           <Field
                             as={TextField}
                             multiline
+                            fullWidth
                             rows={4}
                             placeholder="Berikan komentar anda"
                             name="comment"

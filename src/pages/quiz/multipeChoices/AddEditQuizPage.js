@@ -504,7 +504,7 @@ const AddEditQuizPage = () => {
                             </Grid>
                             <Grid
                               container
-                              style={{ margin: "15px 0 15px 7px" }}
+                              style={{ margin: "20px 0 20px 7px" }}
                             >
                               <Grid
                                 item

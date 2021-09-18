@@ -5,44 +5,35 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Field, Form, Formik } from "formik";
-import React, { createRef, Fragment, useState } from "react";
+import React, { useRef, Fragment, useState } from "react";
 import apiFeeds from "../actions/feeds/feedsAction";
+import { CameraAlt } from "@material-ui/icons";
 
-const PostFeed = ({ setFeeds, setMessage }) => {
-  const [isError, setError] = useState(false);
-  const FormikRef = createRef();
+const PostFeed = ({ setFeeds }) => {
+  const FormikRef = useRef();
+  const [errorEntries, setErrorEntries] = useState([]);
   const initialValues = {
     message: "",
     image: "",
   };
 
   const onSubmit = async (values) => {
-    //Post Data Feeds
     const formData = new FormData();
     formData.append("message", values.message);
     formData.append("image", values.image);
-    const response = await apiFeeds
+    await apiFeeds
       .postFeed(formData)
-      .then((res) => {
-        // console.log(response.data.data.status);
+      .then(() => {
+        apiFeeds.indexFeed().then((res) => {
+          setFeeds(res.data.data);
+        });
         FormikRef.current.setSubmitting(false);
         FormikRef.current.resetForm();
-        setMessage(res.data.message);
       })
       .catch((error) => {
-        setError(true);
-        setMessage(error.response.data.message);
-        setTimeout(() => {
-          setError(false);
-          setMessage("");
-        }, 2000);
+        const errors = error.response.data.data;
+        setErrorEntries(errors);
       });
-
-    //Fetch Data Feeds
-    const responseFeeds = await apiFeeds.indexFeed();
-    const data = responseFeeds.data.data;
-    setFeeds(data);
-    console.log(response);
   };
 
   const onChangeImage = (e) => {
@@ -58,7 +49,7 @@ const PostFeed = ({ setFeeds, setMessage }) => {
         onSubmit={onSubmit}
         innerRef={FormikRef}
       >
-        {({ values, setFieldValue, isSubmitting }) => (
+        {({ values, touched, isSubmitting }) => (
           <Fragment>
             <Form>
               <Field
@@ -70,19 +61,25 @@ const PostFeed = ({ setFeeds, setMessage }) => {
                 placeholder="Apa yang anda pikirkan?"
                 name="message"
                 variant="outlined"
+                error={errorEntries.message && touched.message}
               />
-              <Typography
-                style={{ margin: "5px 0" }}
-                variant="caption"
-                color={isError ? "error" : "primary"}
-              ></Typography>
               <div style={{ display: "flex", margin: "10px 0" }}>
                 <div>
-                  <Button variant="outlined" component="label">
-                    Tambahkan File
+                  <Button
+                    startIcon={<CameraAlt />}
+                    component="label"
+                    color="primary"
+                  >
+                    Gambar
                     <input type="file" hidden onChange={onChangeImage} />
                   </Button>
-                  {values.image.name}
+                  <Typography
+                    variant="caption"
+                    style={{ marginLeft: 5 }}
+                    gutterBottom
+                  >
+                    {values.image && "Image Found"}
+                  </Typography>
                 </div>
                 <Button
                   variant="contained"

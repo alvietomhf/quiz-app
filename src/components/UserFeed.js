@@ -159,7 +159,7 @@ const UserFeed = ({
         {({ values, setFieldValue, isSubmitting }) => (
           <Fragment>
             <Form>
-              <div style={{ display: "flex", padding: "0 15px" }}>
+              <div style={{ display: "flex", padding: "0 20px" }}>
                 <TextareaAutosize
                   onChange={(e) =>
                     isSubmitting ? "" : setFieldValue("message", e.target.value)
@@ -191,7 +191,7 @@ const UserFeed = ({
           </Fragment>
         )}
       </Formik>
-      <div style={{ padding: "0 15px 15px 15px" }}>
+      <div style={{ padding: "0 20px 20px 20px" }}>
         {comments.length === 0 ? (
           "No comments yet"
         ) : (

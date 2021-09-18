@@ -1,13 +1,11 @@
-import React, { forwardRef, useState } from "react";
-import Button from "@material-ui/core/Button";
+import React, { forwardRef } from "react";
 import Dialog from "@material-ui/core/Dialog";
-// import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import SuccessAnimation from "../../../assets/images/checkbutton.gif";
-import { Box, Typography } from "@material-ui/core";
+import successAnim from "../assets/images/checkbutton.gif";
+import { Box } from "@material-ui/core";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -35,12 +33,18 @@ const ResultQuizIndicator = ({ setOpen, open }) => {
           alignItems="center"
           marginBottom={2}
         >
-          <img src={SuccessAnimation} style={{ width: 220 }} alt="" />
+          <img
+            src={successAnim}
+            style={{ width: 220, marginBottom: 0 }}
+            alt=""
+          />
         </Box>
-        <DialogContentText align="center" id="alert-dialog-slide-description">
-          <Typography variant="body1" gutterBottom color="textPrimary">
-            Selamat! Anda telah mengerjakan kuis. Tunggu hasilnya ya.
-          </Typography>
+        <DialogContentText
+          style={{ padding: "15px 0" }}
+          align="center"
+          id="alert-dialog-slide-description"
+        >
+          Selamat! Anda telah mengerjakan kuis. Tunggu hasilnya ya.
         </DialogContentText>
       </DialogContent>
     </Dialog>

@@ -13,6 +13,7 @@ import { Link, useLocation } from "react-router-dom";
 import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
 import { saveAs } from "file-saver";
+import sortByDate from "../../../config/sortByDate";
 
 const EssayResultsPage = () => {
   const history = useHistory();
@@ -36,9 +37,7 @@ const EssayResultsPage = () => {
       editable: false,
     },
     {
-      field: "name",
       title: "Name",
-      editable: false,
       render: (rowData) => {
         return (
           <CardHeader
@@ -60,25 +59,63 @@ const EssayResultsPage = () => {
     {
       title: "Score",
       width: "1%",
-      field: "results[0].score",
+      field: `results[0].score`,
+      render: (rowData) => {
+        return rowData.results
+          .sort(sortByDate)
+          .slice(0, 1)
+          .map((item) => item.score);
+      },
     },
     {
       title: "Komentar",
-      field: "results[0].result_essays[0].comment",
-      editable: false,
+      width: "1%",
+      render: (rowData) => {
+        return (
+          <p style={{ wordBreak: "break-word" }}>
+            {rowData.results
+              .sort(sortByDate)
+              .slice(0, 1)
+              .map((item) =>
+                item.result_essays
+                  .sort(sortByDate)
+                  .slice(0, 1)
+                  .map((item) => item.comment)
+              )}
+          </p>
+        );
+      },
     },
     {
       title: "File",
       width: "1%",
-      field: "results[0].result_essays[0].file",
-      editable: false,
       render: (rowData) => {
         return (
           <Button
-            onClick={() => saveFile(rowData.results[0].result_essays[0].file)}
+            onClick={() =>
+              saveFile(
+                rowData.results
+                  .sort(sortByDate)
+                  .slice(0, 1)
+                  .map((item) =>
+                    item.result_essays
+                      .sort(sortByDate)
+                      .slice(0, 1)
+                      .map((item) => item.file)
+                  )
+              )
+            }
             color="primary"
           >
-            {rowData.results[0].result_essays[0].file}
+            {rowData.results
+              .sort(sortByDate)
+              .slice(0, 1)
+              .map((item) =>
+                item.result_essays
+                  .sort(sortByDate)
+                  .slice(0, 1)
+                  .map((item) => item.file)
+              )}
           </Button>
         );
       },
@@ -125,7 +162,7 @@ const EssayResultsPage = () => {
   ) : (
     <Paper>
       <MaterialTable
-        style={{ padding: "0 15px" }}
+        style={{ padding: "0 20px" }}
         title="Hasil Esai"
         isLoading={isLoading}
         columns={columns}
