@@ -31,7 +31,7 @@ const postResultQuiz = (postData, slug) =>
     },
   });
 
-const postResultEssay = (postData, slug) =>
+const siswaSubmitEssay = (postData, slug) =>
   instance({
     url: `/api/siswa/result/${slug}/essay`,
     data: postData,
@@ -61,6 +61,16 @@ const deleteQuiz = (slug) =>
       Authorization: "Bearer " + token(),
     },
   });
+
+const guruScoreEssay = (putData, slug) =>
+  instance({
+    url: `api/guru/result/${slug}`,
+    data: putData,
+    method: "post",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
 const deleteImageQuiz = (id) =>
   instance({
     url: `/api/guru/quizzes/questions/${id}/file`,
@@ -85,7 +95,8 @@ const apiQuiz = {
   postQuiz,
   updateQuiz,
   postResultQuiz,
-  postResultEssay,
+  siswaSubmitEssay,
+  guruScoreEssay,
   resultQuiz,
   deleteImageQuiz,
 };

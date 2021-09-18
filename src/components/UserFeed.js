@@ -29,7 +29,6 @@ const UserFeed = ({
   caption,
   styleAvatar,
   setFeeds,
-  userID,
 }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -99,7 +98,14 @@ const UserFeed = ({
               keepMounted
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>See Profile</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  history.push({ pathname: `/posts/${id}`, state: post });
+                }}
+              >
+                See Profile
+              </MenuItem>
             </Menu>
           </div>
         }

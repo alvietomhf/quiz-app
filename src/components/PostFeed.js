@@ -69,7 +69,6 @@ const PostFeed = ({ setFeeds, setMessage }) => {
                 style={{ margin: "5px 0" }}
                 placeholder="Apa yang anda pikirkan?"
                 name="message"
-                errors={isError}
                 variant="outlined"
               />
               <Typography

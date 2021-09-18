@@ -12,6 +12,7 @@ import UserProfilePage from "./pages/users/UserProfilePage";
 import HTMLEditorPage from "./pages/general/authenticated/HTMLEditorPage";
 import DetailEssay from "./pages/quiz/uploadFiles/DetailEssay";
 import EssayResultsPage from "./pages/quiz/uploadFiles/EssayResultsPage";
+import ResultsPage from "./pages/quiz/multipeChoices/ResultsPage";
 
 const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 const QuizDetailPage = lazy(() =>
@@ -43,6 +44,7 @@ const App = () => {
           path="/htmleditor"
           component={HTMLEditorPage}
         />
+
         {/* <PrivateRoutes exact={true} path="/:id" component={DetailPost} /> */}
         <Suspense fallback={<CircularLoading />}>
           <PrivateRoutes exact={true} path="/profile" component={ProfilePage} />
@@ -67,6 +69,11 @@ const App = () => {
             exact={true}
             path="/quiz/edit/:slug"
             component={AddEditQuizPage}
+          />
+          <PrivateRoutes
+            exact={true}
+            path="/quiz/result/:slug"
+            component={ResultsPage}
           />
           <PrivateRoutes
             exact={true}

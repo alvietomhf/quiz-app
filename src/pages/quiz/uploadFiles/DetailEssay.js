@@ -22,6 +22,7 @@ import AccessAlarmIcon from "@material-ui/icons/AccessAlarm";
 import { Field, Form, Formik } from "formik";
 import { buildFormData } from "../../../components/BuildFormData";
 import { Send } from "@material-ui/icons";
+import apiQuiz from "../../../actions/quiz/quiz";
 
 const DetailEssay = () => {
   const slug = useParams();
@@ -66,12 +67,7 @@ const DetailEssay = () => {
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    await instance.post(`/api/siswa/result/${slug.slug}/essay`, formData, {
-      headers: {
-        Authorization: "Bearer " + token(),
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    await apiQuiz.siswaSubmitEssay(formData, slug.slug);
   };
   return (
     <Fragment>
@@ -210,7 +206,6 @@ const DetailEssay = () => {
                 />
               </ListItem>
             </List>
-           
           </Paper>
         </Grid>
       </Grid>

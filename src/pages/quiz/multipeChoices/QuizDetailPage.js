@@ -6,6 +6,7 @@ import Layout from "../../../components/Layout";
 import { token } from "../../../config/token";
 import instance from "../../../actions/instance";
 import apiQuiz from "../../../actions/quiz/quiz";
+import ResultQuizIndicator from "./ResultIndicator";
 
 const QuizDetailPage = () => {
   const { slug } = useParams();
@@ -18,6 +19,7 @@ const QuizDetailPage = () => {
     correct: 0,
     false: 0,
   });
+  const [open, setOpen] = useState(false);
 
   const { file, question, options = [] } = quiz[currentIndex];
 
@@ -77,11 +79,16 @@ const QuizDetailPage = () => {
     apiQuiz
       .postResultQuiz(data, slug)
       .then((res) => {
-        const response = res.data;
-        console.log(response.status);
+        console.log(res.data);
+        setOpen(true);
+        setTimeout(() => {
+          history.push("/quiz");
+          setOpen(false);
+        }, 4000);
       })
       .catch((errors) => {
         const error = errors;
+        history.push("/quiz");
         console.log(error);
       });
   };
@@ -119,6 +126,7 @@ const QuizDetailPage = () => {
 
   return (
     <div>
+      <ResultQuizIndicator open={open} setOpen={setOpen} />
       <h2 className="text-center mb-3 mt-3">
         Quiz Screen - Timer: {minutes}:{seconds}
       </h2>
@@ -219,23 +227,12 @@ const QuizDetailPage = () => {
           Previous
         </button>
         {quiz.length - 1 === currentIndex ? (
-          <Link
-            className="btn btn-success col-sm-2"
-            to={{
-              pathname: "/quiz/result",
-              state: {
-                quiz,
-                message,
-              },
-            }}
+          <button
+            className="btn btn-primary col-sm-2"
+            onClick={() => postResultQuiz(quiz)}
           >
-            <button
-              className="btn btn-primary col-sm-2"
-              onClick={() => postResultQuiz(quiz)}
-            >
-              Finish
-            </button>
-          </Link>
+            Finish
+          </button>
         ) : (
           <button
             className="btn btn-primary col-sm-2"

@@ -1,19 +1,35 @@
-import { Avatar, CardHeader, Container, Paper } from "@material-ui/core";
+import {
+  Avatar,
+  Button,
+  CardHeader,
+  Container,
+  Paper,
+} from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
+import { saveAs } from "file-saver";
+
 const EssayResultsPage = () => {
   const history = useHistory();
   const location = useLocation();
   const [result, setResult] = useState([]);
   const slug = location.state.slug;
   const [isLoading, setLoading] = useState(true);
-
+  const saveFile = (doc) => {
+    saveAs(`http://192.168.0.8:8000/assets/files/quiz/${doc}`, doc);
+  };
   const columns = [
+    {
+      title: "ID",
+      field: "id",
+      editable: false,
+      width: "1%",
+    },
     {
       title: "Email",
       field: "email",
@@ -43,12 +59,29 @@ const EssayResultsPage = () => {
     },
     {
       title: "Score",
+      width: "1%",
       field: "results[0].score",
     },
     {
-      title: "Result ID",
-      field: "results[0].result_essays[0].result_id",
+      title: "Komentar",
+      field: "results[0].result_essays[0].comment",
       editable: false,
+    },
+    {
+      title: "File",
+      width: "1%",
+      field: "results[0].result_essays[0].file",
+      editable: false,
+      render: (rowData) => {
+        return (
+          <Button
+            onClick={() => saveFile(rowData.results[0].result_essays[0].file)}
+            color="primary"
+          >
+            {rowData.results[0].result_essays[0].file}
+          </Button>
+        );
+      },
     },
   ];
 
@@ -57,10 +90,7 @@ const EssayResultsPage = () => {
     formData.append("_method", "put");
     formData.append("score", newData.results[0].score);
     apiQuiz
-      .post(
-        `/api/guru/result/${newData.results[0].result_essays[0].result_id}`,
-        formData
-      )
+      .guruScoreEssay(formData, newData.results[0].result_essays[0].result_id)
       .then((response) => {
         const updateScore = [...result];
         const index = oldData.tableData.id;
@@ -93,50 +123,28 @@ const EssayResultsPage = () => {
   return !location.state ? (
     <h1>Forbidden</h1>
   ) : (
-    <Container>
-      <Paper>
-        <MaterialTable
-          title="Hasil Esai"
-          isLoading={isLoading}
-          columns={columns}
-          data={result}
-          options={{
-            search: true,
-            sorting: true,
-            tableLayout: "auto",
-            actionsColumnIndex: -1,
-            addRowPosition: "first",
-          }}
-          editable={{
-            onRowAdd: (newRow) =>
-              new Promise((resolve, reject) => {
-                const updatedRows = [
-                  ...result,
-                  { id: Math.floor(Math.random() * 100), ...newRow },
-                ];
-                setTimeout(() => {
-                  setResult(updatedRows);
-                  resolve();
-                }, 2000);
-              }),
-            onRowDelete: (selectedRow) =>
-              new Promise((resolve, reject) => {
-                const index = selectedRow.tableData.id;
-                const updatedRows = [...result];
-                updatedRows.splice(index, 1);
-                setTimeout(() => {
-                  setResult(updatedRows);
-                  resolve();
-                }, 2000);
-              }),
-            onRowUpdate: (newData, oldData) =>
-              new Promise((resolve) => {
-                handleRowUpdate(newData, oldData, resolve);
-              }),
-          }}
-        />
-      </Paper>
-    </Container>
+    <Paper>
+      <MaterialTable
+        style={{ padding: "0 15px" }}
+        title="Hasil Esai"
+        isLoading={isLoading}
+        columns={columns}
+        data={result}
+        options={{
+          search: true,
+          sorting: true,
+          tableLayout: "auto",
+          actionsColumnIndex: -1,
+          addRowPosition: "first",
+        }}
+        editable={{
+          onRowUpdate: (newData, oldData) =>
+            new Promise((resolve) => {
+              handleRowUpdate(newData, oldData, resolve);
+            }),
+        }}
+      />
+    </Paper>
   );
 };
 

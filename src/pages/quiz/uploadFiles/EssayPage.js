@@ -148,7 +148,7 @@ const EssayPage = () => {
                                     <Button
                                       onClick={() =>
                                         history.push(
-                                          `/quiz/edit/${item.slug}`,
+                                          `/essay/edit/${item.slug}`,
                                           {
                                             slug: item.slug,
                                           }

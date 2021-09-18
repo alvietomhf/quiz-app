@@ -6,7 +6,7 @@ import Layout from "../../../components/Layout";
 const DetailPost = () => {
   const location = useLocation();
   console.log(location)
-  return <Paper style={{ padding: 20 }}>{location.state.post.id}</Paper>;
+  return <Paper style={{ padding: 20 }}>{location.state.id}</Paper>;
 };
 
 export default Layout(DetailPost);
