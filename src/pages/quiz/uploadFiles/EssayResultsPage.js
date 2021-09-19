@@ -14,6 +14,7 @@ import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
 import { saveAs } from "file-saver";
 import sortByDate from "../../../config/sortByDate";
+import moment from "moment";
 
 const EssayResultsPage = () => {
   const history = useHistory();
@@ -72,7 +73,7 @@ const EssayResultsPage = () => {
       width: "1%",
       render: (rowData) => {
         return (
-          <p style={{ wordBreak: "break-word" }}>
+          <p>
             {rowData.results
               .sort(sortByDate)
               .slice(0, 1)
@@ -118,6 +119,12 @@ const EssayResultsPage = () => {
               )}
           </Button>
         );
+      },
+    },
+    {
+      title: "Tanggal Submit",
+      render: (rowData) => {
+        return moment(rowData.results[0].created_at).format("l");
       },
     },
   ];

@@ -1,6 +1,7 @@
 import { Avatar, CardHeader, Container, Paper } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { useLocation } from "react-router-dom";
@@ -42,6 +43,12 @@ const ResultsPage = () => {
     {
       title: "Score",
       field: "results[0].score",
+    },
+    {
+      title: "Tanggal Submit",
+      render: (rowData) => {
+        return moment(rowData.results[0].created_at).format("l");
+      },
     },
   ];
 
