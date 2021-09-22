@@ -27,26 +27,26 @@ const UserOnline = ({ id, name, lastSeen, avatar, goToUserProfile }) => {
       <Box textOverflow="ellipsis" key={id} marginX={1}>
         <CardHeader
           style={{ padding: "10px 0" }}
-          action={
-            <div>
-              <IconButton
-                onClick={handleClick}
-                aria-label="more"
-                aria-controls="long-menu"
-                aria-haspopup="true"
-              >
-                <MoreVert />
-              </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                keepMounted
-                onClose={handleClose}
-              >
-                <MenuItem onClick={goToUserProfile}>See Profile</MenuItem>
-              </Menu>
-            </div>
-          }
+          // action={
+          //   <div>
+          //     <IconButton
+          //       onClick={handleClick}
+          //       aria-label="more"
+          //       aria-controls="long-menu"
+          //       aria-haspopup="true"
+          //     >
+          //       <MoreVert />
+          //     </IconButton>
+          //     <Menu
+          //       anchorEl={anchorEl}
+          //       open={open}
+          //       keepMounted
+          //       onClose={handleClose}
+          //     >
+          //       <MenuItem onClick={goToUserProfile}>See Profile</MenuItem>
+          //     </Menu>
+          //   </div>
+          // }
           avatar={
             <Avatar
               src={

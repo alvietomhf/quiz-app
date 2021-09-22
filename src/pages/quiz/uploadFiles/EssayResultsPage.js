@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, CardHeader } from "@material-ui/core";
+import { Avatar, Box, Button, CardHeader, Chip } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
@@ -26,6 +26,16 @@ const EssayResultsPage = () => {
       field: "number",
       editable: false,
       width: "1%",
+      render: (rowData) => {
+        return (
+          rowData.number === "" ||
+          (rowData.number == null ? (
+            <Chip variant="default" color="secondary" label="Absen Kosong" />
+          ) : (
+            rowData.number
+          ))
+        );
+      },
     },
     {
       title: "Email",

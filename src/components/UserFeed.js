@@ -77,33 +77,33 @@ const UserFeed = ({
     <Card style={{ marginBottom: 20 }}>
       <CardHeader
         style={{ padding: 15 }}
-        action={
-          <div>
-            <IconButton
-              onClick={handleClick}
-              aria-label="more"
-              aria-controls="long-menu"
-              aria-haspopup="true"
-            >
-              <MoreVert />
-            </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={open}
-              keepMounted
-              onClose={handleClose}
-            >
-              <MenuItem
-                onClick={() => {
-                  setAnchorEl(null);
-                  history.push({ pathname: `/posts/${id}`, state: post });
-                }}
-              >
-                See Profile
-              </MenuItem>
-            </Menu>
-          </div>
-        }
+        // action={
+        //   <div>
+        //     <IconButton
+        //       onClick={handleClick}
+        //       aria-label="more"
+        //       aria-controls="long-menu"
+        //       aria-haspopup="true"
+        //     >
+        //       <MoreVert />
+        //     </IconButton>
+        //     <Menu
+        //       anchorEl={anchorEl}
+        //       open={open}
+        //       keepMounted
+        //       onClose={handleClose}
+        //     >
+        //       <MenuItem
+        //         onClick={() => {
+        //           setAnchorEl(null);
+        //           history.push({ pathname: `/posts/${id}`, state: post });
+        //         }}
+        //       >
+        //         See Profile
+        //       </MenuItem>
+        //     </Menu>
+        //   </div>
+        // }
         avatar={
           <Avatar
             style={{

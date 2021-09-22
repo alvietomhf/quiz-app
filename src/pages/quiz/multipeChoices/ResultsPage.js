@@ -1,4 +1,4 @@
-import { Avatar, Box, CardHeader, Container } from "@material-ui/core";
+import { Avatar, Box, CardHeader, Chip, Container } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
 import moment from "moment";
@@ -19,6 +19,16 @@ const ResultsPage = () => {
     {
       title: "Absen",
       field: "number",
+      render: (rowData) => {
+        return (
+          rowData.number === "" ||
+          (rowData.number == null ? (
+            <Chip variant="default" color="secondary" label="Absen Kosong" />
+          ) : (
+            rowData.number
+          ))
+        );
+      },
     },
     {
       title: "Email",

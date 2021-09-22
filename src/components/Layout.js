@@ -226,14 +226,14 @@ const Layout = (Component, namePage) => {
                     open={open}
                     onClose={handleClose}
                   >
-                    <MenuItem
+                    {/* <MenuItem
                       onClick={() => {
                         setAnchorEl(null);
                         history.push("/profile");
                       }}
                     >
                       Profile
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>

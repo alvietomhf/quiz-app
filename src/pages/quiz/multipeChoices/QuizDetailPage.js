@@ -9,6 +9,7 @@ import apiQuiz from "../../../actions/quiz/quiz";
 import ResultQuizIndicator from "../../../components/ResultIndicator";
 import { Box, Button, Grid, Typography } from "@material-ui/core";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import AlreadySubmitQuiz from "../../../components/AlreadySubmitQuiz";
 
 const QuizDetailPage = () => {
   const { slug } = useParams();
@@ -40,7 +41,7 @@ const QuizDetailPage = () => {
         .catch((error) => {
           if (error.response.data.status === false) {
             setError(true);
-            const responseMessage = error.response.data.message;
+            const responseMessage = error.response.data.data;
             setMessage(responseMessage);
             setTimeout(() => {
               history.push("/quiz");
@@ -122,7 +123,7 @@ const QuizDetailPage = () => {
   };
 
   if (error) {
-    return <div>{message}</div>;
+    return <AlreadySubmitQuiz label="kuis" />;
   }
 
   return (
@@ -171,18 +172,24 @@ const QuizDetailPage = () => {
           ))}
         </Box>
       </div>
-      {file ? (
-        <img
-          style={{ width: 240 }}
-          src={`http://192.168.0.8:8000/assets/files/quiz/${file}`}
-          alt=""
-        />
-      ) : (
-        ""
-      )}
-      <div className="card">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        marginY={5}
+      >
+        {file ? (
+          <img
+            style={{ width: 320 }}
+            src={`http://192.168.0.8:8000/assets/files/quiz/${file}`}
+            alt=""
+          />
+        ) : (
+          ""
+        )}
+      </Box>
+      <div>
         <div
-          className="card-header bg-white font-weight-bold"
           style={{
             fontSize: 20,
           }}

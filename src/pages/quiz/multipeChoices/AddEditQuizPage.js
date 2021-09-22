@@ -492,14 +492,25 @@ const AddEditQuizPage = () => {
                                   ) : (
                                     ""
                                   )}
+                                </div>
+                                <Box
+                                  display="flex"
+                                  marginY={{ xs: 2, lg: 0 }}
+                                  justifyContent={{
+                                    xs: "flex-start",
+                                    lg: "flex-end",
+                                  }}
+                                >
                                   <Button
+                                    variant="outlined"
+                                    color="primary"
                                     startIcon={<Delete />}
                                     disabled={isSubmitting}
                                     onClick={() => remove(i)}
                                   >
-                                    Hapus
+                                    Hapus Pertanyaan
                                   </Button>
-                                </div>
+                                </Box>
                               </Grid>
                             </Grid>
                           </Grid>
