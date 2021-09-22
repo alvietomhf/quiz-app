@@ -27,8 +27,8 @@ const EssayResultsPage = () => {
   };
   const columns = [
     {
-      title: "ID",
-      field: "id",
+      title: "Absen",
+      field: "number",
       editable: false,
       width: "1%",
     },

@@ -9,10 +9,10 @@ import ListUsersPage from "./pages/users/ListUsersPage";
 import HomePage from "./pages/general/authenticated/HomePage";
 import DetailPost from "./pages/general/authenticated/DetailPost";
 import UserProfilePage from "./pages/users/UserProfilePage";
-import HTMLEditorPage from "./pages/general/authenticated/HTMLEditorPage";
 import DetailEssay from "./pages/quiz/uploadFiles/DetailEssay";
 import EssayResultsPage from "./pages/quiz/uploadFiles/EssayResultsPage";
 import ResultsPage from "./pages/quiz/multipeChoices/ResultsPage";
+import MaterialsPage from "./pages/materials/MaterialsPage";
 
 const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 const QuizDetailPage = lazy(() =>
@@ -39,11 +39,7 @@ const App = () => {
         <Route exact={true} path="/register" component={Register} />
         <Route exact={true} path="/users" component={ListUsersPage} />
         <PrivateRoutes exact={true} path="/" component={HomePage} />
-        <PrivateRoutes
-          exact={true}
-          path="/htmleditor"
-          component={HTMLEditorPage}
-        />
+        <PrivateRoutes exact={true} path="/materi" component={MaterialsPage} />
 
         {/* <PrivateRoutes exact={true} path="/:id" component={DetailPost} /> */}
         <Suspense fallback={<CircularLoading />}>
@@ -60,6 +56,7 @@ const App = () => {
           />
           <PrivateRoutes exact={true} path="/tujuan" component={PurposePage} />
           <PrivateRoutes exact={true} path="/quiz" component={QuizPage} />
+
           <PrivateRoutes
             exact={true}
             path="/quiz/add"

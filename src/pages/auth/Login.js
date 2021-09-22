@@ -21,7 +21,7 @@ import { loginUser } from "../../actions/auth/authAction";
 
 const Login = (props) => {
   const initialValues = {
-    email: "test@gmail.com",
+    email: "siswa@gmail.com",
     password: "Password`",
   };
   const auth = props.auth;
@@ -130,7 +130,7 @@ const Login = (props) => {
                 helperText={<ErrorMessage name="password" />}
               />
 
-              <Box
+              {/* <Box
                 style={{
                   display: "flex",
                   justifyContent: "flex-start",
@@ -152,7 +152,7 @@ const Login = (props) => {
                     Reset Password
                   </Link>
                 </Typography>
-              </Box>
+              </Box> */}
               <Button
                 type="submit"
                 color="primary"

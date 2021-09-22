@@ -16,6 +16,7 @@ import { useHistory } from "react-router";
 import FeedSkeleton from "../../../components/FeedSkeleton";
 import SkeletonUserOnline from "../../../components/SkeletonUserOnline";
 import sortByDate from "../../../config/sortByDate";
+import moment from "moment";
 
 const Home = () => {
   const auth = useSelector((state) => state.auth.data.user);
@@ -38,7 +39,7 @@ const Home = () => {
     };
     const fetchUser = async () => {
       instance
-        .get("api/users", {
+        .get("api/users/status", {
           headers: {
             Authorization: "Bearer " + token(),
           },
@@ -137,12 +138,13 @@ const Home = () => {
                   <SkeletonUserOnline />
                 </div>
               ) : (
-                onlineUsers.map((user) => {
+                onlineUsers.slice(0, 3).map((user) => {
                   return (
                     <UserOnline
                       key={user.id}
                       name={user.name}
-                      email={user.email}
+                      lastSeen={moment(user.last_seen).fromNow()}
+                      avatar={user.avatar}
                       goToUserProfile={() => goToUserProfile(user.id)}
                     />
                   );

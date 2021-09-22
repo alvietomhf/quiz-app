@@ -5,18 +5,22 @@ import {
   Paper,
   TextField,
   Typography,
+  makeStyles,
 } from "@material-ui/core";
 import { ErrorMessage, Form, Formik, Field } from "formik";
-import React, { createRef, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { registerUser } from "../../actions/auth/authAction";
 import * as Yup from "yup";
-import { buildFormData } from "../../components/BuildFormData";
+import { jsonToFormData } from "../../config/jsonToFormData";
+import { CameraAlt } from "@material-ui/icons";
+import { Alert } from "@material-ui/lab";
 
 const Register = () => {
-  const FormikRef = createRef();
+  const FormikRef = useRef();
+  const [error, setError] = useState(true);
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.access);
   const history = useHistory();
@@ -24,6 +28,7 @@ const Register = () => {
   const initialValues = {
     name: "",
     email: "",
+    number: 1,
     password: "",
     avatar: "",
   };
@@ -35,22 +40,19 @@ const Register = () => {
   }, [auth, token, history]);
 
   const validationSchema = Yup.object().shape({
+    name: Yup.string().required("Required"),
+    number: Yup.string().required("Required"),
     email: Yup.string().required("Required").email("please enter valid email"),
     password: Yup.string()
       .required("Required")
       .min(8, "Password length contain minimal 8 characters"),
   });
 
-  const jsonToFormData = (data) => {
-    const formData = new FormData();
-    buildFormData(formData, data);
-    return formData;
-  };
-
   const onSubmit = async (values) => {
     const postData = {
       name: values.name,
       email: values.email,
+      number: values.number,
       password: values.password,
       password_confirmation: values.password,
       role: "student",
@@ -63,6 +65,11 @@ const Register = () => {
     registerUser(formData, "student");
     FormikRef.current.setSubmitting(false);
     FormikRef.current.resetForm();
+
+    setError(false);
+    setTimeout(() => {
+      history.push("/login");
+    }, 2000);
   };
 
   const onChangeImage = (e, index) => {
@@ -71,19 +78,26 @@ const Register = () => {
     FormikRef.current.setFieldValue(index, files[0]);
   };
 
+  const classes = useStyles();
+
   return (
     <Fragment>
-      <Grid>
-        <Paper>
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        className={classes.root}
+        validationSchema={validationSchema}
+      >
+        <Paper className={classes.paper}>
           <Formik
             initialValues={initialValues}
             innerRef={FormikRef}
             onSubmit={onSubmit}
-            validationSchema={validationSchema}
           >
             {(props) => (
               <Form>
-                <Grid align="center">
+                <Grid item xs={12}>
                   <Typography
                     style={{
                       fontWeight: "bold",
@@ -91,12 +105,25 @@ const Register = () => {
                     }}
                     variant="h3"
                     gutterBottom
+                    align="center"
                   >
                     Sign Up
                   </Typography>
-                  <Typography variant="subtitle1" gutterBottom>
+                  <Typography
+                    variant="subtitle1"
+                    align="center"
+                    color="textSecondary"
+                    gutterBottom
+                  >
                     Selamat Datang, silahkan isi data anda.
                   </Typography>
+                  {error ? (
+                    ""
+                  ) : (
+                    <Alert severity="success">
+                      Registrasi berhasil.
+                    </Alert>
+                  )}
                 </Grid>
                 <Field
                   as={TextField}
@@ -105,8 +132,8 @@ const Register = () => {
                   name="name"
                   placeholder="Enter Your Name..."
                   fullWidth
+                  className={classes.fieldRegister}
                   error={props.errors.name && props.touched.name}
-                  required
                   helperText={<ErrorMessage name="name" />}
                 />
                 <Field
@@ -115,16 +142,27 @@ const Register = () => {
                   label="Email"
                   name="email"
                   placeholder="Enter Email..."
+                  className={classes.fieldRegister}
                   fullWidth
                   error={props.errors.email && props.touched.email}
-                  required
                   helperText={<ErrorMessage name="email" />}
+                />
+                <Field
+                  as={TextField}
+                  variant="outlined"
+                  label="Absen"
+                  style={{ width: 100 }}
+                  name="number"
+                  placeholder="Absen..."
+                  className={classes.fieldRegister}
+                  helperText={<ErrorMessage name="number" />}
                 />
                 <Field
                   as={TextField}
                   label="Password"
                   name="password"
                   variant="outlined"
+                  className={classes.fieldRegister}
                   placeholder="Enter password"
                   type="password"
                   fullWidth
@@ -133,12 +171,15 @@ const Register = () => {
                       ? true
                       : false
                   }
-                  required
                   helperText={<ErrorMessage name="password" />}
                 />
-                <div>
-                  <Button variant="outlined" component="label">
-                    Tambahkan Gambar
+                <div style={{ marginTop: 5 }}>
+                  <Button
+                    variant="outlined"
+                    startIcon={<CameraAlt />}
+                    component="label"
+                  >
+                    Avatar
                     <input
                       type="file"
                       hidden
@@ -148,14 +189,21 @@ const Register = () => {
                       }}
                     />
                   </Button>
-                  {props.values.avatar.name}
+                  <Typography
+                    style={{ marginLeft: 5 }}
+                    variant="caption"
+                    gutterBottom
+                  >
+                    {props.values.avatar !== "" ? "Image Found" : ""}
+                  </Typography>
                 </div>
                 <Button
                   type="submit"
                   color="primary"
+                  fullWidth
                   variant="contained"
                   disabled={props.isSubmitting}
-                  fullWidth
+                  style={{ marginTop: 10, marginBottom: 5 }}
                 >
                   {props.isSubmitting ? (
                     <CircularProgress size={24} />
@@ -172,14 +220,19 @@ const Register = () => {
   );
 };
 
-// const useStyles = makeStyles((theme) => ({
-//   formControl: {
-//     margin: theme.spacing(1),
-//     minWidth: 120,
-//   },
-//   selectEmpty: {
-//     marginTop: theme.spacing(2),
-//   },
-// }));
+const useStyles = makeStyles((theme) => ({
+  root: {
+    minHeight: "100vh",
+  },
+  paper: {
+    padding: 15,
+    width: 520,
+  },
+  formContainer: {},
+  fieldRegister: {
+    marginTop: 5,
+    marginBottom: 5,
+  },
+}));
 
 export default Register;

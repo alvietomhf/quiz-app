@@ -16,7 +16,6 @@ import { buildFormData } from "../../../components/BuildFormData";
 import apiQuiz from "../../../actions/quiz/quiz";
 import moment from "moment";
 import { CameraAlt } from "@material-ui/icons";
-
 const AddEssayComponent = ({ open, handleClose }) => {
   const [selectedDate, setSelectedDate] = useState();
   const FormikRef = useRef();

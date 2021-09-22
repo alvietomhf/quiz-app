@@ -16,6 +16,10 @@ const ResultsPage = () => {
 
   const columns = [
     {
+      title: "Absen",
+      field: "number",
+    },
+    {
       title: "Email",
       field: "email",
     },

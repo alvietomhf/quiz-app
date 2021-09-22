@@ -39,7 +39,6 @@ const Layout = (Component, namePage) => {
     const history = useHistory();
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
-
     const [mobileOpen, setMobileOpen] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
@@ -66,23 +65,28 @@ const Layout = (Component, namePage) => {
     const itemsList = [
       {
         text: "Home",
-        icon: <HomeIcon />,
+        icon: <HomeIcon color="primary" />,
         onClick: () => history.push("/"),
       },
       {
         text: "Tujuan",
-        icon: <AssistantPhotoIcon />,
+        icon: <AssistantPhotoIcon color="primary" />,
         onClick: () => history.push("/tujuan"),
       },
       {
         text: "Petunjuk",
-        icon: <HelpOutlineIcon />,
+        icon: <HelpOutlineIcon color="primary" />,
         onClick: () => history.push("/petunjuk"),
       },
       {
         text: "Anggota",
-        icon: <PeopleAlt />,
+        icon: <PeopleAlt color="primary" />,
         onClick: () => history.push("/users"),
+      },
+      {
+        text: "Materi",
+        icon: <Archive color="primary" />,
+        onClick: () => history.push("/materi"),
       },
     ];
 
@@ -98,18 +102,18 @@ const Layout = (Component, namePage) => {
         onClick: () => history.push("/essay"),
       },
     ];
-    const materiDropDownList = [
-      {
-        text: "Materi 1",
-        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-        onClick: () => history.push("/materi1"),
-      },
-      {
-        text: "Materi 2",
-        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-        onClick: () => history.push("/materi2"),
-      },
-    ];
+    // const materiDropDownList = [
+    //   {
+    //     text: "Materi 1",
+    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+    //     onClick: () => history.push("/materi1"),
+    //   },
+    //   {
+    //     text: "Materi 2",
+    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+    //     onClick: () => history.push("/materi2"),
+    //   },
+    // ];
     // const usersDropDownList = [
     //   {
     //     text: "Siswa",
@@ -138,30 +142,9 @@ const Layout = (Component, namePage) => {
             );
           })}
         </List>
-        <Divider />
-        <ListItem button onClick={handleDropDownMateri}>
-          <ListItemIcon>
-            <Archive />
-          </ListItemIcon>
-          <ListItemText primary="Materi" />
-          {dropDownMateri ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={dropDownMateri} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {materiDropDownList.map((item) => {
-              const { text, icon, onClick } = item;
-              return (
-                <ListItem button key={text} onClick={onClick}>
-                  {icon && <ListItemIcon>{icon}</ListItemIcon>}
-                  <ListItemText primary={text} />
-                </ListItem>
-              );
-            })}
-          </List>
-        </Collapse>
         <ListItem button onClick={handleDropDownTugas}>
           <ListItemIcon>
-            <AssignmentIcon />
+            <AssignmentIcon color="primary" />
           </ListItemIcon>
           <ListItemText primary="Tugas" />
           {dropDownTugas ? <ExpandLess /> : <ExpandMore />}
@@ -179,7 +162,6 @@ const Layout = (Component, namePage) => {
             })}
           </List>
         </Collapse>
-        <Divider />
       </div>
     );
 
@@ -224,12 +206,12 @@ const Layout = (Component, namePage) => {
                     onClick={handleMenu}
                     color="inherit"
                   >
-                    {!auth.avatar ? (
+                    {auth.data.user.avatar === "" ? (
                       <AccountCircle />
                     ) : (
                       <Avatar
                         alt="Profile Icon"
-                        src={`http://192.168.0.8:8000/assets/images/avatar/${auth.avatar}`}
+                        src={`http://192.168.0.8:8000/assets/images/avatar/${auth.data.user.avatar}`}
                       />
                     )}
                   </IconButton>

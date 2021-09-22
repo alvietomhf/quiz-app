@@ -9,8 +9,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
+import AccountCircle from "@material-ui/icons/AccountCircle";
 
-const UserOnline = ({ id, name, email, goToUserProfile }) => {
+const UserOnline = ({ id, name, lastSeen, avatar, goToUserProfile }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const open = Boolean(anchorEl);
@@ -49,11 +50,11 @@ const UserOnline = ({ id, name, email, goToUserProfile }) => {
           }
           avatar={
             <Avatar
-              style={{
-                width: 40,
-                height: "auto",
-              }}
-              src="https://i.imgur.com/iJq78XH.jpg"
+              src={
+                avatar === "" || avatar === null
+                  ? ""
+                  : `http://192.168.0.8:8000/assets/images/avatar/${avatar}`
+              }
               aria-label="recipe"
             />
           }
@@ -69,7 +70,11 @@ const UserOnline = ({ id, name, email, goToUserProfile }) => {
               <Typography variant="inherit">{name}</Typography>
             </div>
           }
-          subheader={<Typography variant="inherit">{email}</Typography>}
+          subheader={
+            <Typography variant="inherit" color="textSecondary">
+              {lastSeen}
+            </Typography>
+          }
         />
       </Box>
     </div>
