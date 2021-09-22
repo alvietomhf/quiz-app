@@ -483,11 +483,7 @@ const AddEditQuizPage = () => {
                                       >
                                         Remove
                                       </Button>
-                                      {/* <img
-                                        style={{ width: 100 }}
-                                        src={`http://192.168.0.8:8000/assets/files/quiz/${question.file}`}
-                                        alt=""
-                                      /> */}
+                                     
                                     </div>
                                   ) : (
                                     ""
