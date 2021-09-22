@@ -6,6 +6,7 @@ import {
   Paper,
   Typography,
   IconButton,
+  Box,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Layout from "../../../components/Layout";
@@ -237,15 +238,7 @@ const AddEditQuizPage = () => {
                                 margin: "20px 0",
                               }}
                             >
-                              <Grid
-                                item
-                                xs={12}
-                                style={{
-                                  borderTop: "1px solid #E3E3E3",
-                                  borderBottom: "1px solid #E3E3E3",
-                                  padding: "20px 0",
-                                }}
-                              >
+                              <Grid item xs={12}>
                                 <Field
                                   as={TextField}
                                   fullWidth
@@ -499,74 +492,56 @@ const AddEditQuizPage = () => {
                                   ) : (
                                     ""
                                   )}
+                                  <Button
+                                    startIcon={<Delete />}
+                                    disabled={isSubmitting}
+                                    onClick={() => remove(i)}
+                                  >
+                                    Hapus
+                                  </Button>
                                 </div>
-                              </Grid>
-                            </Grid>
-                            <Grid
-                              container
-                              style={{ margin: "20px 0 20px 7px" }}
-                            >
-                              <Grid
-                                item
-                                xs={12}
-                                sm="auto"
-                                style={{ marginRight: 5 }}
-                              >
-                                {!isAddMode ? (
-                                  <Button
-                                    disabled={isSubmitting}
-                                    variant="contained"
-                                    color="secondary"
-                                    startIcon={<AddIcon />}
-                                    onClick={() =>
-                                      push({
-                                        id: -1,
-                                        question: "",
-                                        file: "",
-                                        options: [
-                                          { id: -1, title: "", correct: 0 },
-                                        ],
-                                      })
-                                    }
-                                  >
-                                    Pertanyaan
-                                  </Button>
-                                ) : i > 0 ? (
-                                  ""
-                                ) : (
-                                  <Button
-                                    disabled={isSubmitting}
-                                    variant="contained"
-                                    color="secondary"
-                                    startIcon={<AddIcon />}
-                                    onClick={() =>
-                                      push({
-                                        id: "",
-                                        question: "",
-                                        file: "",
-                                        options: [
-                                          { id: "", title: "", correct: 0 },
-                                        ],
-                                      })
-                                    }
-                                  >
-                                    Tambah
-                                  </Button>
-                                )}
-                              </Grid>
-                              <Grid item xs={12} sm="auto">
-                                <Button
-                                  startIcon={<Delete />}
-                                  disabled={i <= 0 || isSubmitting}
-                                  onClick={() => remove(i)}
-                                >
-                                  Hapus
-                                </Button>
                               </Grid>
                             </Grid>
                           </Grid>
                         );
                       })}
+                      <Box marginLeft={1}>
+                        {!isAddMode ? (
+                          <Button
+                            disabled={isSubmitting}
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<AddIcon />}
+                            onClick={() =>
+                              push({
+                                id: -1,
+                                question: "",
+                                file: "",
+                                options: [{ id: -1, title: "", correct: 0 }],
+                              })
+                            }
+                          >
+                            Pertanyaan
+                          </Button>
+                        ) : (
+                          <Button
+                            disabled={isSubmitting}
+                            variant="contained"
+                            color="secondary"
+                            startIcon={<AddIcon />}
+                            onClick={() =>
+                              push({
+                                id: "",
+                                question: "",
+                                file: "",
+                                options: [{ id: "", title: "", correct: 0 }],
+                              })
+                            }
+                          >
+                            Pertanyaan
+                          </Button>
+                        )}
+                      </Box>
                     </Fragment>
                   )}
                 </FieldArray>

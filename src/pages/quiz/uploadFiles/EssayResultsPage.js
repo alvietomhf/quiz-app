@@ -1,20 +1,15 @@
-import {
-  Avatar,
-  Button,
-  CardHeader,
-  Container,
-  Paper,
-} from "@material-ui/core";
+import { Avatar, Box, Button, CardHeader } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
 import { saveAs } from "file-saver";
 import sortByDate from "../../../config/sortByDate";
 import moment from "moment";
+import NotSubmittedTable from "../../../components/NotSubmittedTable";
 
 const EssayResultsPage = () => {
   const history = useHistory();
@@ -167,10 +162,15 @@ const EssayResultsPage = () => {
   return !location.state ? (
     <h1>Forbidden</h1>
   ) : (
-    <Paper>
+    <Box>
+      <NotSubmittedTable
+        slug={slug}
+        setLoading={setLoading}
+        isLoading={isLoading}
+      />
       <MaterialTable
         style={{ padding: "0 20px" }}
-        title="Hasil Esai"
+        title="Submitted"
         isLoading={isLoading}
         columns={columns}
         data={result}
@@ -188,7 +188,7 @@ const EssayResultsPage = () => {
             }),
         }}
       />
-    </Paper>
+    </Box>
   );
 };
 

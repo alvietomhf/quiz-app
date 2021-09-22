@@ -43,7 +43,6 @@ const Layout = (Component, namePage) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const [dropDownTugas, setdropDownTugas] = useState(false);
-    const [dropDownMateri, setdropDownMateri] = useState(false);
 
     const handleDrawerToggle = () => {
       setMobileOpen(!mobileOpen);
@@ -56,10 +55,6 @@ const Layout = (Component, namePage) => {
 
     const handleDropDownTugas = () => {
       setdropDownTugas(!dropDownTugas);
-    };
-
-    const handleDropDownMateri = () => {
-      setdropDownMateri(!dropDownMateri);
     };
 
     const itemsList = [
@@ -206,7 +201,8 @@ const Layout = (Component, namePage) => {
                     onClick={handleMenu}
                     color="inherit"
                   >
-                    {auth.data.user.avatar === "" ? (
+                    {auth.data.user.avatar === "" ||
+                    auth.data.user.avatar == null ? (
                       <AccountCircle />
                     ) : (
                       <Avatar

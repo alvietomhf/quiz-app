@@ -41,8 +41,6 @@ const UserFeed = ({
     image,
     caption,
   };
-  const [message, setMessage] = useState("");
-  const [isError, setError] = useState(false);
   const FormikRef = createRef();
   const initialValues = {
     message: "",
@@ -59,10 +57,7 @@ const UserFeed = ({
         FormikRef.current.resetForm();
       })
       .catch((error) => {
-        setError(true);
-        setTimeout(() => {
-          setError(false);
-        }, 2000);
+        console.log(error);
       });
 
     //Fetch Data Feeds

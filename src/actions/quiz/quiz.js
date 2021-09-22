@@ -88,6 +88,14 @@ const resultQuiz = (slug, type) =>
       Authorization: "Bearer " + token(),
     },
   });
+const notSubmittedQuiz = (slug) =>
+  instance({
+    url: `/api/guru/result/${slug}/notsubmitted`,
+    method: "get",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
 
 const apiQuiz = {
   index,
@@ -99,6 +107,7 @@ const apiQuiz = {
   guruScoreEssay,
   resultQuiz,
   deleteImageQuiz,
+  notSubmittedQuiz,
 };
 
 export default apiQuiz;

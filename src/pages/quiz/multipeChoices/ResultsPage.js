@@ -1,4 +1,4 @@
-import { Avatar, CardHeader, Container, Paper } from "@material-ui/core";
+import { Avatar, Box, CardHeader, Container } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
 import moment from "moment";
@@ -7,6 +7,7 @@ import { useHistory } from "react-router";
 import { useLocation } from "react-router-dom";
 import apiQuiz from "../../../actions/quiz/quiz";
 import Layout from "../../../components/Layout";
+import NotSubmittedTable from "../../../components/NotSubmittedTable";
 const ResultsPage = () => {
   const history = useHistory();
   const location = useLocation();
@@ -58,26 +59,34 @@ const ResultsPage = () => {
 
   useEffect(() => {
     if (!location.state) history.push("/quiz");
-    apiQuiz
-      .resultQuiz(slug, "quiz")
-      .then((response) => {
-        const res = response.data.data;
-        console.log(res);
-        setLoading(false);
-        setResult(res);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    const getSubmitted = async () => {
+      await apiQuiz
+        .resultQuiz(slug, "quiz")
+        .then((response) => {
+          const res = response.data.data;
+          console.log(res);
+          setLoading(false);
+          setResult(res);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    getSubmitted();
   }, [history, location, slug]);
 
   return !location.state ? (
     <h1>Forbidden</h1>
   ) : (
     <Container>
-      <Paper>
+      <Box>
+        <NotSubmittedTable
+          slug={slug}
+          setLoading={setLoading}
+          isLoading={isLoading}
+        />
         <MaterialTable
-          title="Hasil Kuis"
+          title="Submitted"
           isLoading={isLoading}
           columns={columns}
           data={result}
@@ -87,7 +96,7 @@ const ResultsPage = () => {
             tableLayout: "auto",
           }}
         />
-      </Paper>
+      </Box>
     </Container>
   );
 };

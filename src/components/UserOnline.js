@@ -9,7 +9,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { MoreVert } from "@material-ui/icons";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 
 const UserOnline = ({ id, name, lastSeen, avatar, goToUserProfile }) => {
   const [anchorEl, setAnchorEl] = useState(null);

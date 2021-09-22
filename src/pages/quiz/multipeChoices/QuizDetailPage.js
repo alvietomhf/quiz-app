@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useTimer } from "react-timer-hook";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import { token } from "../../../config/token";
 import instance from "../../../actions/instance";
 import apiQuiz from "../../../actions/quiz/quiz";
 import ResultQuizIndicator from "../../../components/ResultIndicator";
+import { Box, Button, Grid, Typography } from "@material-ui/core";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 
 const QuizDetailPage = () => {
   const { slug } = useParams();
@@ -126,35 +128,38 @@ const QuizDetailPage = () => {
   return (
     <div>
       <ResultQuizIndicator open={open} setOpen={setOpen} />
-      <h2 className="text-center mb-3 mt-3">
-        Quiz Screen - Timer: {minutes}:{seconds}
-      </h2>
-      <div className="card mb-3">
-        <div
-          className="card-body"
-          style={{
-            display: "flex",
-            padding: 10,
-            flexWrap: "wrap",
-          }}
+      <Box display="flex">
+        <Typography
+          variant="h5"
+          color="textSecondary"
+          style={{ marginLeft: "auto" }}
         >
+          Time Left: {minutes}:{seconds}
+        </Typography>
+      </Box>
+      <div style={{ margin: "10px 0" }}>
+        <Box display="flex" padding="10px" flexWrap="wrap">
           {quiz.map((item, index) => (
-            <div
+            <Box
+              width="40px"
+              height="40px"
+              margin="0 5px 5px 0"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              borderRadius="5px"
               key={index}
-              className="border border-primary font-weight-bold"
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: 40,
-                width: 40,
-                marginRight: 5,
-                marginBottom: 5,
-                borderRadius: 5,
+                color:
+                  index === currentIndex
+                    ? "white"
+                    : item?.selected
+                    ? "white"
+                    : "black",
                 cursor: "pointer",
                 backgroundColor:
                   index === currentIndex
-                    ? "greenyellow "
+                    ? "#388E3C"
                     : item?.selected
                     ? "grey"
                     : "transparent",
@@ -162,9 +167,9 @@ const QuizDetailPage = () => {
               onClick={() => setCurrentIndex(index)}
             >
               {index + 1}
-            </div>
+            </Box>
           ))}
-        </div>
+        </Box>
       </div>
       {file ? (
         <img
@@ -182,63 +187,74 @@ const QuizDetailPage = () => {
             fontSize: 20,
           }}
         >
-          {currentIndex + 1}. {question}
+          <Typography variant="h4" style={{ fontWeight: 700 }}>
+            {question}
+          </Typography>
         </div>
-        <div className="card-body">
+        <Grid container spacing={2} style={{ margin: "10px 0" }}>
           {options.map((item, index) => (
-            <div
-              style={{
-                display: "flex",
-                justifyItems: "center",
-                alignItems: "center",
-                fontSize: 18,
-              }}
-              key={index}
-            >
-              <div
+            <Grid item lg={6} key={index} xs={12}>
+              <Box
+                padding={2}
+                display="flex"
+                alignItems="center"
+                color="white"
+                bgcolor={item?.selected ? "#388E3C" : "rgba(0, 0, 0, 0.6)"}
+                borderRadius="100px"
                 style={{
-                  height: 20,
-                  width: 20,
-                  borderRadius: 100,
-                  backgroundColor: item?.selected ? "greenyellow" : "grey",
                   cursor: "pointer",
-                  marginRight: 5,
                 }}
                 onClick={() => selectOption(currentIndex, index)}
-              />
-              {item.title}
-            </div>
+              >
+                <Typography
+                  variant="body1"
+                  style={{ fontWeight: 600, wordBreak: "break-word" }}
+                >
+                  {item.title}
+                </Typography>
+                {item?.selected ? (
+                  <CheckCircleIcon style={{ marginLeft: "auto" }} />
+                ) : (
+                  ""
+                )}
+              </Box>
+            </Grid>
           ))}
-        </div>
+        </Grid>
       </div>
       <div
         style={{
           display: "flex",
-          justifyContent: "space-between",
+          justifyContent: "center",
+          alignItems: "center",
           paddingTop: 10,
         }}
       >
-        <button
-          className="btn btn-info col-sm-2"
+        <Button
+          color="secondary"
+          variant="contained"
+          style={{ marginRight: 10 }}
           onClick={() => previousQuestion()}
           disabled={currentIndex === 0 ? true : false}
         >
           Previous
-        </button>
+        </Button>
         {quiz.length - 1 === currentIndex ? (
-          <button
-            className="btn btn-primary col-sm-2"
+          <Button
+            variant="contained"
+            color="primary"
             onClick={() => postResultQuiz(quiz)}
           >
             Finish
-          </button>
+          </Button>
         ) : (
-          <button
-            className="btn btn-primary col-sm-2"
+          <Button
+            color="primary"
+            variant="contained"
             onClick={() => nextQuestion()}
           >
             Next
-          </button>
+          </Button>
         )}
       </div>
     </div>
