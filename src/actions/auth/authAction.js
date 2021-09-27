@@ -9,21 +9,24 @@ import {
 import { token } from "../../config/token";
 import history from "../history";
 
-export const registerUser = (data, role) => {
-  instance
+export const registerUser = (data, role) => async (dispatch) => {
+  await instance
     .post(`api/register/${role}`, data)
     .then((response) => {
       const res = response.data;
       console.log(res);
     })
     .catch((error) => {
-      const message = error.response.data.message;
-      console.log(message);
+      dispatch({
+        type: GET_ERRORS,
+        payload: error.response.data.data,
+      });
+      // console.log(message);
     });
 };
 
-export const loginUser = (data) => (dispatch) => {
-  instance.get("sanctum/csrf-cookie").then(() => {
+export const loginUser = (data) => async (dispatch) => {
+  await instance.get("sanctum/csrf-cookie").then(() => {
     instance
       .post("api/login", data)
       .then((response) => {
@@ -37,14 +40,14 @@ export const loginUser = (data) => (dispatch) => {
         //   payload: res.data.token,
         // });
         // history.push("home");
-        console.log(res)
+        console.log(res);
       })
       .catch((error) => {
         if (error.response.status === 401) {
           dispatch({
-            type: GET_ERRORS,
-            payload: error.response.data.message,
-          });
+        type: GET_ERRORS,
+        payload: error.response.data.data,
+      });
         }
         setTimeout(() => {
           window.location.reload();
@@ -53,8 +56,8 @@ export const loginUser = (data) => (dispatch) => {
   });
 };
 
-export const logOut = (dispatch) => {
-  instance({
+export const logOut = async (dispatch) => {
+  await instance({
     url: "/api/logout",
     method: "post",
     headers: {

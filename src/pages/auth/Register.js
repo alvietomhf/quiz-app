@@ -15,19 +15,21 @@ import {
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import React, { useState, useEffect, useRef } from "react";
 import { Fragment } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { registerUser } from "../../actions/auth/authAction";
-import * as Yup from "yup";
 import { jsonToFormData } from "../../config/jsonToFormData";
 import { CameraAlt } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
+import { GET_ERRORS, RESET_ERRORS } from "../../constants/types";
+import store from "../../store";
 
 const Register = () => {
   const FormikRef = useRef();
-  const [error, setError] = useState(true);
   const auth = useSelector((state) => state.auth);
+  const error = useSelector((state) => state.errors);
   const token = useSelector((state) => state.access);
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const initialValues = {
@@ -40,8 +42,19 @@ const Register = () => {
 
   const [role, setRole] = useState("student");
 
+  if (error.isError == true) {
+    setTimeout(() => {
+      store.dispatch({
+        type: RESET_ERRORS,
+        payload: "",
+      });
+    }, 1500);
+  }
+
   const handleChangeRole = (event) => {
     setRole(event.target.value);
+    error.message = {};
+    error.isError = false;
   };
 
   useEffect(() => {
@@ -49,15 +62,6 @@ const Register = () => {
       history.push("/");
     }
   }, [auth, token, history]);
-
-  const validationSchema = Yup.object().shape({
-    name: Yup.string().required("Required"),
-    number: Yup.string().required("Required"),
-    email: Yup.string().required("Required").email("please enter valid email"),
-    password: Yup.string()
-      .required("Required")
-      .min(8, "Password length contain minimal 8 characters"),
-  });
 
   const onSubmit = async (values) => {
     const postData = {
@@ -72,14 +76,12 @@ const Register = () => {
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    registerUser(formData, role);
-    FormikRef.current.setSubmitting(false);
-    FormikRef.current.resetForm();
 
-    setError(false);
-    setTimeout(() => {
-      history.push("/login");
-    }, 2000);
+    dispatch(
+      registerUser(formData, role),
+      FormikRef.current.setSubmitting(false)
+    );
+    FormikRef.current.resetForm();
   };
 
   const onChangeImage = (e, index) => {
@@ -122,10 +124,12 @@ const Register = () => {
                     >
                       Selamat Datang, silahkan isi data anda.
                     </Typography>
-                    {error ? (
-                      ""
+                    {error.isError == true ? (
+                      <Alert severity="error">Validasi Error</Alert>
                     ) : (
-                      <Alert severity="success">Registrasi berhasil.</Alert>
+                      props.isSubmitting == true && (
+                        <Alert severity="success">Registrasi berhasil.</Alert>
+                      )
                     )}
                   </div>
                   <Field
@@ -136,8 +140,8 @@ const Register = () => {
                     placeholder="Enter Your Name..."
                     fullWidth
                     className={classes.fieldRegister}
-                    error={props.errors.name && props.touched.name}
-                    helperText={<ErrorMessage name="name" />}
+                    error={error.message.name && true}
+                    helperText={error.message.name}
                   />
                   <Field
                     as={TextField}
@@ -147,8 +151,8 @@ const Register = () => {
                     placeholder="Enter Email..."
                     className={classes.fieldRegister}
                     fullWidth
-                    error={props.errors.email && props.touched.email}
-                    helperText={<ErrorMessage name="email" />}
+                    error={error.message.email && true}
+                    helperText={error.message.email}
                   />
 
                   <Box display="flex" alignItems="center" marginY={1}>
@@ -169,10 +173,11 @@ const Register = () => {
                         as={TextField}
                         variant="outlined"
                         label="Absen"
-                        style={{ marginLeft: 10, marginTop: 3, width: 100 }}
+                        style={{ marginLeft: 10, marginTop: 3, width: 200 }}
                         name="number"
                         placeholder="Absen..."
-                        helperText={<ErrorMessage name="number" />}
+                        error={error.message.number && true}
+                        helperText={error.message.number}
                       />
                     )}
                   </Box>
@@ -185,12 +190,8 @@ const Register = () => {
                     placeholder="Enter password"
                     type="password"
                     fullWidth
-                    error={
-                      props.errors.password && props.touched.password
-                        ? true
-                        : false
-                    }
-                    helperText={<ErrorMessage name="password" />}
+                    error={error.message.password && true}
+                    helperText={error.message.password}
                   />
                   <div style={{ marginTop: 5 }}>
                     <Button

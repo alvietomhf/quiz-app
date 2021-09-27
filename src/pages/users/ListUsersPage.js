@@ -6,10 +6,12 @@ import MaterialTable from "material-table";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import { Button, CardHeader, Avatar, Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
+import { Redirect, useHistory } from "react-router";
 
 const ListUsersPage = () => {
   console.clear();
-  const auth = useSelector((state) => state.auth.data.user);
+  const auth = useSelector((state) => state.auth);
+  const history = useHistory();
   const [isLoading, setLoading] = useState(true);
   const columns = [
     {
@@ -48,31 +50,30 @@ const ListUsersPage = () => {
   ];
   const [data, setData] = useState([]);
   useEffect(() => {
-    instance
-      .get("api/users", {
-        headers: {
-          Authorization: "Bearer " + token(),
-        },
-      })
-      .then((response) => {
-        setLoading(false);
-        setData(response.data.data);
-      });
-  }, []);
+    const getUsers = async () => {
+      await instance
+        .get("api/users", {
+          headers: {
+            Authorization: "Bearer " + token(),
+          },
+        })
+        .then((response) => {
+          setLoading(false);
+          setData(response.data.data);
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            history.push("/login");
+          }
+        });
+    };
+    getUsers();
+  }, [history, auth]);
   console.log(data);
   return (
     <div>
       <Grid container>
         <Grid xs={12} item style={{ width: 120 }}>
-          {auth.role === "admin" && (
-            <Button
-              style={{ borderBottomRightRadius: 0, borderBottomLeftRadius: 0 }}
-              variant="contained"
-              color="primary"
-            >
-              Tambah Guru
-            </Button>
-          )}
           <MaterialTable
             title="Users"
             isLoading={isLoading}
