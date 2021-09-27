@@ -13,6 +13,7 @@ import DetailEssay from "./pages/quiz/uploadFiles/DetailEssay";
 import EssayResultsPage from "./pages/quiz/uploadFiles/EssayResultsPage";
 import ResultsPage from "./pages/quiz/multipeChoices/ResultsPage";
 import MaterialsPage from "./pages/materials/MaterialsPage";
+import DetailMaterial from "./pages/materials/DetailMaterial";
 
 const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 const QuizDetailPage = lazy(() =>
@@ -40,6 +41,11 @@ const App = () => {
         <Route exact={true} path="/users" component={ListUsersPage} />
         <PrivateRoutes exact={true} path="/" component={HomePage} />
         <PrivateRoutes exact={true} path="/materi" component={MaterialsPage} />
+        <PrivateRoutes
+          exact={true}
+          path="/materi/:id"
+          component={DetailMaterial}
+        />
 
         {/* <PrivateRoutes exact={true} path="/:id" component={DetailPost} /> */}
         <Suspense fallback={<CircularLoading />}>

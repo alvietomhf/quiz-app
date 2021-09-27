@@ -18,6 +18,7 @@ import EmptyDataComponent from "../../../components/EmptyData";
 import Layout from "../../../components/Layout";
 import LoadingProgress from "../../../components/lazyLoad/LoadingProgress";
 import AddEssayComponent from "./AddEssayComponent";
+import NoImage from "../../../assets/images/noImage.jpg";
 
 const EssayPage = () => {
   const [quiz, setQuiz] = useState([]);
@@ -25,7 +26,7 @@ const EssayPage = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   let dateNow = moment().format("YYYY-MM-DD HH:mm");
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -92,60 +93,72 @@ const EssayPage = () => {
                   )}
                 </div>
               ) : (
-                quiz
-                  .sort((a, b) => (a.title > b.title ? 1 : -1))
-                  .map((item) => {
-                    return (
-                      <Grid
-                        item
-                        xs={12}
-                        className={classes.cardQuizList}
-                        lg={4}
-                        key={item.id}
-                      >
-                        <Card>
-                          {item.banner !== null ? (
-                            <CardMedia
-                              component="img"
-                              height="240"
-                              loading="lazy"
-                              image={`http://192.168.0.8:8000/assets/images/quiz/${item.banner}`}
-                              alt=""
-                            />
-                          ) : (
-                            <CardMedia
-                              component="img"
-                              height="240"
-                              loading="lazy"
-                              image={`https://source.unsplash.com/1600x900/?students,teacher`}
-                              alt=""
-                            />
-                          )}
-                          <CardContent>
-                            <div
-                              style={{
-                                whiteSpace: "nowrap",
-                                textOverflow: "ellipsis",
-                                width: 280,
-                                overflow: "hidden",
-                              }}
-                            >
-                              <Typography
-                                variant="inherit"
-                                style={{ fontWeight: 700 }}
-                                color="textPrimary"
-                              >
-                                {item.title}
-                              </Typography>
-                            </div>
-                            <Typography variant="body2" color="textSecondary">
-                              Deadline: {item.deadline}
-                            </Typography>
-                            <Grid container spacing={1}>
-                              {auth.role === "guru" ? (
-                                <Fragment>
-                                  <Box marginTop={2} marginLeft={`auto`}>
-                                    <Button
+                <div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleClickOpen}
+                  >
+                    Add Essay
+                  </Button>
+                  <Box marginTop={2}>
+                    {quiz
+                      .sort((a, b) => (a.title > b.title ? 1 : -1))
+                      .map((item) => {
+                        return (
+                          <Grid
+                            item
+                            xs={12}
+                            className={classes.cardQuizList}
+                            lg={4}
+                            key={item.id}
+                          >
+                            <Card>
+                              {item.banner !== null ? (
+                                <CardMedia
+                                  component="img"
+                                  height="240"
+                                  loading="lazy"
+                                  image={`http://192.168.0.8:8000/assets/images/quiz/${item.banner}`}
+                                  alt=""
+                                />
+                              ) : (
+                                <CardMedia
+                                  component="img"
+                                  height="240"
+                                  loading="lazy"
+                                  image={NoImage}
+                                  alt=""
+                                />
+                              )}
+                              <CardContent>
+                                <div
+                                  style={{
+                                    whiteSpace: "nowrap",
+                                    textOverflow: "ellipsis",
+                                    width: 280,
+                                    overflow: "hidden",
+                                  }}
+                                >
+                                  <Typography
+                                    variant="inherit"
+                                    style={{ fontWeight: 700 }}
+                                    color="textPrimary"
+                                  >
+                                    {item.title}
+                                  </Typography>
+                                </div>
+                                <Typography
+                                  variant="body2"
+                                  color="textSecondary"
+                                >
+                                  Deadline: {item.deadline}
+                                </Typography>
+                                <Grid container spacing={1}>
+                                  {auth.role === "guru" ? (
+                                    <Fragment>
+                                      <Box marginTop={2} marginLeft={`auto`}>
+                                        {/* <Button
                                       onClick={() =>
                                         history.push(
                                           `/essay/edit/${item.slug}`,
@@ -157,55 +170,59 @@ const EssayPage = () => {
                                       color="primary"
                                     >
                                       Update
-                                    </Button>
-                                    <Button
-                                      onClick={() => deleteQuiz(item.slug)}
-                                      color="secondary"
-                                    >
-                                      Delete
-                                    </Button>
-                                    <Button
-                                      onClick={() =>
-                                        history.push(
-                                          `/essay/result/${item.slug}`,
-                                          {
-                                            slug: item.slug,
+                                    </Button> */}
+                                        <Button
+                                          onClick={() => deleteQuiz(item.slug)}
+                                          color="secondary"
+                                        >
+                                          Delete
+                                        </Button>
+                                        <Button
+                                          onClick={() =>
+                                            history.push(
+                                              `/essay/result/${item.slug}`,
+                                              {
+                                                slug: item.slug,
+                                              }
+                                            )
                                           }
-                                        )
-                                      }
-                                      color="default"
-                                    >
-                                      Lihat Hasil
-                                    </Button>
-                                  </Box>
-                                </Fragment>
-                              ) : auth.role === "siswa" &&
-                                dateNow < item.deadline ? (
-                                <Box marginTop={2}>
-                                  <Button
-                                    onClick={() =>
-                                      history.push(`/essay/start/${item.slug}`)
-                                    }
-                                    variant="contained"
-                                    color="primary"
-                                  >
-                                    Start Quiz
-                                  </Button>
-                                </Box>
-                              ) : (
-                                <Box marginTop={2} marginLeft={`auto`}>
-                                  {" "}
-                                  <p style={{ color: "red" }}>
-                                    Kuis sudah selesai.
-                                  </p>
-                                </Box>
-                              )}
-                            </Grid>
-                          </CardContent>
-                        </Card>
-                      </Grid>
-                    );
-                  })
+                                          color="default"
+                                        >
+                                          Lihat Hasil
+                                        </Button>
+                                      </Box>
+                                    </Fragment>
+                                  ) : auth.role === "siswa" &&
+                                    dateNow < item.deadline ? (
+                                    <Box marginTop={2}>
+                                      <Button
+                                        onClick={() =>
+                                          history.push(
+                                            `/essay/start/${item.slug}`
+                                          )
+                                        }
+                                        variant="contained"
+                                        color="primary"
+                                      >
+                                        Start Quiz
+                                      </Button>
+                                    </Box>
+                                  ) : (
+                                    <Box marginTop={2} marginLeft={`auto`}>
+                                      {" "}
+                                      <p style={{ color: "red" }}>
+                                        Kuis sudah selesai.
+                                      </p>
+                                    </Box>
+                                  )}
+                                </Grid>
+                              </CardContent>
+                            </Card>
+                          </Grid>
+                        );
+                      })}
+                  </Box>
+                </div>
               )}
             </div>
           )}

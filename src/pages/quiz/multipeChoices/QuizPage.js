@@ -17,6 +17,7 @@ import { Fragment } from "react";
 import moment from "moment";
 import EmptyDataComponent from "../../../components/EmptyData";
 import { Skeleton } from "@material-ui/lab";
+import NoImage from "../../../assets/images/noImage.jpg";
 
 const QuizPage = () => {
   const [quiz, setQuiz] = useState([]);
@@ -115,7 +116,7 @@ const QuizPage = () => {
                                   <CardMedia
                                     component="img"
                                     height="240"
-                                    loading='lazy'
+                                    loading="lazy"
                                     image={`http://192.168.0.8:8000/assets/images/quiz/${item.banner}`}
                                     alt=""
                                   />
@@ -123,8 +124,8 @@ const QuizPage = () => {
                                   <CardMedia
                                     component="img"
                                     height="240"
-                                    loading='lazy'
-                                    image={`https://source.unsplash.com/1600x900/?students,teacher`}
+                                    loading="lazy"
+                                    image={NoImage}
                                     alt=""
                                   />
                                 )}

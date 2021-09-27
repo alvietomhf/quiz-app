@@ -19,7 +19,11 @@ const EmptyDataComponent = ({ label }) => {
         style={{ width: "280px", margin: "20px 0" }}
         alt=""
       /> */}
-      <Lottie options={defaultOptions} width={400} />
+      <Lottie
+        options={defaultOptions}
+        width={400}
+        style={{ cursor: "pointer" }}
+      />
       <Typography
         variant="h6"
         style={{ margin: "20px 0", textAlign: "center" }}

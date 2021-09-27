@@ -45,20 +45,17 @@ export const loginUser = (data) => async (dispatch) => {
       .catch((error) => {
         if (error.response.status === 401) {
           dispatch({
-        type: GET_ERRORS,
-        payload: error.response.data.data,
-      });
+            type: GET_ERRORS,
+            payload: error.response.data.data,
+          });
         }
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
       });
   });
 };
 
 export const logOut = async (dispatch) => {
   await instance({
-    url: "/api/logout",
+    url: "api/logout",
     method: "post",
     headers: {
       Authorization: "Bearer " + token(),

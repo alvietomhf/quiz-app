@@ -25,6 +25,7 @@ import { Send } from "@material-ui/icons";
 import apiQuiz from "../../../actions/quiz/quiz";
 import ResultQuizIndicator from "../../../components/ResultIndicator";
 import { Alert } from "@material-ui/lab";
+import parse from "html-react-parser";
 
 const DetailEssay = () => {
   const slug = useParams();
@@ -107,12 +108,8 @@ const DetailEssay = () => {
               <Form>
                 <Paper className={classes.paper}>
                   <Box>
-                    <Typography
-                      variant="h4"
-                      gutterBottom
-                      className={classes.questionText}
-                    >
-                      {questions.question}
+                    <Typography gutterBottom>
+                      {parse(`${questions.question}`)}
                     </Typography>
                     {error && (
                       <Alert variant="standard" severity={"error"}>

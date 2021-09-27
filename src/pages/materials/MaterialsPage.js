@@ -17,6 +17,8 @@ import { Skeleton } from "@material-ui/lab";
 import apiMaterials from "../../actions/materials/materials";
 import EmptyDataComponent from "../../components/EmptyData";
 import Layout from "../../components/Layout";
+import AddMaterialComponent from "./AddMaterialComponent";
+import NoImage from "../../assets/images/noImage.jpg";
 
 const MaterialsPage = () => {
   const [materi, setMateri] = useState([]);
@@ -24,7 +26,9 @@ const MaterialsPage = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   let dateNow = moment().format("YYYY-MM-DD HH:mm");
-
+  const goToDetailMateri = (id) => {
+    history.push({ pathname: `/materi/${id}`, state: id });
+  };
   const deleteMateri = async (id) => {
     const response = await apiMaterials.deleteMaterials(id);
     const responseMateri = await apiMaterials.index();
@@ -32,6 +36,16 @@ const MaterialsPage = () => {
     setLoading(false);
     setMateri(data);
     console.log(response);
+  };
+
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -49,6 +63,7 @@ const MaterialsPage = () => {
 
   return (
     <div>
+      <AddMaterialComponent open={open} handleClose={handleClose} />
       <Grid container className={classes.root} spacing={2}>
         <Grid item xs={12}>
           {loading ? (
@@ -74,7 +89,12 @@ const MaterialsPage = () => {
                 >
                   <EmptyDataComponent label="Materi" />
                   {auth.role === "guru" && (
-                    <Button variant="contained" color="primary" size="large">
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="large"
+                      onClick={handleClickOpen}
+                    >
                       Tambah Materi
                     </Button>
                   )}
@@ -83,7 +103,11 @@ const MaterialsPage = () => {
                 <div>
                   <Box>
                     {auth.role === "guru" && (
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleClickOpen}
+                      >
                         Tambah Materi
                       </Button>
                     )}
@@ -115,7 +139,7 @@ const MaterialsPage = () => {
                                     component="img"
                                     height="240"
                                     loading="lazy"
-                                    image={`https://source.unsplash.com/1600x900/?students,teacher`}
+                                    image={NoImage}
                                     alt=""
                                   />
                                 )}
@@ -129,24 +153,37 @@ const MaterialsPage = () => {
                                     }}
                                   >
                                     <Typography
-                                      variant="inherit"
+                                      variant="body1"
                                       style={{ fontWeight: 700 }}
                                       color="textPrimary"
                                     >
-                                      {item.title}
+                                      {item.competence}
                                     </Typography>
                                   </div>
+                                  <Typography
+                                    variant="inherit"
+                                    color="textSecondary"
+                                  >
+                                    {moment(item.created_at).format("LLL")}
+                                  </Typography>
                                   <Grid container spacing={1}>
                                     <Box marginTop={2} marginLeft={`auto`}>
-                                      <Button color="primary">
+                                      <Button
+                                        color="primary"
+                                        onClick={() =>
+                                          goToDetailMateri(item.id)
+                                        }
+                                      >
                                         Lihat Materi
                                       </Button>
                                       {auth.role === "guru" ? (
                                         <Fragment>
-                                          <Button color="primary">
-                                            Update
-                                          </Button>
-                                          <Button color="secondary">
+                                          <Button
+                                            color="secondary"
+                                            onClick={() =>
+                                              deleteMateri(item.id)
+                                            }
+                                          >
                                             Delete
                                           </Button>
                                         </Fragment>

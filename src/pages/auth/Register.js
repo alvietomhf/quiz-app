@@ -53,8 +53,6 @@ const Register = () => {
 
   const handleChangeRole = (event) => {
     setRole(event.target.value);
-    error.message = {};
-    error.isError = false;
   };
 
   useEffect(() => {
@@ -168,18 +166,19 @@ const Register = () => {
                         <MenuItem value={"teacher"}>Guru</MenuItem>
                       </Select>
                     </FormControl>
-                    {role === "student" && (
-                      <Field
-                        as={TextField}
-                        variant="outlined"
-                        label="Absen"
-                        style={{ marginLeft: 10, marginTop: 3, width: 200 }}
-                        name="number"
-                        placeholder="Absen..."
-                        error={error.message.number && true}
-                        helperText={error.message.number}
-                      />
-                    )}
+
+                    <Field
+                      as={TextField}
+                      variant="outlined"
+                      label="Absen"
+                      type="number"
+                      style={{ marginLeft: 10, marginTop: 3, width: 90 }}
+                      name="number"
+                      disabled={role === "teacher" && true}
+                      placeholder="Absen..."
+                      error={error.message.number && true}
+                      helperText={error.message.number}
+                    />
                   </Box>
                   <Field
                     as={TextField}
