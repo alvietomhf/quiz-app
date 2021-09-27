@@ -16,9 +16,41 @@ import { buildFormData } from "../../../components/BuildFormData";
 import apiQuiz from "../../../actions/quiz/quiz";
 import moment from "moment";
 import { CameraAlt } from "@material-ui/icons";
+import { EditorState } from "draft-js";
+import { Editor } from "react-draft-wysiwyg";
+import axios from "axios";
+
 const AddEssayComponent = ({ open, handleClose }) => {
   const [selectedDate, setSelectedDate] = useState();
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const FormikRef = useRef();
+  const onEditorStateChange = (editorState) => {
+    console.log(editorState);
+    setEditorState(editorState);
+  };
+  const uploadImageCallBack = (file) => {
+    return new Promise((resolve, reject) => {
+      var data = new FormData();
+      data.append("image", file);
+
+      var config = {
+        method: "post",
+        url: "https://api.imgur.com/3/image",
+        headers: {
+          Authorization: "Client-ID 7cb8f0c2c3c7cc0",
+        },
+        data: data,
+      };
+
+      axios(config)
+        .then((response) => {
+          resolve(console.log(JSON.stringify(response.data)));
+        })
+        .catch((error) => {
+          reject(console.log(error));
+        });
+    });
+  };
   const initialValues = {
     title: "",
     deadline: "",
@@ -95,11 +127,7 @@ const AddEssayComponent = ({ open, handleClose }) => {
             <Fragment>
               <DialogTitle id="essay-add">Tambah Esai</DialogTitle>
               <DialogContent dividers>
-                <Box
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                >
+                <Box>
                   <Field
                     as={TextField}
                     variant="outlined"
@@ -176,12 +204,44 @@ const AddEssayComponent = ({ open, handleClose }) => {
                         style={{ display: "none" }}
                         name="questions[0].id"
                       />
-                      <Field
+                      {/* <Field
                         as={TextField}
                         variant="outlined"
                         label="Pertanyaan"
                         name="questions[0].question"
+                      /> */}
+                      <Editor
+                        editorState={editorState}
+                        onEditorStateChange={onEditorStateChange}
+                        toolbar={{
+                          inline: { inDropdown: true },
+                          list: { inDropdown: true },
+                          textAlign: { inDropdown: true },
+                          link: { inDropdown: true },
+                          history: { inDropdown: true },
+                          image: {
+                            uploadCallback: uploadImageCallBack,
+                            alt: { present: true, mandatory: true },
+                          },
+                        }}
                       />
+                      {/* <Field
+                        as={Editor}
+                        editorState={editorState}
+                        onEditorStateChange={onEditorStateChange}
+                        toolbar={{
+                          inline: { inDropdown: true },
+                          list: { inDropdown: true },
+                          textAlign: { inDropdown: true },
+                          link: { inDropdown: true },
+                          history: { inDropdown: true },
+                          image: {
+                            uploadCallback: uploadImageCallBack,
+                            alt: { present: true, mandatory: true },
+                          },
+                        }}
+                        name="questions[0].question"
+                      /> */}
                     </Fragment>
                   </FieldArray>
                 </Box>

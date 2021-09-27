@@ -6,12 +6,17 @@ import {
   TextField,
   Typography,
   makeStyles,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Box,
 } from "@material-ui/core";
 import { ErrorMessage, Form, Formik, Field } from "formik";
 import React, { useState, useEffect, useRef } from "react";
 import { Fragment } from "react";
 import { useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { registerUser } from "../../actions/auth/authAction";
 import * as Yup from "yup";
 import { jsonToFormData } from "../../config/jsonToFormData";
@@ -33,6 +38,12 @@ const Register = () => {
     avatar: "",
   };
 
+  const [role, setRole] = useState("student");
+
+  const handleChangeRole = (event) => {
+    setRole(event.target.value);
+  };
+
   useEffect(() => {
     if (auth.isAuthenticated && auth.data.token) {
       history.push("/");
@@ -52,17 +63,16 @@ const Register = () => {
     const postData = {
       name: values.name,
       email: values.email,
-      number: values.number,
       password: values.password,
       password_confirmation: values.password,
-      role: "student",
+      role: role,
       avatar: values.avatar,
     };
     const formData = jsonToFormData(postData);
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-    registerUser(formData, "student");
+    registerUser(formData, role);
     FormikRef.current.setSubmitting(false);
     FormikRef.current.resetForm();
 
@@ -82,72 +92,65 @@ const Register = () => {
 
   return (
     <Fragment>
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        className={classes.root}
-        validationSchema={validationSchema}
-      >
-        <Paper className={classes.paper}>
-          <Formik
-            initialValues={initialValues}
-            innerRef={FormikRef}
-            onSubmit={onSubmit}
-          >
-            {(props) => (
-              <Form>
-                <Grid item xs={12}>
-                  <Typography
-                    style={{
-                      fontWeight: "bold",
-                      margin: 0,
-                    }}
-                    variant="h3"
-                    gutterBottom
-                    align="center"
-                  >
-                    Sign Up
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    align="center"
-                    color="textSecondary"
-                    gutterBottom
-                  >
-                    Selamat Datang, silahkan isi data anda.
-                  </Typography>
-                  {error ? (
-                    ""
-                  ) : (
-                    <Alert severity="success">
-                      Registrasi berhasil.
-                    </Alert>
-                  )}
-                </Grid>
-                <Field
-                  as={TextField}
-                  variant="outlined"
-                  label="Name"
-                  name="name"
-                  placeholder="Enter Your Name..."
-                  fullWidth
-                  className={classes.fieldRegister}
-                  error={props.errors.name && props.touched.name}
-                  helperText={<ErrorMessage name="name" />}
-                />
-                <Field
-                  as={TextField}
-                  variant="outlined"
-                  label="Email"
-                  name="email"
-                  placeholder="Enter Email..."
-                  className={classes.fieldRegister}
-                  fullWidth
-                  error={props.errors.email && props.touched.email}
-                  helperText={<ErrorMessage name="email" />}
-                />
-                <Field
+      <Box justifyContent="center" alignItems="center" className={classes.root}>
+        <div>
+          <Paper className={classes.paper}>
+            <Formik
+              initialValues={initialValues}
+              innerRef={FormikRef}
+              onSubmit={onSubmit}
+            >
+              {(props) => (
+                <Form>
+                  <div>
+                    <Typography
+                      style={{
+                        fontWeight: "bold",
+                        margin: 0,
+                      }}
+                      variant="h3"
+                      gutterBottom
+                      align="center"
+                    >
+                      Sign Up
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      align="center"
+                      color="textSecondary"
+                      gutterBottom
+                    >
+                      Selamat Datang, silahkan isi data anda.
+                    </Typography>
+                    {error ? (
+                      ""
+                    ) : (
+                      <Alert severity="success">Registrasi berhasil.</Alert>
+                    )}
+                  </div>
+                  <Field
+                    as={TextField}
+                    variant="outlined"
+                    label="Name"
+                    name="name"
+                    placeholder="Enter Your Name..."
+                    fullWidth
+                    className={classes.fieldRegister}
+                    error={props.errors.name && props.touched.name}
+                    helperText={<ErrorMessage name="name" />}
+                  />
+                  <Field
+                    as={TextField}
+                    variant="outlined"
+                    label="Email"
+                    name="email"
+                    placeholder="Enter Email..."
+                    className={classes.fieldRegister}
+                    fullWidth
+                    error={props.errors.email && props.touched.email}
+                    helperText={<ErrorMessage name="email" />}
+                  />
+                  {/* <Field
                   as={TextField}
                   variant="outlined"
                   label="Absen"
@@ -156,73 +159,118 @@ const Register = () => {
                   placeholder="Absen..."
                   className={classes.fieldRegister}
                   helperText={<ErrorMessage name="number" />}
-                />
-                <Field
-                  as={TextField}
-                  label="Password"
-                  name="password"
-                  variant="outlined"
-                  className={classes.fieldRegister}
-                  placeholder="Enter password"
-                  type="password"
-                  fullWidth
-                  error={
-                    props.errors.password && props.touched.password
-                      ? true
-                      : false
-                  }
-                  helperText={<ErrorMessage name="password" />}
-                />
-                <div style={{ marginTop: 5 }}>
-                  <Button
+                /> */}
+                  <Box display="flex" alignItems="center">
+                    <FormControl variant="outlined">
+                      <InputLabel id="select-role">Role</InputLabel>
+                      <Select
+                        labelId="select-role"
+                        value={role}
+                        onChange={handleChangeRole}
+                        label="Role"
+                      >
+                        <MenuItem value={"student"}>Siswa</MenuItem>
+                        <MenuItem value={"teacher"}>Guru</MenuItem>
+                      </Select>
+                    </FormControl>
+                    {role === "student" && (
+                      <Field
+                        as={TextField}
+                        variant="outlined"
+                        label="Absen"
+                        style={{ marginLeft: 10, marginTop: 3, width: 100 }}
+                        name="number"
+                        placeholder="Absen..."
+                        helperText={<ErrorMessage name="number" />}
+                      />
+                    )}
+                  </Box>
+                  <Field
+                    as={TextField}
+                    label="Password"
+                    name="password"
                     variant="outlined"
-                    startIcon={<CameraAlt />}
-                    component="label"
+                    className={classes.fieldRegister}
+                    placeholder="Enter password"
+                    type="password"
+                    fullWidth
+                    error={
+                      props.errors.password && props.touched.password
+                        ? true
+                        : false
+                    }
+                    helperText={<ErrorMessage name="password" />}
+                  />
+                  <div style={{ marginTop: 5 }}>
+                    <Button
+                      variant="outlined"
+                      startIcon={<CameraAlt />}
+                      component="label"
+                    >
+                      Avatar
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/*"
+                        onChange={(event) => {
+                          onChangeImage(event, "avatar");
+                        }}
+                      />
+                    </Button>
+                    <Typography
+                      style={{ marginLeft: 5 }}
+                      variant="caption"
+                      gutterBottom
+                    >
+                      {props.values.avatar !== "" ? "Image Found" : ""}
+                    </Typography>
+                  </div>
+                  <Button
+                    type="submit"
+                    color="primary"
+                    fullWidth
+                    variant="contained"
+                    disabled={props.isSubmitting}
+                    style={{ marginTop: 10, marginBottom: 5 }}
                   >
-                    Avatar
-                    <input
-                      type="file"
-                      hidden
-                      accept="image/*"
-                      onChange={(event) => {
-                        onChangeImage(event, "avatar");
-                      }}
-                    />
+                    {props.isSubmitting ? (
+                      <CircularProgress size={24} />
+                    ) : (
+                      "Register"
+                    )}
                   </Button>
-                  <Typography
-                    style={{ marginLeft: 5 }}
-                    variant="caption"
-                    gutterBottom
-                  >
-                    {props.values.avatar !== "" ? "Image Found" : ""}
-                  </Typography>
-                </div>
-                <Button
-                  type="submit"
-                  color="primary"
-                  fullWidth
-                  variant="contained"
-                  disabled={props.isSubmitting}
-                  style={{ marginTop: 10, marginBottom: 5 }}
-                >
-                  {props.isSubmitting ? (
-                    <CircularProgress size={24} />
-                  ) : (
-                    "Register"
-                  )}
-                </Button>
-              </Form>
-            )}
-          </Formik>
-        </Paper>
-      </Grid>
+                </Form>
+              )}
+            </Formik>
+          </Paper>
+        </div>
+        <div>
+          <Typography
+            variant="subtitle1"
+            style={{ marginTop: 15 }}
+            gutterBottom
+          >
+            Sudah memiliki akun?
+            <Link
+              to="/login"
+              style={{ textDecoration: "none", cursor: "pointer" }}
+            >
+              {" "}
+              Login
+            </Link>
+          </Typography>
+        </div>
+      </Box>
     </Fragment>
   );
 };
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    display: "flex",
     minHeight: "100vh",
+    flexDirection: "column",
+    border: "1px solid black",
   },
   paper: {
     padding: 15,
@@ -230,8 +278,8 @@ const useStyles = makeStyles((theme) => ({
   },
   formContainer: {},
   fieldRegister: {
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 10,
+    marginBottom: 10,
   },
 }));
 

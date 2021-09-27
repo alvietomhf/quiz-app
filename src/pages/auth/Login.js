@@ -129,30 +129,6 @@ const Login = (props) => {
                 required
                 helperText={<ErrorMessage name="password" />}
               />
-
-              {/* <Box
-                style={{
-                  display: "flex",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
-                  margin: "10px 0",
-                }}
-              >
-                <Typography
-                  style={{ marginLeft: "auto", marginBottom: 0 }}
-                  variant="subtitle1"
-                  gutterBottom
-                >
-                  Lupa Password?
-                  <Link
-                    to="/resetpassword"
-                    style={{ textDecoration: "none", cursor: "pointer" }}
-                  >
-                    {" "}
-                    Reset Password
-                  </Link>
-                </Typography>
-              </Box> */}
               <Button
                 type="submit"
                 color="primary"
@@ -228,7 +204,7 @@ const useStyles = makeStyles({
     flexDirection: "column",
   },
   labelForm: {
-    margin: "20px 0",
+    margin: "10px 0",
   },
   logo: {
     height: "100px",

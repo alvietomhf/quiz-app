@@ -14,6 +14,7 @@ import AccountCircle from "@material-ui/icons/AccountCircle";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
+import BubbleChartIcon from "@material-ui/icons/BubbleChart";
 import HomeIcon from "@material-ui/icons/Home";
 import IconButton from "@material-ui/core/IconButton";
 import { Avatar, Hidden } from "@material-ui/core";
@@ -69,11 +70,6 @@ const Layout = (Component, namePage) => {
         onClick: () => history.push("/tujuan"),
       },
       {
-        text: "Petunjuk",
-        icon: <HelpOutlineIcon color="primary" />,
-        onClick: () => history.push("/petunjuk"),
-      },
-      {
         text: "Anggota",
         icon: <PeopleAlt color="primary" />,
         onClick: () => history.push("/users"),
@@ -83,17 +79,27 @@ const Layout = (Component, namePage) => {
         icon: <Archive color="primary" />,
         onClick: () => history.push("/materi"),
       },
+      {
+        text: "Petunjuk",
+        icon: <HelpOutlineIcon color="primary" />,
+        onClick: () => history.push("/petunjuk"),
+      },
+      {
+        text: "Pengembang",
+        icon: <BubbleChartIcon color="primary" />,
+        onClick: () => history.push("/developer"),
+      },
     ];
 
     const tugasDropDownList = [
       {
         text: "Quiz",
-        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        icon: <FiberManualRecordIcon />,
         onClick: () => history.push("/quiz"),
       },
       {
         text: "Essay",
-        icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
+        icon: <FiberManualRecordIcon />,
         onClick: () => history.push("/essay"),
       },
     ];
@@ -226,14 +232,14 @@ const Layout = (Component, namePage) => {
                     open={open}
                     onClose={handleClose}
                   >
-                    {/* <MenuItem
+                    <MenuItem
                       onClick={() => {
                         setAnchorEl(null);
                         history.push("/profile");
                       }}
                     >
                       Profile
-                    </MenuItem> */}
+                    </MenuItem>
                     <MenuItem onClick={handleLogOut}>Logout</MenuItem>
                   </Menu>
                 </div>
