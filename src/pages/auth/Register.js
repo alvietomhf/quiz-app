@@ -150,17 +150,8 @@ const Register = () => {
                     error={props.errors.email && props.touched.email}
                     helperText={<ErrorMessage name="email" />}
                   />
-                  {/* <Field
-                  as={TextField}
-                  variant="outlined"
-                  label="Absen"
-                  style={{ width: 100 }}
-                  name="number"
-                  placeholder="Absen..."
-                  className={classes.fieldRegister}
-                  helperText={<ErrorMessage name="number" />}
-                /> */}
-                  <Box display="flex" alignItems="center">
+
+                  <Box display="flex" alignItems="center" marginY={1}>
                     <FormControl variant="outlined">
                       <InputLabel id="select-role">Role</InputLabel>
                       <Select
