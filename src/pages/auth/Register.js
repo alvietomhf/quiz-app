@@ -82,11 +82,12 @@ const Register = () => {
     await instance
       .post("api/register", formData)
       .then((res) => {
-        console.log(res.data);
         if (res.data.status === true) {
           setMessage("Registrasi Berhasil");
           setError({});
           setSuccess(true);
+          FormikRef.current.resetForm();
+          FormikRef.current.setSubmitting(false);
           setTimeout(() => {
             history.push("/login");
           }, 2000);
@@ -97,13 +98,13 @@ const Register = () => {
         if (err.response.status === 400) {
           setError(err.response.data.data);
           setSuccess(false);
+          FormikRef.current.setSubmitting(false);
         }
         setTimeout(() => {
           setError({});
           setMessage("");
         }, 2000);
       });
-    FormikRef.current.resetForm();
   };
 
   const onChangeImage = (e, index) => {
