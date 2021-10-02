@@ -87,7 +87,7 @@ const Layout = (Component, namePage) => {
       {
         text: "Pengembang",
         icon: <BubbleChartIcon color="primary" />,
-        onClick: () => history.push("/developer"),
+        onClick: () => history.push("/pengembang"),
       },
     ];
 

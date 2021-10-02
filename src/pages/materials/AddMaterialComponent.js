@@ -199,9 +199,6 @@ const AddMaterialComponent = ({ open, handleClose }) => {
                     id="inputText"
                     editor={ClassicEditor}
                     onChange={inputHandler}
-                    config={{
-                      extraPlugins: [uploadPlugin],
-                    }}
                   />
                   <div
                     style={{
@@ -219,7 +216,7 @@ const AddMaterialComponent = ({ open, handleClose }) => {
                       }}
                       startIcon={<CameraAlt />}
                     >
-                      Upload Banner
+                      Upload Image
                       <input
                         type="file"
                         name="image_banner"

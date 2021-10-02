@@ -14,6 +14,11 @@ import EssayResultsPage from "./pages/quiz/uploadFiles/EssayResultsPage";
 import ResultsPage from "./pages/quiz/multipeChoices/ResultsPage";
 import MaterialsPage from "./pages/materials/MaterialsPage";
 import DetailMaterial from "./pages/materials/DetailMaterial";
+import MaterialsPageAlt from "./pages/materials/MaterialsPageAlt";
+import MaterialOne from "./pages/materials/list/MaterialOne";
+import MaterialTwo from "./pages/materials/list/MaterialTwo";
+import DeveloperProfile from "./pages/general/authenticated/DeveloperProfile";
+import GuidePage from "./pages/general/authenticated/GuidePage";
 
 const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 const QuizDetailPage = lazy(() =>
@@ -40,12 +45,32 @@ const App = () => {
         <Route exact={true} path="/register" component={Register} />
         <Route exact={true} path="/users" component={ListUsersPage} />
         <PrivateRoutes exact={true} path="/" component={HomePage} />
-        <PrivateRoutes exact={true} path="/materi" component={MaterialsPage} />
         <PrivateRoutes
+          exact={true}
+          path="/materi"
+          component={MaterialsPageAlt}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/materi/pencemaran"
+          component={MaterialOne}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/materi/ekosistem"
+          component={MaterialTwo}
+        />
+        <PrivateRoutes
+          exact={true}
+          path="/pengembang"
+          component={DeveloperProfile}
+        />
+        <PrivateRoutes exact={true} path="/petunjuk" component={GuidePage} />
+        {/* <PrivateRoutes
           exact={true}
           path="/materi/:id"
           component={DetailMaterial}
-        />
+        /> */}
 
         {/* <PrivateRoutes exact={true} path="/:id" component={DetailPost} /> */}
         <Suspense fallback={<CircularLoading />}>
