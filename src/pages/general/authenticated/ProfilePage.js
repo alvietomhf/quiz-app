@@ -49,11 +49,7 @@ const ProfilePage = () => {
                 color="textSecondary"
               >
                 {auth.number == null ? (
-                  <Chip
-                    color="secondary"
-                    size="medium"
-                    label="Absen kosong"
-                  />
+                  <Chip color="secondary" size="medium" label="Absen kosong" />
                 ) : (
                   auth.number
                 )}

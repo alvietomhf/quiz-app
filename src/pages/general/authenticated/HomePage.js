@@ -10,7 +10,6 @@ import instance from "../../../actions/instance";
 import { token } from "../../../config/token";
 import PostFeed from "../../../components/PostFeed";
 import { useSelector } from "react-redux";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import apiFeeds from "../../../actions/feeds/feedsAction";
 import { useHistory } from "react-router";
 import FeedSkeleton from "../../../components/FeedSkeleton";
@@ -63,15 +62,14 @@ const Home = () => {
               <CardHeader
                 style={{ padding: 5 }}
                 avatar={
-                  auth.avatar ? (
-                    <Avatar
-                      src={`http://192.168.0.8:8000/assets/images/avatar/${auth.avatar}`}
-                      aria-label="recipe"
-                      className={classes.avatar}
-                    />
-                  ) : (
-                    <AccountCircle />
-                  )
+                  <Avatar
+                    src={
+                      auth.avatar === "" || auth.avatar === null
+                        ? ""
+                        : `http://192.168.0.8:8000/assets/images/avatar/${auth.avatar}`
+                    }
+                    aria-label="recipe"
+                  />
                 }
                 title={
                   <Typography

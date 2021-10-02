@@ -30,7 +30,12 @@ import { useHistory } from "react-router";
 import { logOut } from "../actions/auth/authAction";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
-import { Archive, BrandingWatermark, PeopleAlt } from "@material-ui/icons";
+import {
+  Archive,
+  Ballot,
+  BrandingWatermark,
+  PeopleAlt,
+} from "@material-ui/icons";
 const Layout = (Component, namePage) => {
   const Navbar = (props) => {
     console.clear();
@@ -106,6 +111,11 @@ const Layout = (Component, namePage) => {
         text: "Essay",
         icon: <FiberManualRecordIcon />,
         onClick: () => history.push("/essay"),
+      },
+      auth.data.user.role === "siswa" && {
+        text: "Hasil Siswa",
+        icon: <FiberManualRecordIcon />,
+        onClick: () => history.push("/hasil"),
       },
     ];
     // const materiDropDownList = [

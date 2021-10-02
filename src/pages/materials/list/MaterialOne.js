@@ -7,6 +7,7 @@ import GambarPencemaranTanah from "../../../assets/images/pencemaranTanah.jpg";
 import GambarPencemaranSuara from "../../../assets/images/pencemaranSuara.jpg";
 
 const MaterialOne = () => {
+  console.clear();
   return (
     <div>
       <Grid container>
@@ -166,6 +167,9 @@ const MaterialOne = () => {
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/pbrpdUiSYMY"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
                     />
                   </Box>
                 </div>
@@ -324,6 +328,9 @@ const MaterialOne = () => {
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/dFziV5xnQGk"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
                     />
                   </Box>
                 </div>
@@ -424,6 +431,9 @@ const MaterialOne = () => {
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/vlCbi3Wp1Ak"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
                     />
                   </Box>
                 </div>
@@ -537,6 +547,9 @@ const MaterialOne = () => {
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/o1mThCOfj8U"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
                     />
                   </Box>
                 </div>

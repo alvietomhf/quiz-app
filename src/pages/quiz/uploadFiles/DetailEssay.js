@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { Fragment, useEffect, useState } from "react";
-import { Redirect, useParams } from "react-router";
+import { Redirect, useHistory, useParams } from "react-router";
 import instance from "../../../actions/instance";
 import Layout from "../../../components/Layout";
 import { token } from "../../../config/token";
@@ -31,6 +31,7 @@ const DetailEssay = () => {
   const slug = useParams();
   const [data, setData] = useState([{}]);
   const [error, setError] = useState("");
+  const history = useHistory();
   const [questions, setQuestions] = useState([{}]);
   const [open, setOpen] = useState(false);
   const initialValues = {
@@ -78,7 +79,7 @@ const DetailEssay = () => {
         setOpen(true);
         setTimeout(() => {
           setOpen(false);
-          <Redirect to="essay" />;
+          history.push("/essay");
         }, 2000);
       })
       .catch((err) => {
@@ -108,9 +109,7 @@ const DetailEssay = () => {
               <Form>
                 <Paper className={classes.paper}>
                   <Box>
-                    <Typography gutterBottom>
-                      {parse(`${questions.question}`)}
-                    </Typography>
+                    {parse(`${questions.question}`)}
                     {error && (
                       <Alert variant="standard" severity={"error"}>
                         {error}

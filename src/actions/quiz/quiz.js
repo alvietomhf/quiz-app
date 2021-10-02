@@ -41,6 +41,14 @@ const siswaSubmitEssay = (postData, slug) =>
       "Content-Type": "multipart/form-data",
     },
   });
+const getResultSiswa = () =>
+  instance({
+    url: `/api/siswa/result`,
+    method: "get",
+    headers: {
+      Authorization: "Bearer " + token(),
+    },
+  });
 
 const updateQuiz = (putData, slug) =>
   instance({
@@ -108,6 +116,7 @@ const apiQuiz = {
   resultQuiz,
   deleteImageQuiz,
   notSubmittedQuiz,
+  getResultSiswa,
 };
 
 export default apiQuiz;

@@ -26,13 +26,14 @@ const ListUsersPage = () => {
           <CardHeader
             style={{ padding: 0 }}
             avatar={
-              rowData.avatar !== null ? (
-                <Avatar
-                  src={`http://192.168.0.8:8000/assets/images/avatar/${rowData.avatar}`}
-                />
-              ) : (
-                <AccountCircle />
-              )
+              <Avatar
+                src={
+                  rowData.avatar === "" || rowData.avatar === null
+                    ? ""
+                    : `http://192.168.0.8:8000/assets/images/avatar/${rowData.avatar}`
+                }
+                aria-label="recipe"
+              />
             }
             title={rowData.name}
           />
