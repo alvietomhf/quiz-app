@@ -7,11 +7,10 @@ import {
   LOGOUT,
 } from "../../constants/types";
 import { token } from "../../config/token";
-import history from "../history";
 
-export const registerUser = (data, role) => async (dispatch) => {
+export const registerUser = (data) => async (dispatch) => {
   await instance
-    .post(`api/register/${role}`, data)
+    .post(`api/register`, data)
     .then((response) => {
       const res = response.data;
       console.log(res);
@@ -70,7 +69,6 @@ export const logOut = async (dispatch) => {
         type: REMOVE_ACCESS,
         payload: {},
       });
-      history.push("login");
       console.log(response);
     })
     .catch((error) => {

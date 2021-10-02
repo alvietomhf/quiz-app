@@ -12,7 +12,7 @@ import {
   MenuItem,
   Box,
 } from "@material-ui/core";
-import { ErrorMessage, Form, Formik, Field } from "formik";
+import { Form, Formik, Field } from "formik";
 import React, { useState, useEffect, useRef } from "react";
 import { Fragment } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,13 +23,17 @@ import { CameraAlt } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
 import { GET_ERRORS, RESET_ERRORS } from "../../constants/types";
 import store from "../../store";
+import instance from "../../actions/instance";
 
 const Register = () => {
   const FormikRef = useRef();
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
   const auth = useSelector((state) => state.auth);
-  const error = useSelector((state) => state.errors);
+  const [error, setError] = useState({});
+  // const error = {};
   const token = useSelector((state) => state.access);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const history = useHistory();
 
   const initialValues = {
@@ -40,7 +44,7 @@ const Register = () => {
     avatar: "",
   };
 
-  const [role, setRole] = useState("student");
+  const [role, setRole] = useState("siswa");
 
   if (error.isError == true) {
     setTimeout(() => {
@@ -66,6 +70,7 @@ const Register = () => {
       name: values.name,
       email: values.email,
       password: values.password,
+      number: role === "guru" ? "" : values.number,
       password_confirmation: values.password,
       role: role,
       avatar: values.avatar,
@@ -74,11 +79,30 @@ const Register = () => {
     for (var pair of formData.entries()) {
       console.log(pair[0] + ", " + pair[1]);
     }
-
-    dispatch(
-      registerUser(formData, role),
-      FormikRef.current.setSubmitting(false)
-    );
+    await instance
+      .post("api/register", formData)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.status === true) {
+          setMessage("Registrasi Berhasil");
+          setError({});
+          setSuccess(true);
+          setTimeout(() => {
+            history.push("/login");
+          }, 2000);
+        }
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        if (err.response.status === 400) {
+          setError(err.response.data.data);
+          setSuccess(false);
+        }
+        setTimeout(() => {
+          setError({});
+          setMessage("");
+        }, 2000);
+      });
     FormikRef.current.resetForm();
   };
 
@@ -122,13 +146,7 @@ const Register = () => {
                     >
                       Selamat Datang, silahkan isi data anda.
                     </Typography>
-                    {error.isError == true ? (
-                      <Alert severity="error">Validasi Error</Alert>
-                    ) : (
-                      props.isSubmitting == true && (
-                        <Alert severity="success">Registrasi berhasil.</Alert>
-                      )
-                    )}
+                    {success ? <Alert severity="success">{message}</Alert> : ""}
                   </div>
                   <Field
                     as={TextField}
@@ -138,8 +156,8 @@ const Register = () => {
                     placeholder="Enter Your Name..."
                     fullWidth
                     className={classes.fieldRegister}
-                    error={error.message.name && true}
-                    helperText={error.message.name}
+                    error={error.name && true}
+                    helperText={error.name}
                   />
                   <Field
                     as={TextField}
@@ -149,8 +167,8 @@ const Register = () => {
                     placeholder="Enter Email..."
                     className={classes.fieldRegister}
                     fullWidth
-                    error={error.message.email && true}
-                    helperText={error.message.email}
+                    error={error.email && true}
+                    helperText={error.email}
                   />
 
                   <Box display="flex" alignItems="center" marginY={1}>
@@ -162,8 +180,8 @@ const Register = () => {
                         onChange={handleChangeRole}
                         label="Role"
                       >
-                        <MenuItem value={"student"}>Siswa</MenuItem>
-                        <MenuItem value={"teacher"}>Guru</MenuItem>
+                        <MenuItem value={"siswa"}>Siswa</MenuItem>
+                        <MenuItem value={"guru"}>Guru</MenuItem>
                       </Select>
                     </FormControl>
 
@@ -174,10 +192,10 @@ const Register = () => {
                       type="number"
                       style={{ marginLeft: 10, marginTop: 3, width: 90 }}
                       name="number"
-                      disabled={role === "teacher" && true}
+                      disabled={role === "guru" && true}
                       placeholder="Absen..."
-                      error={error.message.number && true}
-                      helperText={error.message.number}
+                      error={error.number && true}
+                      helperText={error.number}
                     />
                   </Box>
                   <Field
@@ -189,8 +207,8 @@ const Register = () => {
                     placeholder="Enter password"
                     type="password"
                     fullWidth
-                    error={error.message.password && true}
-                    helperText={error.message.password}
+                    error={error.password && true}
+                    helperText={error.password}
                   />
                   <div style={{ marginTop: 5 }}>
                     <Button
@@ -261,7 +279,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     minHeight: "100vh",
     flexDirection: "column",
-    border: "1px solid black",
   },
   paper: {
     padding: 15,
