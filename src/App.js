@@ -19,6 +19,7 @@ import MaterialOne from "./pages/materials/list/MaterialOne";
 import MaterialTwo from "./pages/materials/list/MaterialTwo";
 import DeveloperProfile from "./pages/general/authenticated/DeveloperProfile";
 import GuidePage from "./pages/general/authenticated/GuidePage";
+import IdentityMaterialPage from "./pages/general/authenticated/IdentityMaterialPage";
 
 const QuizPage = lazy(() => import("./pages/quiz/multipeChoices/QuizPage"));
 const QuizDetailPage = lazy(() =>
@@ -66,6 +67,11 @@ const App = () => {
           component={DeveloperProfile}
         />
         <PrivateRoutes exact={true} path="/petunjuk" component={GuidePage} />
+        <PrivateRoutes
+          exact={true}
+          path="/identitasmateri"
+          component={IdentityMaterialPage}
+        />
         {/* <PrivateRoutes
           exact={true}
           path="/materi/:id"
