@@ -131,7 +131,7 @@ const UserFeed = ({
       {image !== null ? (
         <CardMedia
           component="img"
-          image={`http://192.168.0.8:8000/assets/images/feed/${image}`}
+          image={`http://192.168.0.9:8000/assets/images/feed/${image}`}
           style={{ maxHeight: 440 }}
         />
       ) : (
@@ -191,7 +191,7 @@ const UserFeed = ({
           "No comments yet"
         ) : (
           <div>
-            {comments.slice(0, 2).map((comment) => (
+            {comments.map((comment) => (
               <div
                 key={comment.id}
                 style={{ display: "flex", alignItems: "center" }}
@@ -213,19 +213,6 @@ const UserFeed = ({
                 </Typography>
               </div>
             ))}
-            {comments.length >= 2 && (
-              <Link
-                style={{ textDecoration: "none", cursor: "pointer" }}
-                to={{
-                  pathname: `/posts/${id}`,
-                  state: {
-                    post,
-                  },
-                }}
-              >
-                View comments
-              </Link>
-            )}
           </div>
         )}
       </div>

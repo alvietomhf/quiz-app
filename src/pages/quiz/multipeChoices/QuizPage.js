@@ -117,7 +117,7 @@ const QuizPage = () => {
                                     component="img"
                                     height="240"
                                     loading="lazy"
-                                    image={`http://192.168.0.8:8000/assets/images/quiz/${item.banner}`}
+                                    image={`http://192.168.0.9:8000/assets/images/quiz/${item.banner}`}
                                     alt=""
                                   />
                                 ) : (
