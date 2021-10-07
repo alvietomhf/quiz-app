@@ -181,7 +181,7 @@ const QuizDetailPage = () => {
         {file ? (
           <img
             style={{ width: 320 }}
-            src={`http://192.168.0.9:8000/assets/files/quiz/${file}`}
+            src={`http://192.168.100.20:8000/assets/files/quiz/${file}`}
             alt=""
           />
         ) : (
@@ -200,7 +200,7 @@ const QuizDetailPage = () => {
         </div>
         <Grid container spacing={2} style={{ margin: "10px 0" }}>
           {options.map((item, index) => (
-            <Grid item lg={6} key={index} xs={12}>
+            <Grid item key={index} xs={12}>
               <Box
                 padding={2}
                 display="flex"

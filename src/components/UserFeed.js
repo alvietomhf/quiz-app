@@ -131,7 +131,7 @@ const UserFeed = ({
       {image !== null ? (
         <CardMedia
           component="img"
-          image={`http://192.168.0.9:8000/assets/images/feed/${image}`}
+          image={`http://192.168.100.20:8000/assets/images/feed/${image}`}
           style={{ maxHeight: 440 }}
         />
       ) : (

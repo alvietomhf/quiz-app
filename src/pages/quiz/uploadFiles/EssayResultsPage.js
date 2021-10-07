@@ -18,7 +18,7 @@ const EssayResultsPage = () => {
   const slug = location.state.slug;
   const [isLoading, setLoading] = useState(true);
   const saveFile = (doc) => {
-    saveAs(`http://192.168.0.9:8000/assets/files/quiz/${doc}`, doc);
+    saveAs(`http://192.168.100.20:8000/assets/files/quiz/${doc}`, doc);
   };
   const columns = [
     {
@@ -53,7 +53,7 @@ const EssayResultsPage = () => {
                 src={
                   rowData.avatar === "" || rowData.avatar === null
                     ? ""
-                    : `http://192.168.0.9:8000/assets/images/avatar/${rowData.avatar}`
+                    : `http://192.168.100.20:8000/assets/images/avatar/${rowData.avatar}`
                 }
                 aria-label="recipe"
               />

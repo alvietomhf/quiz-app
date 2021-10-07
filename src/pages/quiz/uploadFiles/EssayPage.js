@@ -83,6 +83,7 @@ const EssayPage = () => {
                     <Button
                       variant="contained"
                       color="primary"
+                      style={{ marginTop: 15 }}
                       size="large"
                       onClick={handleClickOpen}
                     >
@@ -119,7 +120,7 @@ const EssayPage = () => {
                                   component="img"
                                   height="240"
                                   loading="lazy"
-                                  image={`http://192.168.0.9:8000/assets/images/quiz/${item.banner}`}
+                                  image={`http://192.168.100.20:8000/assets/images/quiz/${item.banner}`}
                                   alt=""
                                 />
                               ) : (
@@ -204,7 +205,7 @@ const EssayPage = () => {
                                         variant="contained"
                                         color="primary"
                                       >
-                                        Start Quiz
+                                        Start Essay
                                       </Button>
                                     </Box>
                                   ) : (

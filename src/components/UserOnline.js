@@ -52,7 +52,7 @@ const UserOnline = ({ id, name, lastSeen, avatar, goToUserProfile }) => {
               src={
                 avatar === "" || avatar === null
                   ? ""
-                  : `http://192.168.0.9:8000/assets/images/avatar/${avatar}`
+                  : `http://192.168.100.20:8000/assets/images/avatar/${avatar}`
               }
               aria-label="recipe"
             />

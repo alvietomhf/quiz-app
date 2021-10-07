@@ -79,6 +79,7 @@ const QuizPage = () => {
                       variant="contained"
                       color="primary"
                       size="large"
+                      style={{ marginTop: 15 }}
                       onClick={() => history.push("/quiz/add")}
                     >
                       Add Kuis
@@ -117,7 +118,7 @@ const QuizPage = () => {
                                     component="img"
                                     height="240"
                                     loading="lazy"
-                                    image={`http://192.168.0.9:8000/assets/images/quiz/${item.banner}`}
+                                    image={`http://192.168.100.20:8000/assets/images/quiz/${item.banner}`}
                                     alt=""
                                   />
                                 ) : (

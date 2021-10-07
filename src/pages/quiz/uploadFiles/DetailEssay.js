@@ -80,14 +80,14 @@ const DetailEssay = () => {
         setTimeout(() => {
           setOpen(false);
           history.push("/essay");
-        }, 2000);
+        }, 4000);
       })
       .catch((err) => {
         setError(err.response.data.message);
         setTimeout(() => {
           setOpen(false);
           setError("");
-        }, 2000);
+        }, 4000);
       });
   };
   return (

@@ -4,23 +4,38 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
-import successAnim from "../assets/images/checkbutton.gif";
+// import successAnim from "../assets/images/checkbutton.gif";
 import { Box } from "@material-ui/core";
+import CheckButton from "../assets/lottie/52058-check.json";
+import Lottie from "react-lottie";
+import { Link } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const ResultQuizIndicator = ({ setOpen, open }) => {
-  const handleClose = () => {
-    setOpen(false);
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: CheckButton,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
   return (
     <Dialog
       open={open}
       TransitionComponent={Transition}
       keepMounted
-      onClose={handleClose}
+      onClose={(event, reason) => {
+        if (reason !== "backdropClick") {
+          setOpen(true);
+        }
+      }}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
@@ -33,18 +48,14 @@ const ResultQuizIndicator = ({ setOpen, open }) => {
           alignItems="center"
           marginBottom={2}
         >
-          <img
-            src={successAnim}
-            style={{ width: 220, marginBottom: 0 }}
-            alt=""
-          />
+          <Lottie options={defaultOptions} width={200} />
         </Box>
         <DialogContentText
           style={{ padding: "15px 0" }}
           align="center"
           id="alert-dialog-slide-description"
         >
-          Selamat! Anda telah mengerjakan kuis. Tunggu hasilnya ya.
+          Selamat! Anda telah mengerjakan kuis. Tunggu hasilnya ya!
         </DialogContentText>
       </DialogContent>
     </Dialog>

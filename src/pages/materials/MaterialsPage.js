@@ -93,6 +93,7 @@ const MaterialsPage = () => {
                       variant="contained"
                       color="primary"
                       size="large"
+                      style={{ marginTop: 15 }}
                       onClick={handleClickOpen}
                     >
                       Tambah Materi
@@ -131,7 +132,7 @@ const MaterialsPage = () => {
                                     component="img"
                                     height="240"
                                     loading="lazy"
-                                    image={`http://192.168.0.9:8000/assets/images/materi/${item.image_banner}`}
+                                    image={`http://192.168.100.20:8000/assets/images/materi/${item.image_banner}`}
                                     alt=""
                                   />
                                 ) : (
