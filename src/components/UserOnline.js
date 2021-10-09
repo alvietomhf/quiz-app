@@ -1,52 +1,12 @@
-import React, { useState } from "react";
-import {
-  Avatar,
-  Box,
-  CardHeader,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from "@material-ui/core";
-import { MoreVert } from "@material-ui/icons";
+import React from "react";
+import { Avatar, Box, CardHeader, Typography } from "@material-ui/core";
 
-const UserOnline = ({ id, name, lastSeen, avatar, goToUserProfile }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+const UserOnline = ({ id, name, lastSeen, avatar }) => {
   return (
     <div>
       <Box textOverflow="ellipsis" key={id} marginX={1}>
         <CardHeader
           style={{ padding: "10px 0" }}
-          // action={
-          //   <div>
-          //     <IconButton
-          //       onClick={handleClick}
-          //       aria-label="more"
-          //       aria-controls="long-menu"
-          //       aria-haspopup="true"
-          //     >
-          //       <MoreVert />
-          //     </IconButton>
-          //     <Menu
-          //       anchorEl={anchorEl}
-          //       open={open}
-          //       keepMounted
-          //       onClose={handleClose}
-          //     >
-          //       <MenuItem onClick={goToUserProfile}>See Profile</MenuItem>
-          //     </Menu>
-          //   </div>
-          // }
           avatar={
             <Avatar
               src={

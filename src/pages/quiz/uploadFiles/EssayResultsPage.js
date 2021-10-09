@@ -1,5 +1,4 @@
 import { Avatar, Box, Button, CardHeader, Chip } from "@material-ui/core";
-import AccountCircle from "@material-ui/icons/AccountCircle";
 import MaterialTable from "material-table";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";

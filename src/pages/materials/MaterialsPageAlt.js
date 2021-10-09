@@ -8,11 +8,11 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import React, { Fragment } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 import Layout from "../../components/Layout";
-import BannerMateri1 from '../../assets/images/bannerMateri1.webp'
-import BannerMateri2 from '../../assets/images/bannerMateri2.jpg'
+import BannerMateri1 from "../../assets/images/bannerMateri1.webp";
+import BannerMateri2 from "../../assets/images/bannerMateri2.jpg";
 
 const MaterialsPageAlt = () => {
   const history = useHistory();

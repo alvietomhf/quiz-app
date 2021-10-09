@@ -12,8 +12,6 @@ import UserProfilePage from "./pages/users/UserProfilePage";
 import DetailEssay from "./pages/quiz/uploadFiles/DetailEssay";
 import EssayResultsPage from "./pages/quiz/uploadFiles/EssayResultsPage";
 import ResultsPage from "./pages/quiz/multipeChoices/ResultsPage";
-import MaterialsPage from "./pages/materials/MaterialsPage";
-import DetailMaterial from "./pages/materials/DetailMaterial";
 import MaterialsPageAlt from "./pages/materials/MaterialsPageAlt";
 import MaterialOne from "./pages/materials/list/MaterialOne";
 import MaterialTwo from "./pages/materials/list/MaterialTwo";

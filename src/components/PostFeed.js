@@ -77,8 +77,9 @@ const PostFeed = ({ setFeeds }) => {
                     variant="caption"
                     style={{ marginLeft: 5 }}
                     gutterBottom
+                    color={values.image ? "textPrimary" : "error"}
                   >
-                    {values.image && "Image Found"}
+                    {values.image ? "Image Found" : "Max: 2MB"}
                   </Typography>
                 </div>
                 <Button

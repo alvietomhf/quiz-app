@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { Fragment, useEffect, useState } from "react";
-import { Redirect, useHistory, useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import instance from "../../../actions/instance";
 import Layout from "../../../components/Layout";
 import { token } from "../../../config/token";

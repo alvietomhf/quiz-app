@@ -32,7 +32,7 @@ const AddMaterialComponent = ({ open, handleClose }) => {
     description: "",
     image_banner: "",
   };
-  const [errors, setErrors] = useState({});
+  // const [errors, setErrors] = useState({});
   const FormikRef = useRef();
   const inputHandler = (event, editor) => {
     FormikRef.current.setFieldValue("description", editor.getData());
@@ -48,40 +48,6 @@ const AddMaterialComponent = ({ open, handleClose }) => {
     if (!files.length) return;
     FormikRef.current.setFieldValue(index, files[0]);
   };
-
-  function uploadAdapter(loader) {
-    return {
-      upload: () => {
-        return new Promise((resolve, reject) => {
-          const body = new FormData();
-          loader.file.then((file) => {
-            body.append("files", file);
-            // let headers = new Headers();
-            // headers.append("Origin", "http://localhost:3000");
-            fetch(``, {
-              method: "post",
-              body: body,
-              // mode: "no-cors"
-            })
-              .then((res) => res.json())
-              .then((res) => {
-                resolve({
-                  default: `api/${res.filename}`,
-                });
-              })
-              .catch((err) => {
-                reject(err);
-              });
-          });
-        });
-      },
-    };
-  }
-  function uploadPlugin(editor) {
-    editor.plugins.get("FileRepository").createUploadAdapter = (loader) => {
-      return uploadAdapter(loader);
-    };
-  }
 
   const jsonToFormData = (data) => {
     const formData = new FormData();
@@ -103,7 +69,7 @@ const AddMaterialComponent = ({ open, handleClose }) => {
         FormikRef.current.setSubmitting(false);
       })
       .catch((err) => {
-        setErrors(err.response.data);
+        // setErrors(err.response.data);
         console.log(err.response.data);
       });
     FormikRef.current.resetForm();

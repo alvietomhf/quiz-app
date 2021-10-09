@@ -25,7 +25,6 @@ const MaterialsPage = () => {
   const auth = useSelector((state) => state.auth.data.user);
   const history = useHistory();
   const [loading, setLoading] = useState(true);
-  let dateNow = moment().format("YYYY-MM-DD HH:mm");
   const goToDetailMateri = (id) => {
     history.push({ pathname: `/materi/${id}`, state: id });
   };

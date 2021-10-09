@@ -32,7 +32,6 @@ import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
 import {
   Archive,
-  Ballot,
   BrandingWatermark,
   PeopleAlt,
 } from "@material-ui/icons";

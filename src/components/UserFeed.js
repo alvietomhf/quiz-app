@@ -1,4 +1,4 @@
-import React, { createRef, useState, Fragment } from "react";
+import React, { createRef, Fragment } from "react";
 import {
   Avatar,
   Box,
@@ -7,15 +7,11 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
-  IconButton,
-  Menu,
-  MenuItem,
   TextareaAutosize,
   Typography,
 } from "@material-ui/core";
-import { MoreVert } from "@material-ui/icons";
 import ReactReadMoreReadLess from "react-read-more-read-less";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import moment from "moment";
 import apiFeeds from "../actions/feeds/feedsAction";
 import { Form, Formik } from "formik";
@@ -30,17 +26,6 @@ const UserFeed = ({
   styleAvatar,
   setFeeds,
 }) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
-  const history = useHistory();
-  const post = {
-    id,
-    dateCreated,
-    comments,
-    name,
-    image,
-    caption,
-  };
   const FormikRef = createRef();
   const initialValues = {
     message: "",
@@ -66,13 +51,7 @@ const UserFeed = ({
     setFeeds(data);
     console.log(response);
   };
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <Card style={{ marginBottom: 20 }}>
       <CardHeader

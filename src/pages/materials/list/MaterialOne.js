@@ -164,6 +164,7 @@ const MaterialOne = () => {
                     marginY={2}
                   >
                     <iframe
+                      title="frame"
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/pbrpdUiSYMY"
@@ -325,6 +326,7 @@ const MaterialOne = () => {
                     marginY={2}
                   >
                     <iframe
+                      title="frame"
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/dFziV5xnQGk"
@@ -428,6 +430,7 @@ const MaterialOne = () => {
                     marginY={2}
                   >
                     <iframe
+                      title="frame"
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/vlCbi3Wp1Ak"
@@ -544,6 +547,7 @@ const MaterialOne = () => {
                     marginY={2}
                   >
                     <iframe
+                      title="frame"
                       width="90%"
                       height="500"
                       src="https://www.youtube.com/embed/o1mThCOfj8U"

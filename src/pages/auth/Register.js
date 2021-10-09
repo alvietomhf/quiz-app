@@ -1,7 +1,6 @@
 import {
   Button,
   CircularProgress,
-  Grid,
   Paper,
   TextField,
   Typography,
@@ -15,13 +14,12 @@ import {
 import { Form, Formik, Field } from "formik";
 import React, { useState, useEffect, useRef } from "react";
 import { Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { registerUser } from "../../actions/auth/authAction";
 import { jsonToFormData } from "../../config/jsonToFormData";
 import { CameraAlt } from "@material-ui/icons";
 import { Alert } from "@material-ui/lab";
-import { GET_ERRORS, RESET_ERRORS } from "../../constants/types";
+import { RESET_ERRORS } from "../../constants/types";
 import store from "../../store";
 import instance from "../../actions/instance";
 
@@ -46,7 +44,7 @@ const Register = () => {
 
   const [role, setRole] = useState("siswa");
 
-  if (error.isError == true) {
+  if (error.isError === true) {
     setTimeout(() => {
       store.dispatch({
         type: RESET_ERRORS,

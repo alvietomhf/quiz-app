@@ -16,7 +16,6 @@ const QuizDetailPage = () => {
   const history = useHistory();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [error, setError] = useState(false);
-  const [message, setMessage] = useState("");
   const [quiz, setQuiz] = useState([{}]);
   const [score, setScore] = useState({
     correct: 0,
@@ -41,8 +40,8 @@ const QuizDetailPage = () => {
         .catch((error) => {
           if (error.response.data.status === false) {
             setError(true);
-            const responseMessage = error.response.data.data;
-            setMessage(responseMessage);
+            console.log(error);
+
             setTimeout(() => {
               history.push("/quiz");
             }, 4000);
@@ -136,6 +135,13 @@ const QuizDetailPage = () => {
           style={{ marginLeft: "auto" }}
         >
           Time Left: {minutes}:{seconds}
+        </Typography>
+        <Typography
+          variant="h5"
+          color="textSecondary"
+          style={{ display: "none" }}
+        >
+          {score.false}
         </Typography>
       </Box>
       <div style={{ margin: "10px 0" }}>

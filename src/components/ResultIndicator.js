@@ -8,7 +8,6 @@ import Slide from "@material-ui/core/Slide";
 import { Box } from "@material-ui/core";
 import CheckButton from "../assets/lottie/52058-check.json";
 import Lottie from "react-lottie";
-import { Link } from "react-router-dom";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;

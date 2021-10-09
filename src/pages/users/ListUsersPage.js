@@ -3,10 +3,9 @@ import Layout from "../../components/Layout";
 import instance from "../../actions/instance";
 import { token } from "../../config/token";
 import MaterialTable from "material-table";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import { Button, CardHeader, Avatar, Grid } from "@material-ui/core";
+import { CardHeader, Avatar, Grid } from "@material-ui/core";
 import { useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router";
+import { useHistory } from "react-router";
 
 const ListUsersPage = () => {
   console.clear();

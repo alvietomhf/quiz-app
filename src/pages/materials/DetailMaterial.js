@@ -1,6 +1,6 @@
 import { Paper, makeStyles, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router";
+import { useParams } from "react-router";
 import apiMaterials from "../../actions/materials/materials";
 import Layout from "../../components/Layout";
 import parse from "html-react-parser";
@@ -21,7 +21,7 @@ const DetailMaterial = () => {
         });
     };
     getDetail();
-  }, []);
+  }, [id]);
   return (
     <>
       <Paper className={classes.root}>

@@ -1,4 +1,4 @@
-import { Box, Grid, makeStyles, Paper, Typography } from "@material-ui/core";
+import { Box, makeStyles, Paper, Typography } from "@material-ui/core";
 import React from "react";
 import Layout from "../../../components/Layout";
 import SignUpImg from "../../../assets/images/SignUp.png";

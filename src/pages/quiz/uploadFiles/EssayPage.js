@@ -79,7 +79,7 @@ const EssayPage = () => {
                   }}
                 >
                   <EmptyDataComponent label="Esai" />
-                  {auth.role === "guru" ? (
+                  {auth.role === "guru" && (
                     <Button
                       variant="contained"
                       color="primary"
@@ -89,19 +89,19 @@ const EssayPage = () => {
                     >
                       Add Essay
                     </Button>
-                  ) : (
-                    ""
                   )}
                 </div>
               ) : (
                 <div>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleClickOpen}
-                  >
-                    Add Essay
-                  </Button>
+                  {auth.role === "guru" && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleClickOpen}
+                    >
+                      Add Essay
+                    </Button>
+                  )}
                   <Box marginTop={2}>
                     {quiz
                       .sort((a, b) => (a.title > b.title ? 1 : -1))
