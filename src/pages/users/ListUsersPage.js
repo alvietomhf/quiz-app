@@ -29,7 +29,7 @@ const ListUsersPage = () => {
                 src={
                   rowData.avatar === "" || rowData.avatar === null
                     ? ""
-                    : `http://192.168.0.9:8000/assets/images/avatar/${rowData.avatar}`
+                    : `http://13.212.71.204:8000/assets/images/avatar/${rowData.avatar}`
                 }
                 aria-label="recipe"
               />

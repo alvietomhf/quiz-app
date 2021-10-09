@@ -31,7 +31,7 @@ const ProfilePage = () => {
             <Avatar
               className={classes.large}
               alt="Profile Icon"
-              src={`http://192.168.0.9:8000/assets/images/avatar/${auth.avatar}`}
+              src={`http://13.212.71.204:8000/assets/images/avatar/${auth.avatar}`}
             />
           )}
           <Box marginLeft={1}>

@@ -187,7 +187,7 @@ const QuizDetailPage = () => {
         {file ? (
           <img
             style={{ width: 320 }}
-            src={`http://192.168.0.9:8000/assets/files/quiz/${file}`}
+            src={`http://13.212.71.204:8000/assets/files/quiz/${file}`}
             alt=""
           />
         ) : (
