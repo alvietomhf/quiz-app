@@ -45,7 +45,7 @@ const ResultsPage = () => {
                 src={
                   rowData.avatar === "" || rowData.avatar === null
                     ? ""
-                    : `http://13.212.71.204:8000/assets/images/avatar/${rowData.avatar}`
+                    : `http://quizapi.vieproject.xyz:8000/assets/images/avatar/${rowData.avatar}`
                 }
                 aria-label="recipe"
               />

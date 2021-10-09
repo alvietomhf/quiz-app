@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://13.212.71.204:8000/",
+  baseURL: "http://quizapi.vieproject.xyz:8000/",
   withCredentials: true,
 });
 
