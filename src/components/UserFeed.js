@@ -110,7 +110,7 @@ const UserFeed = ({
       {image !== null ? (
         <CardMedia
           component="img"
-          image={`http://quizapi.vieproject.xyz:8000/assets/images/feed/${image}`}
+          image={`http://quizapi.vieproject.xyz/assets/images/feed/${image}`}
           style={{ maxHeight: 440 }}
         />
       ) : (

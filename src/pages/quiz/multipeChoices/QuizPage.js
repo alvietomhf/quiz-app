@@ -118,7 +118,7 @@ const QuizPage = () => {
                                     component="img"
                                     height="240"
                                     loading="lazy"
-                                    image={`http://quizapi.vieproject.xyz:8000/assets/images/quiz/${item.banner}`}
+                                    image={`http://quizapi.vieproject.xyz/assets/images/quiz/${item.banner}`}
                                     alt=""
                                   />
                                 ) : (

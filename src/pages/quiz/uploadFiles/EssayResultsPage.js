@@ -17,7 +17,7 @@ const EssayResultsPage = () => {
   const slug = location.state.slug;
   const [isLoading, setLoading] = useState(true);
   const saveFile = (doc) => {
-    saveAs(`http://quizapi.vieproject.xyz:8000/assets/files/quiz/${doc}`, doc);
+    saveAs(`http://quizapi.vieproject.xyz/assets/files/quiz/${doc}`, doc);
   };
   const columns = [
     {
@@ -52,7 +52,7 @@ const EssayResultsPage = () => {
                 src={
                   rowData.avatar === "" || rowData.avatar === null
                     ? ""
-                    : `http://quizapi.vieproject.xyz:8000/assets/images/avatar/${rowData.avatar}`
+                    : `http://quizapi.vieproject.xyz/assets/images/avatar/${rowData.avatar}`
                 }
                 aria-label="recipe"
               />
