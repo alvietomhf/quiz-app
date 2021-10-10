@@ -12,7 +12,7 @@ const UserOnline = ({ id, name, lastSeen, avatar }) => {
               src={
                 avatar === "" || avatar === null
                   ? ""
-                  : `http://quizapi.vieproject.xyz/assets/images/avatar/${avatar}`
+                  : `https://quizapi.vieproject.xyz/assets/images/avatar/${avatar}`
               }
               aria-label="recipe"
             />

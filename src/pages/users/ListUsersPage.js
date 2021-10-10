@@ -29,7 +29,7 @@ const ListUsersPage = () => {
                 src={
                   rowData.avatar === "" || rowData.avatar === null
                     ? ""
-                    : `http://quizapi.vieproject.xyz/assets/images/avatar/${rowData.avatar}`
+                    : `https://quizapi.vieproject.xyz/assets/images/avatar/${rowData.avatar}`
                 }
                 aria-label="recipe"
               />

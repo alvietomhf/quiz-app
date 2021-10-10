@@ -31,7 +31,7 @@ const ProfilePage = () => {
             <Avatar
               className={classes.large}
               alt="Profile Icon"
-              src={`http://quizapi.vieproject.xyz/assets/images/avatar/${auth.avatar}`}
+              src={`https://quizapi.vieproject.xyz/assets/images/avatar/${auth.avatar}`}
             />
           )}
           <Box marginLeft={1}>
