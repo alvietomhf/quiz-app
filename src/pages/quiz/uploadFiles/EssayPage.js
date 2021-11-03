@@ -120,7 +120,7 @@ const EssayPage = () => {
                                   component="img"
                                   height="240"
                                   loading="lazy"
-                                  image={`https://quizapi.vieproject.xyz/assets/images/quiz/${item.banner}`}
+                                  image={`${window.env.API_URL_ASSETS}/images/quiz/${item.banner}`}
                                   alt=""
                                 />
                               ) : (

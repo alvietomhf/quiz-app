@@ -227,7 +227,7 @@ const Layout = (Component, namePage) => {
                     ) : (
                       <Avatar
                         alt="Profile Icon"
-                        src={`https://quizapi.vieproject.xyz/assets/images/avatar/${auth.data.user.avatar}`}
+                        src={`${window.env.API_URL_ASSETS}/images/avatar/${auth.data.user.avatar}`}
                       />
                     )}
                   </IconButton>

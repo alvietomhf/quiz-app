@@ -131,7 +131,7 @@ const MaterialsPage = () => {
                                     component="img"
                                     height="240"
                                     loading="lazy"
-                                    image={`https://quizapi.vieproject.xyz/assets/images/materi/${item.image_banner}`}
+                                    image={`${window.env.API_URL_ASSETS}/images/materi/${item.image_banner}`}
                                     alt=""
                                   />
                                 ) : (

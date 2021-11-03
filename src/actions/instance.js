@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://quizapi.vieproject.xyz/",
+  baseURL: window.env.API_URL,
   withCredentials: true,
 });
 

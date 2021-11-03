@@ -187,7 +187,7 @@ const QuizDetailPage = () => {
         {file ? (
           <img
             style={{ width: 320 }}
-            src={`https://quizapi.vieproject.xyz/assets/files/quiz/${file}`}
+            src={`${window.env.API_URL_ASSETS}/files/quiz/${file}`}
             alt=""
           />
         ) : (

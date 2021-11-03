@@ -66,7 +66,7 @@ const Home = () => {
                     src={
                       auth.avatar === "" || auth.avatar === null
                         ? ""
-                        : `https://quizapi.vieproject.xyz/assets/images/avatar/${auth.avatar}`
+                        : `${window.env.API_URL_ASSETS}/images/avatar/${auth.avatar}`
                     }
                     aria-label="recipe"
                   />
