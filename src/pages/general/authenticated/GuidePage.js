@@ -331,4 +331,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(GuidePage, "Petunjuk");
+export default Layout(GuidePage);

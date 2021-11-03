@@ -110,4 +110,4 @@ const MaterialTwo = () => {
   );
 };
 
-export default Layout(MaterialTwo, "Ekosistem");
+export default Layout(MaterialTwo);

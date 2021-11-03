@@ -117,4 +117,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(MaterialsPageAlt, "Materi");
+export default Layout(MaterialsPageAlt);

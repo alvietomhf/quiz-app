@@ -221,4 +221,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(MaterialsPage, "Materi");
+export default Layout(MaterialsPage);

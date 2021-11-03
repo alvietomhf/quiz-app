@@ -39,4 +39,4 @@ const IdentityMaterialPage = () => {
   );
 };
 
-export default Layout(IdentityMaterialPage, "Identitas Materi");
+export default Layout(IdentityMaterialPage);

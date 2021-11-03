@@ -111,4 +111,4 @@ const ResultsPage = () => {
   );
 };
 
-export default Layout(ResultsPage, "Quiz");
+export default Layout(ResultsPage);

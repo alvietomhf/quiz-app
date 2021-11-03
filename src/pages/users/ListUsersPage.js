@@ -92,4 +92,4 @@ const ListUsersPage = () => {
   );
 };
 
-export default Layout(ListUsersPage, "Halaman User");
+export default Layout(ListUsersPage);

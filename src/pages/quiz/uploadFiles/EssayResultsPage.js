@@ -203,4 +203,4 @@ const EssayResultsPage = () => {
   );
 };
 
-export default Layout(EssayResultsPage, "Esai");
+export default Layout(EssayResultsPage);

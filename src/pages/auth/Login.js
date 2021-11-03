@@ -74,6 +74,32 @@ const Login = (props) => {
 
   return (
     <Grid className={classes.root}>
+      {/* <Box
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "10px 0",
+        }}
+      >
+        <Typography
+          style={{ margin: 0, fontWeight: "bold" }}
+          variant="h3"
+          gutterBottom
+          color="textPrimary"
+        >
+          BION
+        </Typography>
+        <Typography
+          style={{ marginTop: 5, fontWeight: "bold" }}
+          variant="body1"
+          gutterBottom
+          color="textSecondary"
+        >
+          Belajar IPA Online
+        </Typography>
+      </Box> */}
       <Paper className={classes.paper}>
         <Formik
           className={classes.form}
@@ -85,6 +111,22 @@ const Login = (props) => {
             <Form className={classes.formContainer}>
               <Grid align="center">
                 <Typography
+                  style={{ margin: 0, fontWeight: "bold" }}
+                  variant="h4"
+                  gutterBottom
+                  color="textPrimary"
+                >
+                  BION
+                </Typography>
+                <Typography
+                  style={{ marginTop: 5, fontWeight: "bold" }}
+                  variant="body1"
+                  gutterBottom
+                  color="textSecondary"
+                >
+                  Belajar IPA Online
+                </Typography>
+                {/* <Typography
                   style={{
                     fontWeight: "bold",
                     margin: 0,
@@ -100,7 +142,7 @@ const Login = (props) => {
                   gutterBottom
                 >
                   Silahkan masukkan kredensial untuk akses akun anda
-                </Typography>
+                </Typography> */}
               </Grid>
               <Field
                 as={TextField}

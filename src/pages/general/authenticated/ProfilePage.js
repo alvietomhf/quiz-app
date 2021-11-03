@@ -79,4 +79,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(ProfilePage, "Halaman Profil");
+export default Layout(ProfilePage);

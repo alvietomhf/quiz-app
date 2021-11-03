@@ -62,4 +62,4 @@ const ResultSiswaPage = () => {
   );
 };
 
-export default Layout(ResultSiswaPage, "Hasil Siswa");
+export default Layout(ResultSiswaPage);

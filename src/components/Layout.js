@@ -30,12 +30,8 @@ import { useHistory } from "react-router";
 import { logOut } from "../actions/auth/authAction";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
-import {
-  Archive,
-  BrandingWatermark,
-  PeopleAlt,
-} from "@material-ui/icons";
-const Layout = (Component, namePage) => {
+import { Archive, BrandingWatermark, PeopleAlt } from "@material-ui/icons";
+const Layout = (Component, namePage = "BION") => {
   const Navbar = (props) => {
     console.clear();
     const { window } = props;

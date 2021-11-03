@@ -233,4 +233,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(Home, "Home");
+export default Layout(Home);

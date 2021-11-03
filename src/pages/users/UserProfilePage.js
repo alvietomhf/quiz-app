@@ -89,4 +89,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(UserProfilePage, "Profile");
+export default Layout(UserProfilePage);

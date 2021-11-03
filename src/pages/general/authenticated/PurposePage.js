@@ -52,4 +52,4 @@ const PurposePage = () => {
   );
 };
 
-export default Layout(PurposePage, "Halaman Tujuan");
+export default Layout(PurposePage);

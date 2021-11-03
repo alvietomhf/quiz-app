@@ -48,4 +48,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(DetailMaterial, "Detail Materi");
+export default Layout(DetailMaterial);

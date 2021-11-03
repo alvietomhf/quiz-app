@@ -268,4 +268,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(DetailEssay, "Esai");
+export default Layout(DetailEssay);

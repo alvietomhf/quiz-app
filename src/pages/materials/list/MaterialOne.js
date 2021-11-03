@@ -566,4 +566,4 @@ const MaterialOne = () => {
   );
 };
 
-export default Layout(MaterialOne, "Pencemaran");
+export default Layout(MaterialOne);

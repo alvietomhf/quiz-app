@@ -57,4 +57,4 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default Layout(DeveloperProfile, "Profil Pengembang");
+export default Layout(DeveloperProfile);
