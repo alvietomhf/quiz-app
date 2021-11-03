@@ -17,7 +17,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import BubbleChartIcon from "@material-ui/icons/BubbleChart";
 import HomeIcon from "@material-ui/icons/Home";
 import IconButton from "@material-ui/core/IconButton";
-import { Avatar, Hidden } from "@material-ui/core";
+import { Avatar, Button, Hidden } from "@material-ui/core";
 import PropTypes from "prop-types";
 import Collapse from "@material-ui/core/Collapse";
 import AssignmentIcon from "@material-ui/icons/Assignment";
@@ -30,7 +30,15 @@ import { useHistory } from "react-router";
 import { logOut } from "../actions/auth/authAction";
 import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 import { withRouter } from "react-router-dom";
-import { Archive, BrandingWatermark, PeopleAlt } from "@material-ui/icons";
+import {
+  Archive,
+  BrandingWatermark,
+  PeopleAlt,
+  VolumeUp,
+} from "@material-ui/icons";
+import ReactHowler from "react-howler";
+import Backsound from "../assets/sound/backsound.mp3";
+
 const Layout = (Component, namePage = "BION") => {
   const Navbar = (props) => {
     console.clear();
@@ -38,6 +46,7 @@ const Layout = (Component, namePage = "BION") => {
     const classes = useStyles();
     const theme = useTheme();
     const history = useHistory();
+    const [playBacksound, setPlayBacksound] = useState(true);
     const dispatch = useDispatch();
     const auth = useSelector((state) => state.auth);
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -113,56 +122,14 @@ const Layout = (Component, namePage = "BION") => {
         onClick: () => history.push("/hasil"),
       },
     ];
-    // const materiDropDownList = [
-    //   {
-    //     text: "Materi 1",
-    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-    //     onClick: () => history.push("/materi1"),
-    //   },
-    //   {
-    //     text: "Materi 2",
-    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-    //     onClick: () => history.push("/materi2"),
-    //   },
-    // ];
-    // const usersDropDownList = [
-    //   {
-    //     text: "Siswa",
-    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-    //     onClick: () => history.push("/siswa"),
-    //   },
-    //   {
-    //     text: "Guru",
-    //     icon: <FiberManualRecordIcon style={{ marginLeft: 20 }} />,
-    //     onClick: () => history.push("/guru"),
-    //   },
-    // ];
 
-    const drawer = (
-      <div>
-        <div className={classes.toolbar} />
-        <Divider />
-        <List>
-          {itemsList.map((item) => {
-            const { text, icon, onClick } = item;
-            return (
-              <ListItem button key={text} onClick={onClick}>
-                {icon && <ListItemIcon>{icon}</ListItemIcon>}
-                <ListItemText primary={text} />
-              </ListItem>
-            );
-          })}
-        </List>
-        <ListItem button onClick={handleDropDownTugas}>
-          <ListItemIcon>
-            <AssignmentIcon color="primary" />
-          </ListItemIcon>
-          <ListItemText primary="Tugas" />
-          {dropDownTugas ? <ExpandLess /> : <ExpandMore />}
-        </ListItem>
-        <Collapse in={dropDownTugas} timeout="auto" unmountOnExit>
-          <List component="div" disablePadding>
-            {tugasDropDownList.map((item) => {
+    const DrawerList = () => {
+      return (
+        <>
+          <div className={classes.toolbar} />
+          <Divider />
+          <List>
+            {itemsList.map((item) => {
               const { text, icon, onClick } = item;
               return (
                 <ListItem button key={text} onClick={onClick}>
@@ -172,9 +139,29 @@ const Layout = (Component, namePage = "BION") => {
               );
             })}
           </List>
-        </Collapse>
-      </div>
-    );
+          <ListItem button onClick={handleDropDownTugas}>
+            <ListItemIcon>
+              <AssignmentIcon color="primary" />
+            </ListItemIcon>
+            <ListItemText primary="Tugas" />
+            {dropDownTugas ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={dropDownTugas} timeout="auto" unmountOnExit>
+            <List component="div" disablePadding>
+              {tugasDropDownList.map((item) => {
+                const { text, icon, onClick } = item;
+                return (
+                  <ListItem button key={text} onClick={onClick}>
+                    {icon && <ListItemIcon>{icon}</ListItemIcon>}
+                    <ListItemText primary={text} />
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Collapse>
+        </>
+      );
+    };
 
     const container =
       window !== undefined ? () => window().document.body : undefined;
@@ -189,6 +176,7 @@ const Layout = (Component, namePage = "BION") => {
 
     return (
       <div className={classes.root}>
+        <ReactHowler src={Backsound} playing={playBacksound} volume={0.2} />
         <CssBaseline />
         <AppBar position="fixed" className={classes.appBar}>
           <div style={{ display: "flex" }}>
@@ -273,7 +261,15 @@ const Layout = (Component, namePage = "BION") => {
                 keepMounted: true, // Better open performance on mobile.
               }}
             >
-              {drawer}
+              <DrawerList />
+              <Button
+                style={{ marginTop: 16 }}
+                onClick={() => setPlayBacksound(!playBacksound)}
+                color="inherit"
+                startIcon={<VolumeUp />}
+              >
+                {playBacksound ? "Stop" : "Play"} Audio
+              </Button>
             </Drawer>
           </Hidden>
           <Hidden xsDown implementation="css">
@@ -284,7 +280,18 @@ const Layout = (Component, namePage = "BION") => {
               variant="permanent"
               open
             >
-              {drawer}
+              <DrawerList
+                setPlayBacksound={setPlayBacksound}
+                playBacksound={playBacksound}
+              />
+              <Button
+                style={{ marginTop: 16 }}
+                onClick={() => setPlayBacksound(!playBacksound)}
+                color="inherit"
+                startIcon={<VolumeUp />}
+              >
+                {playBacksound ? "Stop" : "Play"} Audio
+              </Button>
             </Drawer>
           </Hidden>
         </nav>
