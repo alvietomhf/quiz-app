@@ -15,6 +15,7 @@ import ChooseMateri from "../../../assets/images/ChooseMateri.png";
 import DetailKuisImg from "../../../assets/images/DetailKuisImg.png";
 import EssayPageImg from "../../../assets/images/EssayPage.png";
 import DetailEssayImg from "../../../assets/images/DetailEssayImg.png";
+import { Link } from "react-router-dom";
 
 const GuidePage = () => {
   const classes = useStyles();
@@ -45,8 +46,8 @@ const GuidePage = () => {
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
                     Langkah pertama Anda bisa buka browser lalu kunjungi situs
-                    ...
                   </Typography>
+                  <Link to="https://quizzes-mmi.netlify.app">BION</Link>
                 </li>
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
@@ -80,8 +81,8 @@ const GuidePage = () => {
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
                     Langkah pertama Anda bisa buka browser lalu kunjungi situs
-                    ...
                   </Typography>
+                  <Link to="https://quizzes-mmi.netlify.app">BION</Link>
                 </li>
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
