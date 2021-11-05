@@ -45,9 +45,9 @@ const GuidePage = () => {
               <ol type="1" style={{ fontWeight: "normal" }}>
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
-                    Langkah pertama Anda bisa buka browser lalu kunjungi situs
+                    Langkah pertama Anda bisa buka browser lalu kunjungi situs{" "}
+                    <a href="https://quizzes-mmi.netlify.app">BION</a>
                   </Typography>
-                  <Link to="https://quizzes-mmi.netlify.app">BION</Link>
                 </li>
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
@@ -80,9 +80,9 @@ const GuidePage = () => {
               <ol type="1" style={{ fontWeight: "normal" }}>
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
-                    Langkah pertama Anda bisa buka browser lalu kunjungi situs
+                    Langkah pertama Anda bisa buka browser lalu kunjungi situs{" "}
+                    <a href="https://quizzes-mmi.netlify.app">BION</a>
                   </Typography>
-                  <Link to="https://quizzes-mmi.netlify.app">BION</Link>
                 </li>
                 <li>
                   <Typography style={{ fontWeight: "normal" }} variant="body1">
