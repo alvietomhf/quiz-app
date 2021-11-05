@@ -15,7 +15,7 @@ import ChooseMateri from "../../../assets/images/ChooseMateri.png";
 import DetailKuisImg from "../../../assets/images/DetailKuisImg.png";
 import EssayPageImg from "../../../assets/images/EssayPage.png";
 import DetailEssayImg from "../../../assets/images/DetailEssayImg.png";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 const GuidePage = () => {
   const classes = useStyles();
